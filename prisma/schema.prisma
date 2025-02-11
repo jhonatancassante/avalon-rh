@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  cpf         String
+  email       String
+  name        String
+  lastname    String
+  birthdate   DateTime
+  role        String       @default("user")
+  isDeleted   Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  userChoices UserChoice[]
+
+  @@map("users")
+}
+
+model Event {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  edition     Int
+  date        DateTime
+  city        String
+  isDeleted   Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  userChoices UserChoice[]
+
+  @@map("events")
+}
+
+model Section {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  isDeleted   Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  userChoices UserChoice[] @relation("SectionToUserChoice")
+
+  @@map("sections")
+}
+
+model UserChoice {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  eventId   String   @db.ObjectId
+  event     Event    @relation(fields: [eventId], references: [id])
+  sectionId String   @db.ObjectId
+  section   Section  @relation(fields: [sectionId], references: [id], name: "SectionToUserChoice")
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("userChoices")
+}
