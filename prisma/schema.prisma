@@ -15,6 +15,7 @@ model User {
   lastname    String
   birthdate   DateTime
   role        String       @default("user")
+  isComplete  Boolean      @default(false)
   isDeleted   Boolean      @default(false)
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
