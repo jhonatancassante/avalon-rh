@@ -1,3 +1,10 @@
+import { Button } from "./_components/ui/button";
+
 export default function Home() {
-    return <h1 className="m-5 text-red-600">Home</h1>;
+    return (
+        <div>
+            <h1 className="m-5 text-red-600">Home</h1>
+            <Button>Eita</Button>
+        </div>
+    );
 }
