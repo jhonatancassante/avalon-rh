@@ -28,6 +28,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
+    "git-commit-msg-linter": "^5.0.8",
     "husky": "^9.1.7",
     "lint-staged": "^15.4.3",
     "postcss": "^8",
