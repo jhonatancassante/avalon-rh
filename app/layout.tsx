@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "./_providers/auth";
+import Script from "next/script";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { config } from "@fortawesome/fontawesome-svg-core";
+config.autoAddCss = false;
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -25,6 +29,14 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
+            <head>
+                <title>Avalon RH</title>
+                <Script
+                    src="https://kit.fontawesome.com/ac142c9aae.js"
+                    strategy="afterInteractive"
+                    crossOrigin="anonymous"
+                ></Script>
+            </head>
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
