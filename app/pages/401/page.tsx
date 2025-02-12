@@ -22,9 +22,9 @@ export default function UnauthorizedPage() {
                 </p>
 
                 {/* Botão para voltar à página inicial */}
-                <Link href="/pages/home">
-                    <Button className="mt-6">Voltar à página inicial</Button>
-                </Link>
+                <Button className="mt-6" asChild>
+                    <Link href="/">Voltar à página inicial</Link>
+                </Button>
             </div>
         </div>
     );
