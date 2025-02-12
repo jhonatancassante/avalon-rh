@@ -8,21 +8,20 @@ datasource db {
 }
 
 model User {
-  id            String       @id @default(auto()) @map("_id") @db.ObjectId
-  cpf           String
-  name          String?
-  email         String?      @unique
-  birthdate     DateTime
-  role          String       @default("user")
-  image         String?
-  emailVerified DateTime?
-  isComplete    Boolean      @default(false)
-  isDeleted     Boolean      @default(false)
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  userChoices   UserChoice[]
-  accounts      Account[]
-  sessions      Session[]
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  cpf         String?
+  name        String?
+  email       String?      @unique
+  birthdate   DateTime?
+  role        String       @default("user")
+  image       String?
+  isComplete  Boolean      @default(false)
+  isDeleted   Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  userChoices UserChoice[]
+  accounts    Account[]
+  sessions    Session[]
 
   @@map("users")
 }
