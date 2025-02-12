@@ -3,30 +3,80 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { Roles } from "./app/_constants/roles";
 
+// Constantes para paths e mensagens
+const PATHS = {
+    ADMIN: "/pages/admin",
+    LEADER: "/pages/leader",
+    USER: "/pages/user",
+    UNAUTHORIZED: "/pages/401",
+    HOME: "/",
+    USER_EDIT: "/pages/user/edit", // Página de edição de perfil
+};
+
+// Função auxiliar para verificar roles
+interface Token {
+    role: string;
+    isComplete: boolean;
+}
+
+const hasRequiredRole = (token: Token | null, allowedRoles: string[]) => {
+    return token && allowedRoles.includes(token.role);
+};
+
 export async function middleware(request: NextRequest) {
     const secret = process.env.NEXTAUTH_SECRET;
-    const token = await getToken({ req: request, secret });
+    const token = (await getToken({ req: request, secret })) as Token | null;
 
-    if (request.nextUrl.pathname.startsWith("/pages/admin")) {
-        if (!token || token.role !== Roles.Admin) {
-            return NextResponse.redirect(new URL("/pages/401", request.url));
-        }
-    }
+    // Log para depuração
+    console.log("Middleware triggered for:", request.nextUrl.pathname);
+    console.log("User role:", token?.role);
+    console.log("Is profile complete?", token?.isComplete);
 
-    if (request.nextUrl.pathname.startsWith("/pages/leader")) {
-        if (
-            !token ||
-            (token.role !== Roles.Leader && token.role !== Roles.Admin)
-        ) {
-            return NextResponse.redirect(new URL("/pages/401", request.url));
-        }
-    }
-
-    if (request.nextUrl.pathname.startsWith("/pages/user")) {
+    // Verificar se o usuário está autenticado (tem um token válido)
+    if (
+        request.nextUrl.pathname.startsWith(PATHS.ADMIN) ||
+        request.nextUrl.pathname.startsWith(PATHS.LEADER) ||
+        request.nextUrl.pathname.startsWith(PATHS.USER)
+    ) {
+        // Se o usuário não estiver autenticado, redirecione para a página inicial
         if (!token) {
-            return NextResponse.redirect(new URL("/", request.url));
+            console.log("User not authenticated. Redirecting to home page");
+            return NextResponse.redirect(new URL(PATHS.HOME, request.url));
+        }
+
+        // Se o perfil não estiver completo e o usuário não estiver na página de edição, redirecione para a página de edição
+        if (
+            !token.isComplete &&
+            !request.nextUrl.pathname.startsWith(PATHS.USER_EDIT)
+        ) {
+            console.log(
+                "User profile not complete. Redirecting to user edit page",
+            );
+            return NextResponse.redirect(new URL(PATHS.USER_EDIT, request.url));
         }
     }
+
+    // Verificar rotas de admin
+    if (request.nextUrl.pathname.startsWith(PATHS.ADMIN)) {
+        if (!hasRequiredRole(token, [Roles.Admin])) {
+            console.log("Redirecting to unauthorized page");
+            return NextResponse.redirect(
+                new URL(PATHS.UNAUTHORIZED, request.url),
+            );
+        }
+    }
+
+    // Verificar rotas de leader
+    if (request.nextUrl.pathname.startsWith(PATHS.LEADER)) {
+        if (!hasRequiredRole(token, [Roles.Leader, Roles.Admin])) {
+            console.log("Redirecting to unauthorized page");
+            return NextResponse.redirect(
+                new URL(PATHS.UNAUTHORIZED, request.url),
+            );
+        }
+    }
+
+    // Continuar a requisição se todas as verificações passarem
     return NextResponse.next();
 }
 

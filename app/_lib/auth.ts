@@ -9,12 +9,14 @@ declare module "next-auth" {
         user: {
             id: string;
             role: string;
+            isComplete: boolean;
         } & DefaultSession["user"];
     }
 }
 
 interface CustomAdapterUser extends AdapterUser {
     role: string;
+    isComplete: boolean;
 }
 
 export const authOptions: AuthOptions = {
@@ -33,6 +35,7 @@ export const authOptions: AuthOptions = {
             if (user) {
                 token.userId = user.id;
                 token.role = (user as CustomAdapterUser).role;
+                token.isComplete = (user as CustomAdapterUser).isComplete;
             }
             return token;
         },
@@ -41,12 +44,13 @@ export const authOptions: AuthOptions = {
                 ...session.user,
                 id: token.userId as string,
                 role: token.role as string,
+                isComplete: token.isComplete as boolean,
             };
             return session;
         },
     },
     secret: process.env.NEXTAUTH_SECRET,
     pages: {
-        newUser: "/pages/user/new",
+        newUser: "/pages/user/edit",
     },
 };
