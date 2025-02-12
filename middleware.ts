@@ -22,7 +22,7 @@ export async function middleware(request: NextRequest) {
         }
     }
 
-    if (request.nextUrl.pathname.startsWith("/pages")) {
+    if (request.nextUrl.pathname.startsWith("/pages/user")) {
         if (!token) {
             return NextResponse.redirect(new URL("/", request.url));
         }
@@ -31,5 +31,9 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/pages/admin/:path*", "/pages/leader/:path*", "/pages/:path*"],
+    matcher: [
+        "/pages/admin/:path*",
+        "/pages/leader/:path*",
+        "/pages/user/:path*",
+    ],
 };
