@@ -47,6 +47,6 @@ export const authOptions: AuthOptions = {
     },
     secret: process.env.NEXTAUTH_SECRET,
     pages: {
-        newUser: "/auth/new-user",
+        newUser: "/pages/new-user",
     },
 };

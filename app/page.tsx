@@ -13,7 +13,7 @@ export default function Home() {
 
     useEffect(() => {
         if (session.data?.user) {
-            router.push("/pages/home");
+            router.push("/pages/user");
         }
     }, [router, session.data]);
 
