@@ -63,7 +63,7 @@ const UserEditForm = (user: User) => {
 
             await update({ user: data });
 
-            router.replace(`/pages/user`);
+            router.replace(`/pages/user/${user.id}`);
         } catch (error) {
             console.error("Erro ao atualizar usuário:", error);
             router.replace(`/pages/errors/500`);
