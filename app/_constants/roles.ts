@@ -3,3 +3,5 @@ export const Roles = {
     Leader: "leader",
     User: "user",
 };
+
+export const authorizedRoles = [Roles.Admin];
