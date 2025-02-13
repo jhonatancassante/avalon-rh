@@ -8,20 +8,25 @@ datasource db {
 }
 
 model User {
-  id          String       @id @default(auto()) @map("_id") @db.ObjectId
-  cpf         String?
-  name        String?
-  email       String?      @unique
-  birthdate   DateTime?
-  role        String       @default("user")
-  image       String?
-  isComplete  Boolean      @default(false)
-  isDeleted   Boolean      @default(false)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  userChoices UserChoice[]
-  accounts    Account[]
-  sessions    Session[]
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  cpf            String?
+  name           String?
+  completeName   String?
+  email          String?       @unique
+  secondaryEmail String?
+  birthdate      DateTime?
+  role           String        @default("user")
+  image          String?
+  photoUrl       String?
+  emailVerified  DateTime?
+  isComplete     Boolean       @default(false)
+  isDeleted      Boolean       @default(false)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  accounts       Account[]
+  sessions       Session[]
+  userEvents     UserEvent[]
+  userSections   UserSection[]
 
   @@map("users")
 }
@@ -40,7 +45,6 @@ model Account {
   id_token          String? @db.String
   session_state     String?
 
-  isDeleted Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -74,41 +78,50 @@ model VerificationToken {
 }
 
 model Event {
-  id          String       @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  edition     Int
-  date        DateTime
-  city        String
-  isDeleted   Boolean      @default(false)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  userChoices UserChoice[]
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  edition    Int
+  date       DateTime
+  city       String
+  deletedAt  DateTime?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  userEvents UserEvent[]
 
   @@map("events")
 }
 
 model Section {
-  id          String       @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  isDeleted   Boolean      @default(false)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  userChoices UserChoice[] @relation("SectionToUserChoice")
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  deletedAt    DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  userSections UserSection[]
 
   @@map("sections")
 }
 
-model UserChoice {
+model UserEvent {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String   @db.ObjectId
   user      User     @relation(fields: [userId], references: [id])
   eventId   String   @db.ObjectId
   event     Event    @relation(fields: [eventId], references: [id])
-  sectionId String   @db.ObjectId
-  section   Section  @relation(fields: [sectionId], references: [id], name: "SectionToUserChoice")
-  isDeleted Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("userChoices")
+  @@map("userEvents")
+}
+
+model UserSection {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  sectionId String   @db.ObjectId
+  section   Section  @relation(fields: [sectionId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("userSections")
 }
