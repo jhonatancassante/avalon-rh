@@ -5,6 +5,8 @@ import AuthProvider from "./_providers/auth";
 import Script from "next/script";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
+import { Toaster } from "sonner";
+
 config.autoAddCss = false;
 
 const geistSans = Geist({
@@ -41,6 +43,7 @@ export default function RootLayout({
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
                 <AuthProvider>{children}</AuthProvider>
+                <Toaster />
             </body>
         </html>
     );

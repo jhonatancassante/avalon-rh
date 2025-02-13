@@ -24,6 +24,7 @@ import { signOut, useSession } from "next-auth/react";
 import { formSchema } from "../_schemas/formSchema";
 import { updateUser } from "../_actions/updateUser";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const UserEditForm = (user: User) => {
     const { update } = useSession();
@@ -62,6 +63,10 @@ const UserEditForm = (user: User) => {
             await updateUser(user.id, data);
 
             await update({ user: data });
+
+            toast.success("Sucesso!", {
+                description: "Usuário atualizado com sucesso!",
+            });
 
             router.replace(`/pages/user/${user.id}`);
         } catch (error) {
