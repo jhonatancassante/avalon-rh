@@ -1,18 +1,13 @@
 "use server";
 
-import { User } from "@prisma/client";
 import { db } from "../_lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../_lib/auth";
 import { authorizedRoles } from "../_constants/roles";
 import { validateUserData } from "../_utils/validateUserData";
+import UpdateUser from "../_types/UpdateUser";
 
-interface UpdateUserInput {
-    id: string;
-    data: User;
-}
-
-export const updateUser = async ({ id, data }: UpdateUserInput) => {
+export const updateUser = async (id: string, data: UpdateUser) => {
     const session = await getServerSession(authOptions);
 
     if (!session) {
