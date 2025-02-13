@@ -15,6 +15,7 @@ const PATHS = {
 
 // Função auxiliar para verificar roles
 interface Token {
+    userId: string;
     role: string;
     isComplete: boolean;
 }
@@ -52,7 +53,8 @@ export async function middleware(request: NextRequest) {
             console.log(
                 "User profile not complete. Redirecting to user edit page",
             );
-            return NextResponse.redirect(new URL(PATHS.USER_EDIT, request.url));
+            const redirectUrl = PATHS.USER_EDIT + "/" + token?.userId;
+            return NextResponse.redirect(new URL(redirectUrl, request.url));
         }
     }
 
