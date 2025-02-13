@@ -1,7 +1,15 @@
 const convertUrl = (url: string) => {
-    const urlParts = url.split("/");
-    const id = urlParts[urlParts.length - 2];
-    return `https://drive.google.com/u/0/uc?id=${id}`;
+    if (url.startsWith("https://drive.google.com/file/d/")) {
+        const urlParts = url.split("/");
+        const id = urlParts[urlParts.length - 2];
+        return `https://drive.google.com/u/0/uc?id=${id}`;
+    } else if (url.startsWith("https://drive.google.com/u/0/uc?id=")) {
+        const urlParts = url.split("=");
+        const id = urlParts[urlParts.length - 1];
+        return `https://drive.google.com/file/d/${id}/view?usp=drive_link`;
+    } else {
+        return url;
+    }
 };
 
 export default convertUrl;

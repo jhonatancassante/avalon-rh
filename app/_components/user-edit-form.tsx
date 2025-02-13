@@ -34,7 +34,7 @@ const UserEditForm = (user: User) => {
                 format(user?.birthdate ?? new Date(), "yyyy-MM-dd", {
                     locale: ptBR,
                 }).toString() ?? "",
-            photoUrl: "",
+            photoUrl: convertUrl(user?.photoUrl ?? ""),
         },
     });
 
@@ -166,8 +166,14 @@ const UserEditForm = (user: User) => {
                         </FormItem>
                     )}
                 />
-                <Button type="submit">Salvar</Button>
-                <Button onClick={handleLogout}>Sair</Button>
+                <div className="flex justify-around">
+                    <Button type="submit" className="w-40">
+                        Salvar
+                    </Button>
+                    <Button onClick={handleLogout} className="w-40">
+                        Sair
+                    </Button>
+                </div>
             </form>
         </Form>
     );
