@@ -8,7 +8,7 @@ const PATHS = {
     ADMIN: "/pages/admin",
     LEADER: "/pages/leader",
     USER: "/pages/user",
-    UNAUTHORIZED: "/pages/401",
+    UNAUTHORIZED: "/pages/errors/401",
     HOME: "/",
     USER_EDIT: "/pages/user/edit", // Página de edição de perfil
 };

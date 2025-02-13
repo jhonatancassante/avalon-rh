@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { Button } from "../../_components/ui/button"; // Componente de botão do shadcn/ui
+import { Button } from "../../../_components/ui/button"; // Componente de botão do shadcn/ui
 import { AlertTriangle } from "lucide-react"; // Ícone de alerta
 
-export default function UnauthorizedPage() {
+export default function ServerErrorPage() {
     return (
         <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100 dark:bg-gray-900">
             <div className="space-y-6 text-center">
@@ -13,12 +13,13 @@ export default function UnauthorizedPage() {
 
                 {/* Título */}
                 <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100">
-                    401 - Não Autorizado
+                    500 - Erro no Servidor
                 </h1>
 
                 {/* Mensagem de erro */}
                 <p className="text-lg text-gray-600 dark:text-gray-300">
-                    Você não tem permissão para acessar esta página.
+                    Não foi possível acessar o banco de dados no momento. Por
+                    favor, tente novamente mais tarde.
                 </p>
 
                 {/* Botão para voltar à página inicial */}
