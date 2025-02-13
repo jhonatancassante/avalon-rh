@@ -6,6 +6,7 @@ import { authOptions } from "../_lib/auth";
 import { authorizedRoles } from "../_constants/roles";
 import { validateUserData } from "../_utils/validateUserData";
 import UpdateUser from "../_types/UpdateUser";
+import { revalidatePath } from "next/cache";
 
 export const updateUser = async (id: string, data: UpdateUser) => {
     const session = await getServerSession(authOptions);
@@ -28,6 +29,8 @@ export const updateUser = async (id: string, data: UpdateUser) => {
     if (!validation.isValid) {
         throw new Error("Invalid data: " + JSON.stringify(validation.errors));
     }
+
+    revalidatePath("/pages/user/[id]", "page");
 
     return await db.user.update({
         where: {
