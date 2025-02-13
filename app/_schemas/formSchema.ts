@@ -17,7 +17,9 @@ export const formSchema = z.object({
         .string()
         .url("URL inválida!")
         .refine(
-            (value) => value.startsWith("https://drive.google.com/file/d/"),
+            (value) =>
+                value.startsWith("https://drive.google.com/file/d/") ||
+                value.startsWith("https://drive.google.com/u/0/uc?id="),
             "O link da imagem deve ser do Google Drive!",
         ),
 });
