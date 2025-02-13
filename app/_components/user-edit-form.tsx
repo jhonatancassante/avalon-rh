@@ -20,10 +20,14 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import convertUrl from "../_utils/convertUrl";
 import { Button } from "./ui/button";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { formSchema } from "../_schemas/formSchema";
+import { updateUser } from "../_actions/updateUser";
+import { useRouter } from "next/navigation";
 
 const UserEditForm = (user: User) => {
+    const { update } = useSession();
+    const router = useRouter();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -38,13 +42,32 @@ const UserEditForm = (user: User) => {
         },
     });
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        const [year, month, day] = values.birthdate.split("-");
+        const birthdateIso = new Date(
+            Number(year),
+            Number(month) - 1,
+            Number(day),
+        );
+
         const data = {
             ...values,
             cpf: values.cpf.replace(/\D/g, ""),
             photoUrl: convertUrl(values.photoUrl),
+            isComplete: true,
+            birthdate: birthdateIso,
         };
-        console.log(data);
+
+        try {
+            await updateUser(user.id, data);
+
+            await update({ user: data });
+
+            router.replace(`/pages/user`);
+        } catch (error) {
+            console.error("Erro ao atualizar usuário:", error);
+            router.replace(`/pages/errors/500`);
+        }
     };
 
     const handleLogout = () => signOut();
