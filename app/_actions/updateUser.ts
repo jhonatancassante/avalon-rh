@@ -7,6 +7,7 @@ import { authorizedRoles } from "../_constants/roles";
 import { validateUserData } from "../_utils/validateUserData";
 import UpdateUser from "../_types/UpdateUser";
 import { revalidatePath } from "next/cache";
+import { encrypt } from "../_utils/crypto";
 
 export const updateUser = async (id: string, data: UpdateUser) => {
     const session = await getServerSession(authOptions);
@@ -28,6 +29,10 @@ export const updateUser = async (id: string, data: UpdateUser) => {
 
     if (!validation.isValid) {
         throw new Error("Invalid data: " + JSON.stringify(validation.errors));
+    }
+
+    if (data.cpf) {
+        data.cpf = encrypt(data.cpf);
     }
 
     revalidatePath("/pages/user/[id]", "page");
