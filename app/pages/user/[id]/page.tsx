@@ -1,6 +1,8 @@
 import {
     Card,
     CardContent,
+    CardDescription,
+    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/app/_components/ui/card";
@@ -11,15 +13,34 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/app/_components/ui/dialog";
+import { Input } from "@/app/_components/ui/input";
+import { Label } from "@/app/_components/ui/label";
 import { Separator } from "@/app/_components/ui/separator";
+import {
+    Tabs,
+    TabsContent,
+    TabsList,
+    TabsTrigger,
+} from "@/app/_components/ui/tabs";
 import UserMenuButtons from "@/app/_components/user-menu-buttons";
 import { getUser } from "@/app/_data/getUser";
+import formatCPF from "@/app/_utils/formatCPF";
+import { randomUUID } from "crypto";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
 interface UserPageProps {
     params: Promise<{ id: string }>;
 }
+
+const fields = [
+    "Nome Completo:",
+    "CPF:",
+    "Data de Nascimento:",
+    "Email de Contato:",
+];
 
 const UserPage = async ({ params }: UserPageProps) => {
     try {
@@ -29,6 +50,15 @@ const UserPage = async ({ params }: UserPageProps) => {
         if (!user) {
             throw new Error("User not found!");
         }
+
+        const userFields: { [key: string]: string } = {
+            completeName: user.completeName ?? "",
+            cpf: user.cpf ? formatCPF(user.cpf) : "",
+            birthdate: format(user.birthdate ?? new Date(), "dd/MM/yyyy", {
+                locale: ptBR,
+            }),
+            secondaryEmail: user.secondaryEmail ?? "",
+        };
 
         return (
             <main className="flex justify-center p-5 lg:px-28">
@@ -79,7 +109,73 @@ const UserPage = async ({ params }: UserPageProps) => {
                     <div className="flex items-center justify-center">
                         <Separator className="w-[90%]" />
                     </div>
-                    <CardContent></CardContent>
+                    <CardContent className="mt-4 flex w-full flex-col items-center">
+                        <Tabs defaultValue="profile" className="w-[80%]">
+                            <TabsList className="grid w-full grid-cols-3">
+                                <TabsTrigger value="profile">
+                                    Perfil
+                                </TabsTrigger>
+                                <TabsTrigger value="notes">Notas</TabsTrigger>
+                                <TabsTrigger value="apply">
+                                    Candidatar-se
+                                </TabsTrigger>
+                            </TabsList>
+                            <TabsContent value="profile">
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle>Dados</CardTitle>
+                                    </CardHeader>
+                                    <CardContent className="space-y-2">
+                                        {Object.keys(userFields).map(
+                                            (field, index) => (
+                                                <div
+                                                    className="space-y-1"
+                                                    key={`${index} - ${randomUUID()}`}
+                                                >
+                                                    <Label
+                                                        htmlFor={fields[index]}
+                                                    >
+                                                        {fields[index]}
+                                                    </Label>
+                                                    <Input
+                                                        id={fields[index]}
+                                                        defaultValue={
+                                                            userFields[field]
+                                                        }
+                                                        readOnly
+                                                    />
+                                                </div>
+                                            ),
+                                        )}
+                                    </CardContent>
+                                </Card>
+                            </TabsContent>
+                            <TabsContent value="notes">
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle>Vazio</CardTitle>
+                                        <CardDescription>
+                                            Ainda não temos nada por aqui!
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent className="space-y-2"></CardContent>
+                                    <CardFooter></CardFooter>
+                                </Card>
+                            </TabsContent>
+                            <TabsContent value="apply">
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle>Vazio</CardTitle>
+                                        <CardDescription>
+                                            Ainda não temos nada por aqui!
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent className="space-y-2"></CardContent>
+                                    <CardFooter></CardFooter>
+                                </Card>
+                            </TabsContent>
+                        </Tabs>
+                    </CardContent>
                 </Card>
             </main>
         );
