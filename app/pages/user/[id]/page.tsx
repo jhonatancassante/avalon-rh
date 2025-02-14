@@ -57,7 +57,7 @@ const UserPage = async ({ params }: UserPageProps) => {
             birthdate: format(user.birthdate ?? new Date(), "dd/MM/yyyy", {
                 locale: ptBR,
             }),
-            secondaryEmail: user.secondaryEmail ?? "",
+            contactEmail: user.contactEmail ?? "",
         };
 
         return (

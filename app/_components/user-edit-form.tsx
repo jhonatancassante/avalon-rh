@@ -25,6 +25,8 @@ import { formSchema } from "../_schemas/formSchema";
 import { updateUser } from "../_actions/updateUser";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { editUserFields } from "../_constants/editUserFields";
+import formatPhone from "../_utils/formatPhone";
 
 const UserEditForm = (user: User) => {
     const { update } = useSession();
@@ -33,8 +35,18 @@ const UserEditForm = (user: User) => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             cpf: user?.cpf ?? "",
-            completeName: user?.name ?? "",
-            secondaryEmail: user?.email ?? "",
+            completeName: user?.completeName
+                ? user?.completeName
+                : (user?.name ?? ""),
+            socialName: user?.socialName
+                ? user?.socialName
+                : (user?.name ?? ""),
+            nickname: user?.nickname ?? "",
+            email: user?.email ?? "",
+            contactEmail: user?.contactEmail
+                ? user?.contactEmail
+                : (user?.email ?? ""),
+            phone: user?.phone ?? "",
             birthdate:
                 format(user?.birthdate ?? new Date(), "yyyy-MM-dd", {
                     locale: ptBR,
@@ -110,61 +122,60 @@ const UserEditForm = (user: User) => {
                         </FormItem>
                     )}
                 />
+                {editUserFields.map((formField, index) => {
+                    return (
+                        <FormField
+                            control={form.control}
+                            name={
+                                formField.name as keyof z.infer<
+                                    typeof formSchema
+                                >
+                            }
+                            key={`${index} - ${formField.name}`}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="flex gap-2">
+                                        {formField.label}
+                                        <FormTooltip msg={formField.tooltip} />
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            type={formField.type}
+                                            placeholder={formField.placeholder}
+                                            {...field}
+                                            disabled={formField.disabled}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    );
+                })}
 
                 <FormField
                     control={form.control}
-                    name="completeName"
+                    name={"phone"}
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="flex gap-2">
-                                Nome Completo
-                                <FormTooltip msg="Verifique e digite seu nome completo, caso seja o mesmo da conta Google, não precisa alterar." />
-                            </FormLabel>
-                            <FormControl>
-                                <Input
-                                    placeholder="Digite o nome completo"
-                                    {...field}
+                                Celular / Whatsapp
+                                <FormTooltip
+                                    msg={
+                                        "Digite seu número de celular que utiliza Whatsapp. Somente os números!"
+                                    }
                                 />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                <FormField
-                    control={form.control}
-                    name="secondaryEmail"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className="flex gap-2">
-                                Email de Contato
-                                <FormTooltip msg="Verifique e digite seu email, caso seja o mesmo da conta Google, não precisa alterar." />
                             </FormLabel>
                             <FormControl>
                                 <Input
-                                    placeholder="Digite o email de contato"
+                                    placeholder={"Digite o celular"}
                                     {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                <FormField
-                    control={form.control}
-                    name="birthdate"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className="flex gap-2">
-                                Data de Nascimento
-                                <FormTooltip msg="Coloque sua data de nascimento, lembrando que precisa ter 18 anos para participar como staff." />
-                            </FormLabel>
-                            <FormControl>
-                                <Input
-                                    type="date"
-                                    placeholder="Digite a data de nascimento"
-                                    {...field}
+                                    onChange={(e) => {
+                                        const formattedValue = formatPhone(
+                                            e.target.value,
+                                        );
+                                        field.onChange(formattedValue);
+                                    }}
                                 />
                             </FormControl>
                             <FormMessage />

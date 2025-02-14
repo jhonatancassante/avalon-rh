@@ -1,7 +1,7 @@
 export default interface UpdateUser {
     cpf: string;
     completeName: string;
-    secondaryEmail: string;
+    contactEmail: string;
     birthdate: Date;
     role?: string;
     photoUrl: string;

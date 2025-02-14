@@ -38,8 +38,11 @@ const EditUserPage = async ({ params }: EditUserPageProps) => {
                             name={user.name ?? ""}
                             cpf={user.cpf ?? ""}
                             completeName={user.completeName ?? ""}
+                            socialName={user.socialName ?? ""}
+                            nickname={user.nickname ?? ""}
                             email={user.email ?? null}
-                            secondaryEmail={user.secondaryEmail ?? ""}
+                            contactEmail={user.contactEmail ?? ""}
+                            phone={user.phone ?? ""}
                             birthdate={user.birthdate ?? null}
                             role={user.role ?? ""}
                             createdAt={user.createdAt ?? null}
