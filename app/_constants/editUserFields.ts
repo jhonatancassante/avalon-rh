@@ -36,7 +36,7 @@ export const editUserFields = [
     },
     {
         name: "email",
-        label: "Email do Google Acount",
+        label: "Email do Google Account",
         tooltip:
             "Seu email viculado a sua conta do Google. Não pode ser alterado!",
         placeholder: "",
