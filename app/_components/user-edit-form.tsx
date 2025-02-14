@@ -75,7 +75,11 @@ const UserEditForm = (user: User) => {
         }
     };
 
-    const handleLogout = () => signOut();
+    const handleExit = () => {
+        if (!user.isComplete) return signOut();
+
+        router.replace(`/pages/user/${user.id}`);
+    };
 
     return (
         <Form {...form}>
@@ -198,8 +202,12 @@ const UserEditForm = (user: User) => {
                     <Button type="submit" className="w-40">
                         Salvar
                     </Button>
-                    <Button onClick={handleLogout} className="w-40">
-                        Sair
+                    <Button
+                        type={"button"}
+                        onClick={handleExit}
+                        className="w-40"
+                    >
+                        {user.isComplete ? "Voltar" : "Sair"}
                     </Button>
                 </div>
             </form>
