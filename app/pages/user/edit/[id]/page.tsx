@@ -6,6 +6,7 @@ import {
 } from "@/app/_components/ui/card";
 import UserEditForm from "@/app/_components/user-edit-form";
 import { getUser } from "@/app/_data/getUser";
+import formatCPF from "@/app/_utils/formatCPF";
 import { redirect } from "next/navigation";
 
 interface EditUserPageProps {
@@ -20,6 +21,8 @@ const EditUserPage = async ({ params }: EditUserPageProps) => {
         if (!user) {
             throw new Error("User not found!");
         }
+
+        user.cpf = user.cpf ? formatCPF(user.cpf) : user.cpf;
 
         return (
             <main className="flex justify-center p-5 lg:px-28">
