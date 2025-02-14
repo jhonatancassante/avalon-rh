@@ -36,10 +36,14 @@ interface UserPageProps {
 }
 
 const fields = [
-    "Nome Completo:",
     "CPF:",
+    "Nome Completo:",
+    "Nome Social:",
+    "Apelido:",
     "Data de Nascimento:",
+    "Email do Google Account",
     "Email de Contato:",
+    "Celular / Whatsapp:",
 ];
 
 const UserPage = async ({ params }: UserPageProps) => {
@@ -52,12 +56,16 @@ const UserPage = async ({ params }: UserPageProps) => {
         }
 
         const userFields: { [key: string]: string } = {
-            completeName: user.completeName ?? "",
             cpf: user.cpf ? formatCPF(user.cpf) : "",
+            completeName: user.completeName ?? "",
+            socialName: user.socialName ?? "",
+            nickname: user.nickname ?? "",
             birthdate: format(user.birthdate ?? new Date(), "dd/MM/yyyy", {
                 locale: ptBR,
             }),
+            email: user.email ?? "",
             contactEmail: user.contactEmail ?? "",
+            phone: user.phone ?? "",
         };
 
         return (
