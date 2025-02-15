@@ -1,6 +1,6 @@
 "use client";
 
-import { EditIcon, LogOutIcon } from "lucide-react";
+import { EditIcon, LogOutIcon, MoonIcon, SunIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import {
     Tooltip,
@@ -12,6 +12,7 @@ import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import LoadingIndicator from "./loading-indicator";
+import { useTheme } from "next-themes";
 
 interface UserMenuButtonsProps {
     userId: string;
@@ -20,6 +21,7 @@ interface UserMenuButtonsProps {
 const UserMenuButtons = ({ userId }: UserMenuButtonsProps) => {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+    const { theme, setTheme } = useTheme();
 
     const handlerSignOut = () => {
         setLoading(true);
@@ -29,6 +31,10 @@ const UserMenuButtons = ({ userId }: UserMenuButtonsProps) => {
     const handlerEditProfile = () => {
         setLoading(true);
         router.push(`/pages/user/edit/${userId}`);
+    };
+
+    const toggleTheme = () => {
+        setTheme(theme === "light" ? "dark" : "light");
     };
 
     return (
@@ -49,6 +55,27 @@ const UserMenuButtons = ({ userId }: UserMenuButtonsProps) => {
                             Editar o perfil
                         </TooltipContent>
                     </Tooltip>
+
+                    <Tooltip>
+                        <TooltipTrigger>
+                            <Button
+                                variant={"ghost"}
+                                size={"icon"}
+                                onClick={toggleTheme}
+                            >
+                                {theme === "light" ? (
+                                    <SunIcon size="icon" />
+                                ) : (
+                                    <MoonIcon size="icon" />
+                                )}
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent className="mb-2 text-sm">
+                            Alternar para {theme === "light" ? "Dark" : "Light"}{" "}
+                            Mode
+                        </TooltipContent>
+                    </Tooltip>
+
                     <Tooltip>
                         <TooltipTrigger>
                             <Button
