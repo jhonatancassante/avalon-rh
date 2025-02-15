@@ -16,19 +16,19 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { signOut, useSession } from "next-auth/react";
-import { formSchema } from "../_schemas/formSchema";
-import { updateUser } from "../_actions/updateUser";
+import { formSchema } from "../../_schemas/formSchema";
+import { updateUser } from "../../_actions/updateUser";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { editUserFields } from "../_constants/editUserFields";
-import formatPhone from "../_utils/formatPhone";
+import { editUserFields } from "../../_constants/editUserFields";
+import formatPhone from "../../_utils/formatPhone";
 import { useState } from "react";
-import { UserComplete } from "../_types/userComplete";
-import { UpdateUser } from "../_types/updateUser";
-import { UpdatePhoto } from "../_types/updatePhoto";
-import LoadingIndicator from "./loading-indicator";
+import { UserComplete } from "../../_types/userComplete";
+import { UpdateUser } from "../../_types/updateUser";
+import { UpdatePhoto } from "../../_types/updatePhoto";
+import LoadingIndicator from "../loading-indicator";
 
 const UserEditForm = ({ user }: UserComplete) => {
     const { update } = useSession();
