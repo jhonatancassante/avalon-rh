@@ -4,7 +4,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/app/_components/ui/card";
-import UserEditForm from "@/app/_components/user-form/user-edit-form";
+import UserFormEdit from "@/app/_components/user-form/user-form-edit";
 import { getUser } from "@/app/_data/getUser";
 import formatCPF from "@/app/_utils/formatCPF";
 import { redirect } from "next/navigation";
@@ -37,7 +37,7 @@ const EditUserPage = async ({ params }: EditUserPageProps) => {
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <UserEditForm user={user} />
+                        <UserFormEdit user={user} />
                     </CardContent>
                 </Card>
             </main>
