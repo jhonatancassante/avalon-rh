@@ -1,3 +1,4 @@
+import LeaderAdminMenuButtons from "@/app/_components/leader-admin-menu-buttons";
 import {
     Card,
     CardContent,
@@ -28,6 +29,7 @@ import formatCPF from "@/app/_utils/formatCPF";
 import { randomUUID } from "crypto";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { StarIcon } from "lucide-react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
@@ -116,7 +118,15 @@ const UserPage = async ({ params }: UserPageProps) => {
                         <CardTitle className="flex justify-center text-2xl font-bold">
                             {user.profile?.completeName}
                         </CardTitle>
-                        <div className="flex w-full justify-end gap-1">
+                        <div className="flex h-10 w-full items-center justify-between gap-1 px-2 py-1">
+                            <div className="flex h-full items-center justify-center gap-1 p-2">
+                                <StarIcon size="icon" />
+                                <StarIcon size="icon" />
+                                <StarIcon size="icon" />
+                                <StarIcon size="icon" />
+                                <StarIcon size="icon" />
+                            </div>
+                            <LeaderAdminMenuButtons userRole={user.role} />
                             <UserMenuButtons userId={id} />
                         </div>
                     </CardHeader>
