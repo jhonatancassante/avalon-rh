@@ -20,7 +20,7 @@ import { useFileUpload } from "@/app/_hooks/useFileUpload";
 import { formSchema } from "@/app/_schemas/formSchema";
 import { z } from "zod";
 import { UserFormFields } from "./user-form-fields";
-import FormTooltip from "../form-tooltip";
+import FormTooltip from "./user-form-tooltip";
 import { Input } from "../ui/input";
 import { UserFormActions } from "./user-form-actions";
 import { useEffect, useState } from "react";

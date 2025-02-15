@@ -1,4 +1,5 @@
 import LeaderAdminMenuButtons from "@/app/_components/leader-admin-menu-buttons";
+import PageLayout from "@/app/_components/page-layout";
 import {
     Card,
     CardContent,
@@ -75,12 +76,29 @@ const UserPage = async ({ params }: UserPageProps) => {
         };
 
         return (
-            <main className="flex justify-center py-5 sm:px-2 lg:px-28">
-                <Card className="mx-4 my-1 w-full max-w-2xl p-2">
-                    <CardHeader className="flex w-full items-center justify-center pb-2">
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <div className="relative mb-4 flex h-28 w-28 cursor-pointer items-center justify-center rounded-full border-2 border-foreground">
+            <PageLayout>
+                <CardHeader className="flex w-full items-center justify-center pb-2">
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <div className="relative mb-4 flex h-28 w-28 cursor-pointer items-center justify-center rounded-full border-2 border-foreground">
+                                <Image
+                                    src={
+                                        user.photo?.url ??
+                                        "/avatar-placeholder.jpg"
+                                    }
+                                    alt={user.profile?.completeName ?? ""}
+                                    fill
+                                    objectFit="cover"
+                                    className="rounded-full"
+                                />
+                            </div>
+                        </DialogTrigger>
+                        <DialogContent className="p-4 sm:max-w-[90%] lg:max-h-[95%] lg:max-w-[70%]">
+                            <DialogHeader>
+                                <DialogTitle>Foto de Perfil</DialogTitle>
+                            </DialogHeader>
+                            <div className="flex h-[90vh] items-end justify-center p-5">
+                                <div className="flex items-center justify-center p-5">
                                     <Image
                                         src={
                                             user.photo?.url ??
@@ -88,123 +106,98 @@ const UserPage = async ({ params }: UserPageProps) => {
                                         }
                                         alt={user.profile?.completeName ?? ""}
                                         fill
-                                        objectFit="cover"
-                                        className="rounded-full"
+                                        objectFit="contain"
+                                        className="p-5 pt-12"
                                     />
                                 </div>
-                            </DialogTrigger>
-                            <DialogContent className="p-4 sm:max-w-[90%] lg:max-h-[95%] lg:max-w-[70%]">
-                                <DialogHeader>
-                                    <DialogTitle>Foto de Perfil</DialogTitle>
-                                </DialogHeader>
-                                <div className="flex h-[90vh] items-end justify-center p-5">
-                                    <div className="flex items-center justify-center p-5">
-                                        <Image
-                                            src={
-                                                user.photo?.url ??
-                                                "/avatar-placeholder.jpg"
-                                            }
-                                            alt={
-                                                user.profile?.completeName ?? ""
-                                            }
-                                            fill
-                                            objectFit="contain"
-                                            className="p-5 pt-12"
-                                        />
-                                    </div>
-                                </div>
-                            </DialogContent>
-                        </Dialog>
-                        <CardTitle className="flex justify-center pb-2 text-2xl font-bold">
-                            {user.profile?.completeName}
-                        </CardTitle>
-                        <div className="flex h-10 w-full items-center justify-between gap-1 px-2 py-1">
-                            <div className="flex h-full items-center justify-center gap-1 p-2">
-                                <StarIcon size="icon" />
-                                <StarIcon size="icon" />
-                                <StarIcon size="icon" />
-                                <StarIcon size="icon" />
-                                <StarIcon size="icon" />
                             </div>
-                            <LeaderAdminMenuButtons userRole={user.role} />
-                            <UserMenuButtons userId={id} />
+                        </DialogContent>
+                    </Dialog>
+                    <CardTitle className="flex justify-center pb-2 text-2xl font-bold">
+                        {user.profile?.completeName}
+                    </CardTitle>
+                    <div className="flex h-10 w-full items-center justify-between gap-1 px-2 py-1">
+                        <div className="flex h-full items-center justify-center gap-1 p-2">
+                            <StarIcon size="icon" />
+                            <StarIcon size="icon" />
+                            <StarIcon size="icon" />
+                            <StarIcon size="icon" />
+                            <StarIcon size="icon" />
                         </div>
-                    </CardHeader>
-                    <div className="flex items-center justify-center">
-                        <Separator className="w-[90%]" />
+                        <LeaderAdminMenuButtons userRole={user.role} />
+                        <UserMenuButtons userId={id} />
                     </div>
-                    <CardContent className="flex w-full flex-col items-center p-0 py-6 lg:px-6">
-                        <Tabs
-                            defaultValue="profile"
-                            className="sm:w-[100%] sm:p-0 lg:w-[80%]"
-                        >
-                            <TabsList className="grid w-full grid-cols-3">
-                                <TabsTrigger value="profile">
-                                    Perfil
-                                </TabsTrigger>
-                                <TabsTrigger value="notes">Notas</TabsTrigger>
-                                <TabsTrigger value="apply">
-                                    Candidatar-se
-                                </TabsTrigger>
-                            </TabsList>
-                            <TabsContent value="profile">
-                                <Card className="border-none shadow-none">
-                                    <CardHeader className="px-0 lg:px-6">
-                                        <CardTitle>Dados</CardTitle>
-                                    </CardHeader>
-                                    <CardContent className="space-y-2 p-0 lg:px-6">
-                                        {Object.keys(userFields).map(
-                                            (field, index) => (
-                                                <div
-                                                    className="space-y-1"
-                                                    key={`${index} - ${randomUUID()}`}
-                                                >
-                                                    <Label
-                                                        htmlFor={fields[index]}
-                                                    >
-                                                        {fields[index]}
-                                                    </Label>
-                                                    <Input
-                                                        id={fields[index]}
-                                                        defaultValue={
-                                                            userFields[field]
-                                                        }
-                                                        readOnly
-                                                    />
-                                                </div>
-                                            ),
-                                        )}
-                                    </CardContent>
-                                </Card>
-                            </TabsContent>
-                            <TabsContent value="notes">
-                                <Card>
-                                    <CardHeader>
-                                        <CardTitle>Vazio</CardTitle>
-                                        <CardDescription>
-                                            Ainda não temos nada por aqui!
-                                        </CardDescription>
-                                    </CardHeader>
-                                    <CardContent className="space-y-2"></CardContent>
-                                    <CardFooter></CardFooter>
-                                </Card>
-                            </TabsContent>
-                            <TabsContent value="apply">
-                                <Card>
-                                    <CardHeader>
-                                        <CardTitle>Vazio</CardTitle>
-                                        <CardDescription>
-                                            Ainda não temos nada por aqui!
-                                        </CardDescription>
-                                    </CardHeader>
-                                    <CardContent className="space-y-2"></CardContent>
-                                    <CardFooter></CardFooter>
-                                </Card>
-                            </TabsContent>
-                        </Tabs>
-                    </CardContent>
-                </Card>
-            </main>
+                </CardHeader>
+                <div className="flex w-full items-center justify-center">
+                    <Separator className="w-[90%]" />
+                </div>
+                <CardContent className="flex w-full flex-col items-center p-0 py-6 lg:px-6">
+                    <Tabs
+                        defaultValue="profile"
+                        className="sm:w-[100%] sm:p-0 lg:w-[80%]"
+                    >
+                        <TabsList className="grid w-full grid-cols-3">
+                            <TabsTrigger value="profile">Perfil</TabsTrigger>
+                            <TabsTrigger value="notes">Notas</TabsTrigger>
+                            <TabsTrigger value="apply">
+                                Candidatar-se
+                            </TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="profile">
+                            <Card className="border-none shadow-none">
+                                <CardHeader className="px-0 lg:px-6">
+                                    <CardTitle>Dados</CardTitle>
+                                </CardHeader>
+                                <CardContent className="space-y-2 p-0 lg:px-6">
+                                    {Object.keys(userFields).map(
+                                        (field, index) => (
+                                            <div
+                                                className="space-y-1"
+                                                key={`${index} - ${randomUUID()}`}
+                                            >
+                                                <Label htmlFor={fields[index]}>
+                                                    {fields[index]}
+                                                </Label>
+                                                <Input
+                                                    id={fields[index]}
+                                                    defaultValue={
+                                                        userFields[field]
+                                                    }
+                                                    readOnly
+                                                />
+                                            </div>
+                                        ),
+                                    )}
+                                </CardContent>
+                            </Card>
+                        </TabsContent>
+                        <TabsContent value="notes">
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Vazio</CardTitle>
+                                    <CardDescription>
+                                        Ainda não temos nada por aqui!
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent className="space-y-2"></CardContent>
+                                <CardFooter></CardFooter>
+                            </Card>
+                        </TabsContent>
+                        <TabsContent value="apply">
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Vazio</CardTitle>
+                                    <CardDescription>
+                                        Ainda não temos nada por aqui!
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent className="space-y-2"></CardContent>
+                                <CardFooter></CardFooter>
+                            </Card>
+                        </TabsContent>
+                    </Tabs>
+                </CardContent>
+            </PageLayout>
         );
     } catch (error) {
         console.error(error);

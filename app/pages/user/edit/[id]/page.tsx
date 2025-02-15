@@ -1,9 +1,5 @@
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/app/_components/ui/card";
+import PageLayout from "@/app/_components/page-layout";
+import { CardContent, CardHeader, CardTitle } from "@/app/_components/ui/card";
 import UserFormEdit from "@/app/_components/user-form/user-form-edit";
 import { getUser } from "@/app/_data/getUser";
 import formatCPF from "@/app/_utils/formatCPF";
@@ -29,8 +25,8 @@ const EditUserPage = async ({ params }: EditUserPageProps) => {
         }
 
         return (
-            <main className="flex justify-center p-5 lg:px-28">
-                <Card className="w-full max-w-2xl">
+            <PageLayout>
+                <div className="grid w-full lg:max-w-xl">
                     <CardHeader>
                         <CardTitle className="text-2xl font-bold">
                             Editar Perfil
@@ -39,8 +35,8 @@ const EditUserPage = async ({ params }: EditUserPageProps) => {
                     <CardContent>
                         <UserFormEdit user={user} />
                     </CardContent>
-                </Card>
-            </main>
+                </div>
+            </PageLayout>
         );
     } catch (error) {
         console.error(error);

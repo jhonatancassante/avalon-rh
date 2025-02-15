@@ -1,7 +1,7 @@
 import { Control } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "@/app/_components/ui/input";
-import FormTooltip from "@/app/_components/form-tooltip";
+import FormTooltip from "@/app/_components/user-form/user-form-tooltip";
 import {
     FormField,
     FormItem,
