@@ -2,6 +2,10 @@ import { z } from "zod";
 import isValidCPF from "../_utils/isValidCPF";
 import isDateValidAndOver18 from "../_utils/isDateValidAndOver18";
 import isValidPhone from "../_utils/isValidPhone";
+import {
+    ACCEPTED_IMAGE_TYPES,
+    MAX_FILE_SIZE,
+} from "../_constants/photoValidations";
 
 export const formSchema = z.object({
     cpf: z.string().refine((value) => isValidCPF(value), "CPF inválido!"),
@@ -20,7 +24,6 @@ export const formSchema = z.object({
         .trim()
         .min(2, "Apelido muito curto! Mínimo 2 caracteres!")
         .max(20, "Apelido muito longo! Máximo 20 caracteres."),
-    email: z.string().email("Email inválido!"),
     contactEmail: z.string().email("Email inválido!"),
     phone: z
         .string()
@@ -32,13 +35,14 @@ export const formSchema = z.object({
             (value) => isDateValidAndOver18(value),
             "Você deve ter pelo menos 18 anos!",
         ),
-    photoUrl: z
-        .string()
-        .url("URL inválida!")
+    photo: z
+        .instanceof(File)
         .refine(
-            (value) =>
-                value.startsWith("https://drive.google.com/file/d/") ||
-                value.startsWith("https://drive.google.com/u/0/uc?id="),
-            "O link da imagem deve ser do Google Drive!",
+            (file) => file.size <= MAX_FILE_SIZE,
+            "O arquivo deve ter no máximo 1MB!",
+        )
+        .refine(
+            (file) => ACCEPTED_IMAGE_TYPES.includes(file.type),
+            "Apenas arquivos .jpg e .jpeg são aceitos!",
         ),
 });

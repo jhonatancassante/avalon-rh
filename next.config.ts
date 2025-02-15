@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
             {
                 hostname: "lh3.googleusercontent.com",
             },
-            { hostname: "drive.google.com" },
+            { hostname: "res.cloudinary.com" },
         ],
     },
 };

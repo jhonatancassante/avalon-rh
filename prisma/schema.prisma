@@ -9,29 +9,56 @@ datasource db {
 
 model User {
   id            String        @id @default(auto()) @map("_id") @db.ObjectId
-  cpf           String?
   name          String?
-  completeName  String?
-  socialName    String?
-  nickname      String?
   email         String?       @unique
-  contactEmail  String?
-  phone         String?
-  birthdate     DateTime?
   role          String        @default("user")
   image         String?
-  photoUrl      String?
   emailVerified DateTime?
   isComplete    Boolean       @default(false)
   isDeleted     Boolean       @default(false)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
+  photo         Photo?
+  profile       Profile?
   accounts      Account[]
   sessions      Session[]
   userEvents    UserEvent[]
   userSections  UserSection[]
 
   @@map("users")
+}
+
+model Profile {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  cpf          String
+  completeName String
+  socialName   String
+  nickname     String
+  contactEmail String
+  phone        String
+  birthdate    DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  userId       String   @unique @db.ObjectId
+  user         User     @relation(fields: [userId], references: [id])
+
+  @@map("profiles")
+}
+
+model Photo {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  asset_id     String
+  display_name String
+  height       Int
+  public_id    String
+  url          String
+  width        Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  userId       String   @unique @db.ObjectId
+  user         User     @relation(fields: [userId], references: [id])
+
+  @@map("photos")
 }
 
 model Account {

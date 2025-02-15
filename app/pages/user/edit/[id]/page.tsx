@@ -22,7 +22,11 @@ const EditUserPage = async ({ params }: EditUserPageProps) => {
             throw new Error("User not found!");
         }
 
-        user.cpf = user.cpf ? formatCPF(user.cpf) : user.cpf;
+        if (user.profile) {
+            user.profile.cpf = user.profile.cpf
+                ? formatCPF(user.profile.cpf)
+                : "";
+        }
 
         return (
             <main className="flex justify-center p-5 lg:px-28">
@@ -33,26 +37,7 @@ const EditUserPage = async ({ params }: EditUserPageProps) => {
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <UserEditForm
-                            id={user.id ?? ""}
-                            name={user.name ?? ""}
-                            cpf={user.cpf ?? ""}
-                            completeName={user.completeName ?? ""}
-                            socialName={user.socialName ?? ""}
-                            nickname={user.nickname ?? ""}
-                            email={user.email ?? null}
-                            contactEmail={user.contactEmail ?? ""}
-                            phone={user.phone ?? ""}
-                            birthdate={user.birthdate ?? null}
-                            role={user.role ?? ""}
-                            createdAt={user.createdAt ?? null}
-                            updatedAt={user.updatedAt ?? null}
-                            image={user.image ?? ""}
-                            photoUrl={user.photoUrl ?? ""}
-                            emailVerified={user.emailVerified ?? null}
-                            isComplete={user.isComplete ?? false}
-                            isDeleted={user.isDeleted ?? false}
-                        />
+                        <UserEditForm user={user} />
                     </CardContent>
                 </Card>
             </main>

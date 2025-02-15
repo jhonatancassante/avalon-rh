@@ -41,7 +41,7 @@ export async function middleware(request: NextRequest) {
     ) {
         // Se o usuário não estiver autenticado, redirecione para a página inicial
         if (!token) {
-            console.log("User not authenticated. Redirecting to home page");
+            console.error("User not authenticated. Redirecting to home page");
             return NextResponse.redirect(new URL(PATHS.HOME, request.url));
         }
 
@@ -50,7 +50,7 @@ export async function middleware(request: NextRequest) {
             !token.isComplete &&
             !request.nextUrl.pathname.startsWith(PATHS.USER_EDIT)
         ) {
-            console.log(
+            console.error(
                 "User profile not complete. Redirecting to user edit page",
             );
             const redirectUrl = PATHS.USER_EDIT + "/" + token?.userId;
@@ -61,7 +61,7 @@ export async function middleware(request: NextRequest) {
     // Verificar rotas de admin
     if (request.nextUrl.pathname.startsWith(PATHS.ADMIN)) {
         if (!hasRequiredRole(token, [Roles.Admin])) {
-            console.log("Redirecting to unauthorized page");
+            console.error("Redirecting to unauthorized page");
             return NextResponse.redirect(
                 new URL(PATHS.UNAUTHORIZED, request.url),
             );
@@ -71,7 +71,7 @@ export async function middleware(request: NextRequest) {
     // Verificar rotas de leader
     if (request.nextUrl.pathname.startsWith(PATHS.LEADER)) {
         if (!hasRequiredRole(token, [Roles.Leader, Roles.Admin])) {
-            console.log("Redirecting to unauthorized page");
+            console.error("Redirecting to unauthorized page");
             return NextResponse.redirect(
                 new URL(PATHS.UNAUTHORIZED, request.url),
             );

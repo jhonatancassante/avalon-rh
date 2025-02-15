@@ -15,14 +15,18 @@ export const getUser = async (id: string) => {
             id: id,
             isDeleted: false,
         },
+        include: {
+            photo: true,
+            profile: true,
+        },
     });
 
     if (!user) {
         throw new Error("User not found!");
     }
 
-    if (user.cpf) {
-        user.cpf = decrypt(user.cpf);
+    if (user.profile?.cpf) {
+        user.profile.cpf = decrypt(user.profile?.cpf);
     }
 
     return user;

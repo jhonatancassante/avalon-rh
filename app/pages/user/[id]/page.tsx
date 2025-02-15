@@ -56,16 +56,20 @@ const UserPage = async ({ params }: UserPageProps) => {
         }
 
         const userFields: { [key: string]: string } = {
-            cpf: user.cpf ? formatCPF(user.cpf) : "",
-            completeName: user.completeName ?? "",
-            socialName: user.socialName ?? "",
-            nickname: user.nickname ?? "",
-            birthdate: format(user.birthdate ?? new Date(), "dd/MM/yyyy", {
-                locale: ptBR,
-            }),
+            cpf: user.profile?.cpf ? formatCPF(user.profile?.cpf) : "",
+            completeName: user.profile?.completeName ?? "",
+            socialName: user.profile?.socialName ?? "",
+            nickname: user.profile?.nickname ?? "",
+            birthdate: format(
+                user.profile?.birthdate ?? new Date(),
+                "dd/MM/yyyy",
+                {
+                    locale: ptBR,
+                },
+            ),
             email: user.email ?? "",
-            contactEmail: user.contactEmail ?? "",
-            phone: user.phone ?? "",
+            contactEmail: user.profile?.contactEmail ?? "",
+            phone: user.profile?.phone ?? "",
         };
 
         return (
@@ -77,10 +81,10 @@ const UserPage = async ({ params }: UserPageProps) => {
                                 <div className="relative mb-4 flex h-28 w-28 cursor-pointer items-center justify-center rounded-full border-2 border-foreground">
                                     <Image
                                         src={
-                                            user.photoUrl ??
+                                            user.photo?.url ??
                                             "/avatar-placeholder.jpg"
                                         }
-                                        alt={user.completeName ?? ""}
+                                        alt={user.profile?.completeName ?? ""}
                                         fill
                                         objectFit="cover"
                                         className="rounded-full"
@@ -95,10 +99,12 @@ const UserPage = async ({ params }: UserPageProps) => {
                                     <div className="flex max-h-[70%] items-center justify-center p-5">
                                         <Image
                                             src={
-                                                user.photoUrl ??
+                                                user.photo?.url ??
                                                 "/avatar-placeholder.jpg"
                                             }
-                                            alt={user.completeName ?? ""}
+                                            alt={
+                                                user.profile?.completeName ?? ""
+                                            }
                                             fill
                                             objectFit="contain"
                                             className="p-5 pt-12"
@@ -108,7 +114,7 @@ const UserPage = async ({ params }: UserPageProps) => {
                             </DialogContent>
                         </Dialog>
                         <CardTitle className="flex justify-center text-2xl font-bold">
-                            {user.completeName}
+                            {user.profile?.completeName}
                         </CardTitle>
                         <div className="flex w-full justify-end gap-1">
                             <UserMenuButtons userId={id} />
@@ -129,7 +135,7 @@ const UserPage = async ({ params }: UserPageProps) => {
                                 </TabsTrigger>
                             </TabsList>
                             <TabsContent value="profile">
-                                <Card>
+                                <Card className="border-none shadow-none">
                                     <CardHeader>
                                         <CardTitle>Dados</CardTitle>
                                     </CardHeader>

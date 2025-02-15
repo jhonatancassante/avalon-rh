@@ -4,9 +4,9 @@ import { db } from "../_lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../_lib/auth";
 import { authorizedRoles } from "../_constants/roles";
-import { validateUserData } from "../_utils/validateUserData";
-import UpdateUser from "../_types/UpdateUser";
 import { revalidatePath } from "next/cache";
+import { UpdateUser } from "../_types/updateUser";
+import { validateUserData } from "../_utils/validateUserData";
 import { encrypt } from "../_utils/crypto";
 
 export const updateUser = async (id: string, data: UpdateUser) => {
@@ -25,22 +25,66 @@ export const updateUser = async (id: string, data: UpdateUser) => {
         );
     }
 
+    const user = await db.user.findUnique({
+        where: { id },
+        include: { profile: true, photo: true },
+    });
+
+    if (!user) {
+        throw new Error("User not found.");
+    }
+
+    if (!data.profile) {
+        throw new Error("Invalid data: Profile is required.");
+    }
+
     const validation = validateUserData(data);
 
     if (!validation.isValid) {
         throw new Error("Invalid data: " + JSON.stringify(validation.errors));
     }
 
-    if (data.cpf) {
-        data.cpf = encrypt(data.cpf);
+    if (data.profile.cpf) {
+        data.profile.cpf = encrypt(data.profile.cpf);
     }
+
+    const updatedUser = await db.user.update({
+        where: { id },
+        data: {
+            isComplete: data.isComplete,
+            profile: data.profile
+                ? {
+                      [user.profile ? "update" : "create"]: {
+                          cpf: data.profile.cpf,
+                          completeName: data.profile.completeName,
+                          socialName: data.profile.socialName,
+                          nickname: data.profile.nickname,
+                          contactEmail: data.profile.contactEmail,
+                          phone: data.profile.phone,
+                          birthdate: data.profile.birthdate,
+                      },
+                  }
+                : undefined,
+            photo: data.photo
+                ? {
+                      [user.photo ? "update" : "create"]: {
+                          asset_id: data.photo.asset_id,
+                          display_name: data.photo.display_name,
+                          height: data.photo.height,
+                          public_id: data.photo.public_id,
+                          url: data.photo.url,
+                          width: data.photo.width,
+                      },
+                  }
+                : undefined,
+        },
+        include: {
+            profile: true,
+            photo: true,
+        },
+    });
 
     revalidatePath("/pages/user/[id]", "page");
 
-    return await db.user.update({
-        where: {
-            id: id,
-        },
-        data: data,
-    });
+    return updatedUser;
 };

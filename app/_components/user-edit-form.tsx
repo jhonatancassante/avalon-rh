@@ -11,14 +11,11 @@ import {
 import { Input } from "@/app/_components/ui/input";
 import FormTooltip from "@/app/_components/form-tooltip";
 import formatCPF from "@/app/_utils/formatCPF";
-import Link from "next/link";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { User } from "@prisma/client";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import convertUrl from "../_utils/convertUrl";
 import { Button } from "./ui/button";
 import { signOut, useSession } from "next-auth/react";
 import { formSchema } from "../_schemas/formSchema";
@@ -27,35 +24,103 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { editUserFields } from "../_constants/editUserFields";
 import formatPhone from "../_utils/formatPhone";
+import { useState } from "react";
+import { UserComplete } from "../_types/userComplete";
+import { UpdateUser } from "../_types/updateUser";
+import { UpdatePhoto } from "../_types/updatePhoto";
+import LoadingIndicator from "./loading-indicator";
 
-const UserEditForm = (user: User) => {
+const UserEditForm = ({ user }: UserComplete) => {
     const { update } = useSession();
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
+    const [photoData, setPhotoData] = useState<UpdatePhoto | null>(null);
+
+    if (!user) {
+        throw new Error("User not found!");
+    }
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            cpf: user?.cpf ?? "",
-            completeName: user?.completeName
-                ? user?.completeName
+            cpf: user.profile?.cpf ?? "",
+            completeName: user.profile?.completeName
+                ? user.profile?.completeName
+                : (user.name ?? ""),
+            socialName: user.profile?.socialName
+                ? user.profile?.socialName
                 : (user?.name ?? ""),
-            socialName: user?.socialName
-                ? user?.socialName
-                : (user?.name ?? ""),
-            nickname: user?.nickname ?? "",
-            email: user?.email ?? "",
-            contactEmail: user?.contactEmail
-                ? user?.contactEmail
+            nickname: user.profile?.nickname ?? "",
+            contactEmail: user.profile?.contactEmail
+                ? user.profile?.contactEmail
                 : (user?.email ?? ""),
-            phone: user?.phone ?? "",
+            phone: user.profile?.phone ?? "",
             birthdate:
-                format(user?.birthdate ?? new Date(), "yyyy-MM-dd", {
+                format(user.profile?.birthdate ?? new Date(), "yyyy-MM-dd", {
                     locale: ptBR,
                 }).toString() ?? "",
-            photoUrl: convertUrl(user?.photoUrl ?? ""),
+            photo: undefined,
         },
     });
 
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        setLoading(true);
+        const file = e.target.files?.[0];
+
+        if (!file) {
+            throw new Error("Nenhum arquivo selecionado.");
+        }
+
+        form.setValue("photo", file);
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            const response = await fetch("/api/upload", {
+                method: "POST",
+                body: formData,
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message);
+            }
+
+            const { result } = await response.json();
+
+            const photoInfos: UpdatePhoto = {
+                asset_id: result.asset_id,
+                display_name: result.display_name,
+                height: result.height,
+                public_id: result.public_id,
+                url: result.url,
+                width: result.width,
+            };
+
+            setPhotoData(photoInfos);
+
+            toast.success("Sucesso!", {
+                description: "Upload de foto feito com sucesso!",
+            });
+        } catch (error) {
+            console.error(error);
+            toast.error("Erro!", {
+                description:
+                    "Erro ao tentar fazer upload da imagem. Tente novamente mais tarde!",
+            });
+            if (error instanceof Error) {
+                throw new Error(error.message);
+            } else {
+                throw new Error("An unknown error occurred.");
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        setLoading(true);
         const [year, month, day] = values.birthdate.split("-");
         const birthdateIso = new Date(
             Number(year),
@@ -63,18 +128,22 @@ const UserEditForm = (user: User) => {
             Number(day),
         );
 
-        const data = {
-            ...values,
-            cpf: values.cpf.replace(/\D/g, ""),
-            photoUrl: convertUrl(values.photoUrl),
+        const updateData: UpdateUser = {
             isComplete: true,
-            birthdate: birthdateIso,
+            profile: {
+                ...values,
+                cpf: values.cpf.replace(/\D/g, ""),
+                birthdate: birthdateIso,
+            },
+            photo: {
+                ...photoData,
+            },
         };
 
         try {
-            await updateUser(user.id, data);
+            await updateUser(user.id, updateData);
 
-            await update({ user: data });
+            await update({ user: updateData });
 
             toast.success("Sucesso!", {
                 description: "Usuário atualizado com sucesso!",
@@ -83,146 +152,170 @@ const UserEditForm = (user: User) => {
             router.replace(`/pages/user/${user.id}`);
         } catch (error) {
             console.error("Erro ao atualizar usuário:", error);
-            router.replace(`/pages/errors/500`);
+            toast.error("Erro!", {
+                description:
+                    "Erro ao atualizar o usuário. Tente novamente mais tarde!",
+            });
         }
     };
 
     const handleExit = () => {
+        setLoading(true);
+
         if (!user.isComplete) return signOut();
 
         router.replace(`/pages/user/${user.id}`);
     };
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <FormField
-                    control={form.control}
-                    name="cpf"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className="flex gap-2">
-                                CPF
-                                <FormTooltip msg="Digite somente os números." />
-                            </FormLabel>
-                            <FormControl>
-                                <Input
-                                    placeholder="Digite o CPF"
-                                    {...field}
-                                    onChange={(e) => {
-                                        const formattedValue = formatCPF(
-                                            e.target.value,
-                                        );
-                                        field.onChange(formattedValue);
-                                    }}
-                                    value={field.value || ""}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                {editUserFields.map((formField, index) => {
-                    return (
-                        <FormField
-                            control={form.control}
-                            name={
-                                formField.name as keyof z.infer<
-                                    typeof formSchema
-                                >
-                            }
-                            key={`${index} - ${formField.name}`}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="flex gap-2">
-                                        {formField.label}
-                                        <FormTooltip msg={formField.tooltip} />
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type={formField.type}
-                                            placeholder={formField.placeholder}
-                                            {...field}
-                                            disabled={formField.disabled}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    );
-                })}
+        <>
+            <Form {...form}>
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-4"
+                >
+                    <FormField
+                        control={form.control}
+                        name="cpf"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="flex gap-2">
+                                    CPF
+                                    <FormTooltip msg="Digite somente os números." />
+                                </FormLabel>
+                                <FormControl>
+                                    <Input
+                                        placeholder="Digite o CPF"
+                                        {...field}
+                                        onChange={(e) => {
+                                            const formattedValue = formatCPF(
+                                                e.target.value,
+                                            );
+                                            field.onChange(formattedValue);
+                                        }}
+                                        value={field.value || ""}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    {editUserFields.map((formField, index) => {
+                        return (
+                            <FormField
+                                control={form.control}
+                                name={
+                                    formField.name as keyof z.infer<
+                                        typeof formSchema
+                                    >
+                                }
+                                key={`${index} - ${formField.name}`}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="flex gap-2">
+                                            {formField.label}
+                                            <FormTooltip
+                                                msg={formField.tooltip}
+                                            />
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type={formField.type}
+                                                placeholder={
+                                                    formField.placeholder
+                                                }
+                                                {...field}
+                                                disabled={formField.disabled}
+                                                value={
+                                                    field.value instanceof File
+                                                        ? undefined
+                                                        : field.value || ""
+                                                }
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        );
+                    })}
 
-                <FormField
-                    control={form.control}
-                    name={"phone"}
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className="flex gap-2">
-                                Celular / Whatsapp
-                                <FormTooltip
-                                    msg={
-                                        "Digite seu número de celular que utiliza Whatsapp. Somente os números!"
-                                    }
-                                />
-                            </FormLabel>
-                            <FormControl>
-                                <Input
-                                    placeholder={"Digite o celular"}
-                                    {...field}
-                                    onChange={(e) => {
-                                        const formattedValue = formatPhone(
-                                            e.target.value,
-                                        );
-                                        field.onChange(formattedValue);
-                                    }}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+                    <FormField
+                        control={form.control}
+                        name={"phone"}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="flex gap-2">
+                                    Celular / Whatsapp
+                                    <FormTooltip
+                                        msg={
+                                            "Digite seu número de celular que utiliza Whatsapp. Somente os números!"
+                                        }
+                                    />
+                                </FormLabel>
+                                <FormControl>
+                                    <Input
+                                        placeholder={"Digite o celular"}
+                                        {...field}
+                                        onChange={(e) => {
+                                            const formattedValue = formatPhone(
+                                                e.target.value,
+                                            );
+                                            field.onChange(formattedValue);
+                                        }}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
 
-                <FormField
-                    control={form.control}
-                    name="photoUrl"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className="flex items-center gap-2">
-                                URL da Foto
-                                <FormTooltip msg="Coloque um link de uma foto sua que esteja publica no seu Drive do Google. Se ainda tiver dúvidas, clique no link de ajuda." />
-                                <Link
-                                    href="/pages/help/photo-url"
-                                    target="_blank"
-                                    className="text-xs"
-                                >
-                                    Ajuda
-                                </Link>
-                            </FormLabel>
-                            <FormControl>
-                                <Input
-                                    placeholder="Digite a URL da foto"
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <div className="flex justify-around">
-                    <Button type="submit" className="w-40">
-                        Salvar
-                    </Button>
-                    <Button
-                        type={"button"}
-                        onClick={handleExit}
-                        className="w-40"
-                    >
-                        {user.isComplete ? "Voltar" : "Sair"}
-                    </Button>
-                </div>
-            </form>
-        </Form>
+                    <FormField
+                        control={form.control}
+                        name={"photo"}
+                        render={() => (
+                            <FormItem>
+                                <FormLabel className="flex gap-2">
+                                    Foto de Perfil
+                                    <FormTooltip
+                                        msg={
+                                            "Selecione uma foto de perfil. O arquivo deve ter no máximo 1MB e as dimensões devem ser entre 500x500 e 3036x3036."
+                                        }
+                                    />
+                                </FormLabel>
+                                <FormControl>
+                                    <Input
+                                        type="file"
+                                        accept="image/jpeg, image/jpg"
+                                        onChange={handleFileChange}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <div className="flex justify-around">
+                        <Button
+                            type="submit"
+                            className="w-40"
+                            disabled={loading}
+                        >
+                            {loading ? "Enviando..." : "Salvar"}
+                        </Button>
+                        <Button
+                            type={"button"}
+                            onClick={handleExit}
+                            className="w-40"
+                            disabled={loading}
+                        >
+                            {user.isComplete ? "Voltar" : "Sair"}
+                        </Button>
+                    </div>
+                </form>
+            </Form>
+            {loading && <LoadingIndicator />}
+        </>
     );
 };
 
