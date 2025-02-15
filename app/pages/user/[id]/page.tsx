@@ -73,7 +73,7 @@ const UserPage = async ({ params }: UserPageProps) => {
         };
 
         return (
-            <main className="flex justify-center p-5 lg:px-28">
+            <main className="flex justify-center py-5 sm:px-2 lg:px-28">
                 <Card className="mx-4 my-1 w-full max-w-2xl p-2">
                     <CardHeader className="flex w-full items-center justify-center pb-2">
                         <Dialog>
@@ -96,7 +96,7 @@ const UserPage = async ({ params }: UserPageProps) => {
                                     <DialogTitle>Foto de Perfil</DialogTitle>
                                 </DialogHeader>
                                 <div className="flex h-[90vh] items-end justify-center p-5">
-                                    <div className="flex max-h-[70%] items-center justify-center p-5">
+                                    <div className="flex items-center justify-center p-5">
                                         <Image
                                             src={
                                                 user.photo?.url ??
@@ -123,8 +123,11 @@ const UserPage = async ({ params }: UserPageProps) => {
                     <div className="flex items-center justify-center">
                         <Separator className="w-[90%]" />
                     </div>
-                    <CardContent className="mt-4 flex w-full flex-col items-center">
-                        <Tabs defaultValue="profile" className="w-[80%]">
+                    <CardContent className="flex w-full flex-col items-center p-0 py-6 lg:px-6">
+                        <Tabs
+                            defaultValue="profile"
+                            className="sm:w-[100%] sm:p-0 lg:w-[80%]"
+                        >
                             <TabsList className="grid w-full grid-cols-3">
                                 <TabsTrigger value="profile">
                                     Perfil
@@ -136,10 +139,10 @@ const UserPage = async ({ params }: UserPageProps) => {
                             </TabsList>
                             <TabsContent value="profile">
                                 <Card className="border-none shadow-none">
-                                    <CardHeader>
+                                    <CardHeader className="px-0 lg:px-6">
                                         <CardTitle>Dados</CardTitle>
                                     </CardHeader>
-                                    <CardContent className="space-y-2">
+                                    <CardContent className="space-y-2 p-0 lg:px-6">
                                         {Object.keys(userFields).map(
                                             (field, index) => (
                                                 <div
