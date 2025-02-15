@@ -19,6 +19,8 @@ export async function POST(request: Request) {
         );
     }
 
+    const fileName = `${session.user.name?.split(" ")[0]} - ${session.user.id}`;
+
     // Ler o arquivo enviado no corpo da requisição
     const formData = await request.formData();
     const file = formData.get("file") as File;
@@ -58,7 +60,7 @@ export async function POST(request: Request) {
                         {
                             resource_type: "image",
                             overwrite: true,
-                            public_id: session.user.id,
+                            public_id: fileName,
                             folder: "profile_photos",
                         },
                         (error, result) => {
