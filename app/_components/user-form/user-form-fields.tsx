@@ -67,7 +67,7 @@ export const UserFormFields = ({ control }: UserFormFieldsProps) => {
                                     value={
                                         field.value instanceof File
                                             ? undefined
-                                            : field.value || ""
+                                            : (field.value ?? "")
                                     }
                                 />
                             </FormControl>

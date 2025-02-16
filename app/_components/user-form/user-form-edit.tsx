@@ -115,6 +115,7 @@ const UserEditForm = ({ user }: UserComplete) => {
                     />
                     <UserFormActions
                         loading={loadingPage}
+                        isValid={form.formState.isValid}
                         isComplete={user.isComplete}
                         onExit={handleExit}
                     />

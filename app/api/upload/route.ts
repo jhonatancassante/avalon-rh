@@ -83,7 +83,7 @@ export async function POST(request: Request) {
             result.width > 3036 ||
             result.height > 3036
         ) {
-            await cloudinary.uploader.destroy(result.public_id); // Excluir a imagem se for inválida
+            await cloudinary.uploader.destroy(result.public_id);
             return NextResponse.json(
                 {
                     message:

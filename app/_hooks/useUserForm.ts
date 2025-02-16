@@ -9,6 +9,7 @@ import { UserComplete } from "../_types/userComplete";
 export const useUserForm = ({ user }: UserComplete) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
+        mode: "onChange",
         defaultValues: {
             cpf: user.profile?.cpf ?? "",
             completeName: user.profile?.completeName ?? user.name ?? "",
