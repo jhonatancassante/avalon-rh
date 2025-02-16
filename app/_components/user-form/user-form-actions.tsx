@@ -1,4 +1,5 @@
 import { Button } from "@/app/_components/ui/button";
+import { ArrowLeftIcon, LogOutIcon } from "lucide-react";
 
 interface UserFormActionsProps {
     loading: boolean;
@@ -22,10 +23,24 @@ export const UserFormActions = ({
             <Button
                 type="button"
                 onClick={onExit}
-                className="w-40"
+                className="hidden w-40 md:inline-flex"
                 disabled={loading}
             >
                 {isComplete ? "Voltar" : "Sair"}
+            </Button>
+
+            <Button
+                type="button"
+                onClick={onExit}
+                className="fixed left-2 top-2 inline-flex rounded-full p-0 md:hidden"
+                disabled={loading}
+                size="icon"
+            >
+                {isComplete ? (
+                    <ArrowLeftIcon size="md" />
+                ) : (
+                    <LogOutIcon size="icon" />
+                )}
             </Button>
         </div>
     );
