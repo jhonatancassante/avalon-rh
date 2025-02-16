@@ -31,6 +31,8 @@ const UserEditForm = ({ user }: UserComplete) => {
     const { photoData, loading, handleFileUpload } = useFileUpload();
     const [loadingPage, setLoadingPage] = useState(false);
     const form = useUserForm({ user });
+    const isAtctiveSaveButton =
+        form.formState.isValid && (photoData !== null || user.isComplete);
 
     useEffect(() => {
         setLoadingPage(loading);
@@ -98,6 +100,7 @@ const UserEditForm = ({ user }: UserComplete) => {
                                 </FormLabel>
                                 <FormControl>
                                     <Input
+                                        id="photo-field"
                                         type="file"
                                         accept="image/jpeg, image/jpg"
                                         onChange={(e) => {
@@ -107,6 +110,7 @@ const UserEditForm = ({ user }: UserComplete) => {
                                                 form.setValue("photo", file);
                                             }
                                         }}
+                                        required={!user.isComplete}
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -115,7 +119,7 @@ const UserEditForm = ({ user }: UserComplete) => {
                     />
                     <UserFormActions
                         loading={loadingPage}
-                        isValid={form.formState.isValid}
+                        isActive={isAtctiveSaveButton}
                         isComplete={user.isComplete}
                         onExit={handleExit}
                     />
