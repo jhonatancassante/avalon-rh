@@ -29,5 +29,9 @@ export const getUser = async (id: string) => {
         user.profile.cpf = decrypt(user.profile?.cpf);
     }
 
+    if (user.profile?.phone) {
+        user.profile.phone = decrypt(user.profile.phone);
+    }
+
     return user;
 };

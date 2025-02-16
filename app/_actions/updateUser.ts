@@ -48,6 +48,10 @@ export const updateUser = async (id: string, data: UpdateUser) => {
         data.profile.cpf = encrypt(data.profile.cpf);
     }
 
+    if (data.profile.phone) {
+        data.profile.phone = encrypt(data.profile.phone);
+    }
+
     const updatedUser = await db.user.update({
         where: { id },
         data: {
