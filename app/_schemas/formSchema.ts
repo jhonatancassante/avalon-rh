@@ -37,7 +37,6 @@ export const formSchema = z.object({
         ),
     photo: z
         .instanceof(File)
-        .optional()
         .refine(
             (file) => !file || file.size <= MAX_FILE_SIZE,
             "O arquivo deve ter no máximo 1MB!",
@@ -45,5 +44,6 @@ export const formSchema = z.object({
         .refine(
             (file) => !file || ACCEPTED_IMAGE_TYPES.includes(file.type),
             "Apenas arquivos .jpg e .jpeg são aceitos!",
-        ),
+        )
+        .optional(),
 });

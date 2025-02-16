@@ -69,8 +69,7 @@ const UserEditForm = ({ user }: UserComplete) => {
         } catch (error) {
             console.error("Erro ao atualizar usuário:", error);
             toast.error("Erro!", {
-                description:
-                    "Erro ao atualizar o usuário. Tente novamente mais tarde!",
+                description: `Erro ao atualizar o usuário. Tente novamente mais tarde!\nMensagem de erro: ${error}`,
             });
         }
     };
