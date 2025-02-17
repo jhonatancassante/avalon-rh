@@ -4,7 +4,7 @@ import { ptBR } from "date-fns/locale";
 import isValidCPF from "./isValidCPF";
 import isValidPhone from "./isValidPhone";
 import isDateValidAndOver18 from "./isDateValidAndOver18";
-import { UpdateUser } from "../_types/UpdateUser";
+import UpdateUser from "../_types/UpdateUser";
 
 export const formSchema = z.object({
     cpf: z.string().refine((value) => isValidCPF(value), "CPF inválido!"),
