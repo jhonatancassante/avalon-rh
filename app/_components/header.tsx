@@ -14,7 +14,7 @@ import Link from "next/link";
 const Header = () => {
     const { data: session } = useSession();
     const { theme } = useTheme();
-    const logoTheme = theme ?? "light";
+    const logoTheme = theme === "system" ? "light" : theme;
     const { isLoading, setIsLoading } = useLoading();
     const router = useRouter();
     const pathname = usePathname();
