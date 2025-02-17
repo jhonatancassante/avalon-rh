@@ -27,7 +27,6 @@ import {
 import UserMenuButtons from "@/app/_components/user-menu-buttons";
 import { getUser } from "@/app/_data/getUser";
 import formatCPF from "@/app/_utils/formatCPF";
-import { randomUUID } from "crypto";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { StarIcon } from "lucide-react";
@@ -40,13 +39,20 @@ interface UserPageProps {
 
 const fields = [
     "CPF:",
+    "Pronome",
     "Nome Completo:",
     "Nome Social:",
     "Apelido:",
+    "Chave Pix",
     "Data de Nascimento:",
     "Email do Google Account",
     "Email de Contato:",
     "Celular / Whatsapp:",
+    "Estado",
+    "Cidade",
+    "É Portador de Deficiencia?",
+    "Qual sua deficiência?",
+    "Precisa de algum auxílio específico?",
 ];
 
 const UserPage = async ({ params }: UserPageProps) => {
@@ -60,9 +66,11 @@ const UserPage = async ({ params }: UserPageProps) => {
 
         const userFields: { [key: string]: string } = {
             cpf: user.profile?.cpf ? formatCPF(user.profile?.cpf) : "",
+            pronoun: user.profile?.pronoun ?? "",
             completeName: user.profile?.completeName ?? "",
             socialName: user.profile?.socialName ?? "",
             nickname: user.profile?.nickname ?? "",
+            pixKey: user.profile?.pixKey ?? "",
             birthdate: format(
                 user.profile?.birthdate ?? new Date(),
                 "dd/MM/yyyy",
@@ -73,6 +81,11 @@ const UserPage = async ({ params }: UserPageProps) => {
             email: user.email ?? "",
             contactEmail: user.profile?.contactEmail ?? "",
             phone: user.profile?.phone ?? "",
+            state: user.profile?.state ?? "",
+            city: user.profile?.city ?? "",
+            isPcd: user.profile?.isPcd ? "Sim" : "Não",
+            deficiency: user.profile?.deficiency ?? "",
+            extraSupport: user.profile?.extraSupport ?? "",
         };
 
         return (
@@ -150,23 +163,33 @@ const UserPage = async ({ params }: UserPageProps) => {
                                 </CardHeader>
                                 <CardContent className="space-y-2 p-0 lg:px-6">
                                     {Object.keys(userFields).map(
-                                        (field, index) => (
-                                            <div
-                                                className="space-y-1"
-                                                key={`${index} - ${randomUUID()}`}
-                                            >
-                                                <Label htmlFor={fields[index]}>
-                                                    {fields[index]}
-                                                </Label>
-                                                <Input
-                                                    id={fields[index]}
-                                                    defaultValue={
-                                                        userFields[field]
-                                                    }
-                                                    readOnly
-                                                />
-                                            </div>
-                                        ),
+                                        (field, index) => {
+                                            if (
+                                                userFields["isPcd"] === "Não" &&
+                                                (field === "deficiency" ||
+                                                    field === "extraSupport")
+                                            )
+                                                return null;
+                                            return (
+                                                <div
+                                                    className="space-y-1"
+                                                    key={`${index} - ${userFields[field]}`}
+                                                >
+                                                    <Label
+                                                        htmlFor={fields[index]}
+                                                    >
+                                                        {fields[index]}
+                                                    </Label>
+                                                    <Input
+                                                        id={fields[index]}
+                                                        defaultValue={
+                                                            userFields[field]
+                                                        }
+                                                        readOnly
+                                                    />
+                                                </div>
+                                            );
+                                        },
                                     )}
                                 </CardContent>
                             </Card>
