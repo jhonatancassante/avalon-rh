@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "sonner";
-import { UpdatePhoto } from "../_types/updatePhoto";
+import UpdatePhoto from "../_types/updatePhoto";
 import { useLoading } from "../_contexts/LoadingContext";
 
 export const useFileUpload = () => {

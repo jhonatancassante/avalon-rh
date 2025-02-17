@@ -8,7 +8,7 @@ import {
 } from "../../ui/form";
 import { z } from "zod";
 import { formSchema } from "@/app/_schemas/formSchema";
-import { UpdatePhoto } from "@/app/_types/updatePhoto";
+import UpdatePhoto from "@/app/_types/updatePhoto";
 import FormTooltip from "../user-form-tooltip";
 import { Input } from "../../ui/input";
 
