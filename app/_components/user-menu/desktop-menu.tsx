@@ -12,7 +12,6 @@ interface DesktopMenuProps {
     userId: string;
     isAdmin: boolean;
     isLeader: boolean;
-    isEditPage: boolean;
     buttonFuctions: (userId: string, functionType: FunctionType) => void;
 }
 
@@ -20,24 +19,20 @@ const DesktopMenu = ({
     userId,
     isAdmin,
     isLeader,
-    isEditPage,
+
     buttonFuctions,
 }: DesktopMenuProps) => {
     return (
         <div className="flex gap-1">
             <MenuButton
-                icon={<EditIcon size="icon" />}
-                label={isEditPage ? "Perfil" : "Editar Perfil"}
-                onClick={
-                    isEditPage
-                        ? () => buttonFuctions(userId, "profile")
-                        : () => buttonFuctions(userId, "editProfile")
-                }
+                icon={<EditIcon size={18} />}
+                label={"Perfil"}
+                onClick={() => buttonFuctions(userId, "profile")}
             />
 
             {isLeader && (
                 <MenuButton
-                    icon={<NotebookPenIcon size="icon" />}
+                    icon={<NotebookPenIcon size={18} />}
                     label="Dar Notas"
                     onClick={() => buttonFuctions(userId, "leaderPage")}
                 />
@@ -45,7 +40,7 @@ const DesktopMenu = ({
 
             {isAdmin && (
                 <MenuButton
-                    icon={<FileSlidersIcon size="icon" />}
+                    icon={<FileSlidersIcon size={18} />}
                     label="Administração"
                     onClick={() => buttonFuctions(userId, "adminPage")}
                 />
@@ -54,7 +49,7 @@ const DesktopMenu = ({
             <ThemeToggleButton />
 
             <MenuButton
-                icon={<LogOutIcon size="icon" />}
+                icon={<LogOutIcon size={18} />}
                 label="Sair"
                 onClick={() => buttonFuctions(userId, "signOut")}
             />

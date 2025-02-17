@@ -1,6 +1,12 @@
 import { SunIcon, MoonIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "../ui/button";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "../ui/tooltip";
 
 interface ThemeToggleButtonProps {
     onClick?: () => void; // Adicionando uma prop opcional para onClick
@@ -14,19 +20,32 @@ const ThemeToggleButton = ({ onClick }: ThemeToggleButtonProps) => {
         onClick?.(); // Executa a função onClick, se fornecida
     };
 
+    const nextTheme = theme === "light" ? "dark" : "light";
+
     return (
-        <Button
-            variant="ghost"
-            onClick={handleClick}
-            className="justify-start gap-2"
-        >
-            {theme === "light" ? (
-                <SunIcon size="icon" />
-            ) : (
-                <MoonIcon size="icon" />
-            )}
-            Tema
-        </Button>
+        <TooltipProvider>
+            <Tooltip>
+                <TooltipTrigger>
+                    <Button
+                        variant="ghost"
+                        onClick={handleClick}
+                        className="items-center justify-start gap-2"
+                    >
+                        {theme === "light" ? (
+                            <SunIcon size={18} />
+                        ) : (
+                            <MoonIcon size={18} />
+                        )}
+                    </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                    <p>
+                        Altere o teme para{" "}
+                        <strong className="capitalize">{nextTheme}</strong>
+                    </p>
+                </TooltipContent>
+            </Tooltip>
+        </TooltipProvider>
     );
 };
 

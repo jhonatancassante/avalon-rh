@@ -1,7 +1,6 @@
 import PageLayout from "@/app/_components/page-layout";
 import { CardContent, CardHeader, CardTitle } from "@/app/_components/ui/card";
 import UserFormEdit from "@/app/_components/user-form/user-form-edit";
-import UserMenuButtons from "@/app/_components/user-menu/user-menu-buttons";
 import { getUser } from "@/app/_data/getUser";
 import formatCPF from "@/app/_utils/formatCPF";
 import { redirect } from "next/navigation";
@@ -32,9 +31,7 @@ const EditUserPage = async ({ params }: EditUserPageProps) => {
                         <CardTitle className="flex w-full justify-center text-2xl font-bold">
                             Editar Perfil
                         </CardTitle>
-                        <div className="flex h-10 w-full items-center justify-center gap-1 px-2 py-1">
-                            <UserMenuButtons userId={id} userRole={user.role} />
-                        </div>
+                        <div className="flex h-10 w-full items-center justify-center gap-1 px-2 py-1"></div>
                     </CardHeader>
                     <CardContent>
                         <UserFormEdit user={user} />

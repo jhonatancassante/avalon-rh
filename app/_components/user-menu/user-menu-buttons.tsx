@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useMediaQuery } from "@react-hook/media-query";
 import { Roles } from "@/app/_constants/roles";
 import DesktopMenu from "./desktop-menu";
@@ -16,21 +16,14 @@ interface UserMenuButtonsProps {
 
 const UserMenuButtons = ({ userId, userRole }: UserMenuButtonsProps) => {
     const isDesktop = useMediaQuery("(min-width: 768px)");
-    const pathname = usePathname();
     const router = useRouter();
     const { setIsLoading } = useLoading();
 
     const isAdmin = userRole === Roles.Admin;
     const isLeader = userRole === Roles.Admin || userRole === Roles.Leader;
-    const isEditPage = pathname.includes("edit");
 
     const handleMenuButtons = (userId: string, functionType: FunctionType) => {
         const buttonsFunctions = {
-            editProfile: (userId: string) => {
-                setIsLoading(true);
-                router.push(`/pages/user/edit/${userId}`);
-                setIsLoading(false);
-            },
             profile: (userId: string) => {
                 setIsLoading(true);
                 router.push(`/pages/user/${userId}`);
@@ -64,7 +57,6 @@ const UserMenuButtons = ({ userId, userRole }: UserMenuButtonsProps) => {
             userId={userId}
             isAdmin={isAdmin}
             isLeader={isLeader}
-            isEditPage={isEditPage}
             buttonFuctions={handleMenuButtons}
         />
     ) : (
@@ -72,7 +64,6 @@ const UserMenuButtons = ({ userId, userRole }: UserMenuButtonsProps) => {
             userId={userId}
             isAdmin={isAdmin}
             isLeader={isLeader}
-            isEditPage={isEditPage}
             buttonFuctions={handleMenuButtons}
         />
     );

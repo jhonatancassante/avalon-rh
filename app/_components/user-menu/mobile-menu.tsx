@@ -22,7 +22,6 @@ interface MobileMenuProps {
     userId: string;
     isAdmin: boolean;
     isLeader: boolean;
-    isEditPage: boolean;
     buttonFuctions: (userId: string, functionType: FunctionType) => void;
 }
 
@@ -30,15 +29,14 @@ const MobileMenu = ({
     userId,
     isAdmin,
     isLeader,
-    isEditPage,
     buttonFuctions,
 }: MobileMenuProps) => {
     return (
-        <div className="absolute right-10 top-10">
+        <div>
             <Sheet>
                 <SheetTrigger asChild>
                     <Button size="icon" className="p-0">
-                        <MenuIcon size="sm" />
+                        <MenuIcon size={18} />
                     </Button>
                 </SheetTrigger>
                 <SheetContent className="w-[200px]">
@@ -50,16 +48,9 @@ const MobileMenu = ({
                         <SheetClose asChild>
                             <MenuButton
                                 icon={<EditIcon size={18} />}
-                                label={isEditPage ? "Perfil" : "Editar Perfil"}
-                                onClick={
-                                    isEditPage
-                                        ? () =>
-                                              buttonFuctions(userId, "profile")
-                                        : () =>
-                                              buttonFuctions(
-                                                  userId,
-                                                  "editProfile",
-                                              )
+                                label={"Perfil"}
+                                onClick={() =>
+                                    buttonFuctions(userId, "profile")
                                 }
                             />
                         </SheetClose>

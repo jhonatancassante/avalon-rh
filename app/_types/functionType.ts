@@ -1,6 +1,1 @@
-export type FunctionType =
-    | "editProfile"
-    | "profile"
-    | "leaderPage"
-    | "adminPage"
-    | "signOut";
+export type FunctionType = "profile" | "leaderPage" | "adminPage" | "signOut";

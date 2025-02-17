@@ -12,7 +12,7 @@ const MenuButton = ({ icon, label, onClick }: MenuButtonProps) => {
         <Button
             variant="ghost"
             onClick={onClick}
-            className="justify-start gap-2"
+            className="items-center justify-start gap-2"
         >
             {icon}
             {label}

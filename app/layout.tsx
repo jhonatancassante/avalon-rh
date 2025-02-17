@@ -9,6 +9,7 @@ import { Toaster } from "sonner";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { LoadingProvider } from "./_contexts/LoadingContext";
 import LoadingIndicator from "./_components/loading-indicator";
+import Header from "./_components/header";
 
 config.autoAddCss = false;
 
@@ -47,6 +48,7 @@ export default function RootLayout({
                 <NextThemesProvider attribute="class" defaultTheme="system">
                     <AuthProvider>
                         <LoadingProvider>
+                            <Header />
                             {children}
                             <LoadingIndicator />
                         </LoadingProvider>

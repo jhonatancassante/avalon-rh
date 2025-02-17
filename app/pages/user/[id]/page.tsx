@@ -23,7 +23,7 @@ import {
     TabsList,
     TabsTrigger,
 } from "@/app/_components/ui/tabs";
-import UserMenuButtons from "@/app/_components/user-menu/user-menu-buttons";
+import EditButton from "@/app/_components/user-menu/edit-button";
 import { getUser } from "@/app/_data/getUser";
 import formatCPF from "@/app/_utils/formatCPF";
 import { format } from "date-fns";
@@ -129,14 +129,17 @@ const UserPage = async ({ params }: UserPageProps) => {
                         {user.profile?.completeName}
                     </CardTitle>
                     <div className="flex h-10 w-full items-center justify-between gap-1 px-2 py-1">
+                        <div className="hidden w-[130px] lg:block"></div>
                         <div className="flex h-full items-center justify-center gap-1 p-2">
-                            <StarIcon size="icon" />
-                            <StarIcon size="icon" />
-                            <StarIcon size="icon" />
-                            <StarIcon size="icon" />
-                            <StarIcon size="icon" />
+                            <StarIcon size={18} />
+                            <StarIcon size={18} />
+                            <StarIcon size={18} />
+                            <StarIcon size={18} />
+                            <StarIcon size={18} />
                         </div>
-                        <UserMenuButtons userId={id} userRole={user.role} />
+                        <div className="w-[130px]">
+                            <EditButton userId={id} />
+                        </div>
                     </div>
                 </CardHeader>
                 <div className="flex w-full items-center justify-center">
