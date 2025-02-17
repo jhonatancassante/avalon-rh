@@ -10,6 +10,7 @@ import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { LoadingProvider } from "./_contexts/LoadingContext";
 import LoadingIndicator from "./_components/loading-indicator";
 import Header from "./_components/header";
+import Footer from "./_components/footer";
 
 config.autoAddCss = false;
 
@@ -50,6 +51,7 @@ export default function RootLayout({
                         <LoadingProvider>
                             <Header />
                             {children}
+                            <Footer />
                             <LoadingIndicator />
                         </LoadingProvider>
                     </AuthProvider>
