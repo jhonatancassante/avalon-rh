@@ -1,7 +1,7 @@
 import PageLayout from "@/app/_components/page-layout";
 import { CardContent, CardHeader, CardTitle } from "@/app/_components/ui/card";
 import UserFormEdit from "@/app/_components/user-form/user-form-edit";
-import UserMenuButtons from "@/app/_components/user-menu-buttons";
+import UserMenuButtons from "@/app/_components/user-menu/user-menu-buttons";
 import { getUser } from "@/app/_data/getUser";
 import formatCPF from "@/app/_utils/formatCPF";
 import { redirect } from "next/navigation";

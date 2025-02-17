@@ -23,7 +23,7 @@ import {
     TabsList,
     TabsTrigger,
 } from "@/app/_components/ui/tabs";
-import UserMenuButtons from "@/app/_components/user-menu-buttons";
+import UserMenuButtons from "@/app/_components/user-menu/user-menu-buttons";
 import { getUser } from "@/app/_data/getUser";
 import formatCPF from "@/app/_utils/formatCPF";
 import { format } from "date-fns";
