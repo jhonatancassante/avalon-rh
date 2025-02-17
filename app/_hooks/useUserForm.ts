@@ -15,6 +15,8 @@ export const useUserForm = ({ user }: UserComplete) => {
             completeName: user.profile?.completeName ?? user.name ?? "",
             socialName: user.profile?.socialName ?? user.name ?? "",
             nickname: user.profile?.nickname ?? "",
+            pronoun: user.profile?.pronoun ?? "",
+            pixKey: user.profile?.pixKey ?? "",
             contactEmail: user.profile?.contactEmail ?? user.email ?? "",
             phone: user.profile?.phone ?? "",
             birthdate: format(
@@ -22,6 +24,11 @@ export const useUserForm = ({ user }: UserComplete) => {
                 "yyyy-MM-dd",
                 { locale: ptBR },
             ),
+            isPcd: user.profile?.isPcd ?? false,
+            deficiency: user.profile?.deficiency ?? "",
+            extraSupport: user.profile?.extraSupport ?? "",
+            city: user.profile?.city ?? "",
+            state: user.profile?.state ?? "",
             photo: undefined,
         },
     });

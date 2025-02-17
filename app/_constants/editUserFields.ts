@@ -26,6 +26,15 @@ export const editUserFields = [
         disabled: false,
     },
     {
+        name: "pixKey",
+        label: "Chave Pix",
+        tooltip:
+            "Digite sua chave pix, ela é necessária, preencha corretamente. Utilize os formatos com pontos e traços.",
+        placeholder: "Digite a chave pix",
+        type: "text",
+        disabled: false,
+    },
+    {
         name: "birthdate",
         label: "Data de Nascimento",
         tooltip:

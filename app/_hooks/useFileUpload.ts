@@ -24,8 +24,6 @@ export const useFileUpload = () => {
 
             const { result } = await response.json();
 
-            console.log(result);
-
             const photoInfos: UpdatePhoto = {
                 asset_id: result.asset_id,
                 display_name: result.display_name,
@@ -36,6 +34,7 @@ export const useFileUpload = () => {
             };
 
             setPhotoData(photoInfos);
+
             toast.success("Sucesso!", {
                 description: "Upload de foto feito com sucesso!",
             });

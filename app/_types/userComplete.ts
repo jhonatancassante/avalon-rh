@@ -16,9 +16,16 @@ export interface UserComplete {
             completeName: string;
             socialName: string;
             nickname: string;
+            pronoun: string;
+            pixKey: string;
             contactEmail: string;
             phone: string;
             birthdate: Date;
+            isPcd: boolean;
+            deficiency?: string | null;
+            extraSupport?: string | null;
+            city: string;
+            state: string;
         } | null;
         photo?: {
             id: string;

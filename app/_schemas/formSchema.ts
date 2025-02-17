@@ -6,6 +6,7 @@ import {
     ACCEPTED_IMAGE_TYPES,
     MAX_FILE_SIZE,
 } from "../_constants/photoValidations";
+import isValidPix from "../_utils/isValidPix";
 
 const lettersAndNumbersRegex = /^[A-Za-z0-9\s]+$/;
 
@@ -38,6 +39,14 @@ export const formSchema = z.object({
             lettersAndNumbersRegex,
             "Apenas letras e números são permitidos!",
         ),
+    pronoun: z.string().min(1),
+    pixKey: z
+        .string()
+        .trim()
+        .refine((value) => isValidPix(value), {
+            message:
+                "Chave Pix inválida! Deve ser digitado com pontuação no formatos: CPF: 000.000.000-00, CNPJ: 00.000.000/0000-00, Telefones: (00) 00000-0000 ou (00) 0000-0000 ou Chaves aleatórias.",
+        }),
     contactEmail: z.string().email("Email inválido!"),
     phone: z
         .string()
@@ -49,6 +58,11 @@ export const formSchema = z.object({
             (value) => isDateValidAndOver18(value),
             "Você deve ter pelo menos 18 anos!",
         ),
+    isPcd: z.boolean().optional(),
+    deficiency: z.string().optional(),
+    extraSupport: z.string().optional(),
+    city: z.string().min(1, "O campo cidade não pode ser vazio!"),
+    state: z.string().min(1, "O campo estado não pode ser vazio!"),
     photo: z
         .instanceof(File)
         .refine(

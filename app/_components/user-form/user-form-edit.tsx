@@ -1,13 +1,6 @@
 "use client";
 
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/app/_components/ui/form";
+import { Form } from "@/app/_components/ui/form";
 import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { toast } from "sonner";
@@ -20,8 +13,6 @@ import { useFileUpload } from "@/app/_hooks/useFileUpload";
 import { formSchema } from "@/app/_schemas/formSchema";
 import { z } from "zod";
 import { UserFormFields } from "./user-form-fields";
-import FormTooltip from "./user-form-tooltip";
-import { Input } from "../ui/input";
 import { UserFormActions } from "./user-form-actions";
 import { useEffect, useState } from "react";
 
@@ -40,6 +31,8 @@ const UserEditForm = ({ user }: UserComplete) => {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         setLoadingPage(true);
+        console.log(values);
+        console.log(photoData);
         try {
             const [year, month, day] = values.birthdate.split("-");
             const birthdateIso = new Date(
@@ -54,6 +47,7 @@ const UserEditForm = ({ user }: UserComplete) => {
                     ...values,
                     cpf: values.cpf.replace(/\D/g, ""),
                     birthdate: birthdateIso,
+                    isPcd: values.isPcd ?? false,
                 },
                 photo: photoData || undefined,
             };
@@ -87,34 +81,11 @@ const UserEditForm = ({ user }: UserComplete) => {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="space-y-4"
                 >
-                    <UserFormFields control={form.control} />
-                    <FormField
+                    <UserFormFields
+                        form={form}
                         control={form.control}
-                        name="photo"
-                        render={() => (
-                            <FormItem>
-                                <FormLabel className="flex gap-2">
-                                    Foto de Perfil
-                                    <FormTooltip msg="Selecione uma foto de perfil. O arquivo deve ter no máximo 1MB e as dimensões devem ser entre 500x500 e 3036x3036." />
-                                </FormLabel>
-                                <FormControl>
-                                    <Input
-                                        id="photo-field"
-                                        type="file"
-                                        accept="image/jpeg, image/jpg"
-                                        onChange={(e) => {
-                                            const file = e.target.files?.[0];
-                                            if (file) {
-                                                handleFileUpload(file);
-                                                form.setValue("photo", file);
-                                            }
-                                        }}
-                                        required={!user.isComplete}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
+                        handleFileUpload={handleFileUpload}
+                        photoData={photoData}
                     />
                     <UserFormActions
                         loading={loadingPage}

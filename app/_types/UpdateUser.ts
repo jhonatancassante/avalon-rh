@@ -5,9 +5,16 @@ export interface UpdateUser {
         completeName: string;
         socialName: string;
         nickname: string;
+        pronoun: string;
+        pixKey: string;
         contactEmail: string;
         phone: string;
         birthdate: Date;
+        isPcd: boolean;
+        deficiency?: string;
+        extraSupport?: string;
+        city: string;
+        state: string;
     };
     photo?: {
         asset_id?: string;
