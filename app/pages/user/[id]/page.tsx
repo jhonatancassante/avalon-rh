@@ -1,4 +1,3 @@
-import LeaderAdminMenuButtons from "@/app/_components/leader-admin-menu-buttons";
 import PageLayout from "@/app/_components/page-layout";
 import {
     Card,
@@ -137,8 +136,7 @@ const UserPage = async ({ params }: UserPageProps) => {
                             <StarIcon size="icon" />
                             <StarIcon size="icon" />
                         </div>
-                        <LeaderAdminMenuButtons userRole={user.role} />
-                        <UserMenuButtons userId={id} />
+                        <UserMenuButtons userId={id} userRole={user.role} />
                     </div>
                 </CardHeader>
                 <div className="flex w-full items-center justify-center">

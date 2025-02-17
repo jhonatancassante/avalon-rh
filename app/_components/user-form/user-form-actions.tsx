@@ -32,7 +32,7 @@ export const UserFormActions = ({
             <Button
                 type="button"
                 onClick={onExit}
-                className="fixed left-2 top-2 inline-flex rounded-full p-0 md:hidden"
+                className="fixed left-10 top-10 inline-flex rounded-full p-0 md:hidden"
                 disabled={isLoading}
                 size="icon"
             >
