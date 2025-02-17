@@ -57,7 +57,7 @@ const Header = () => {
                     </div>
                 )}
                 <div className="flex h-[50px] w-[225px]">
-                    <Link href={`/pages/user/${session?.user.id}`}>
+                    <Link href={`/`}>
                         <Image
                             src={`/logos/logo-circuito-anime-fest-02-${logoTheme}.png`}
                             sizes="(max-height: 50px)"
