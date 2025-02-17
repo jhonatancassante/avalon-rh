@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { UpdatePhoto } from "../_types/updatePhoto";
+import { useLoading } from "../_contexts/LoadingContext";
 
 export const useFileUpload = () => {
     const [photoData, setPhotoData] = useState<UpdatePhoto | null>(null);
-    const [loading, setLoading] = useState(false);
+    const { setIsLoading } = useLoading();
 
     const handleFileUpload = async (file: File) => {
-        setLoading(true);
+        setIsLoading(true);
         const formData = new FormData();
         formData.append("file", file);
 
@@ -45,9 +46,9 @@ export const useFileUpload = () => {
             });
             throw error;
         } finally {
-            setLoading(false);
+            setIsLoading(false);
         }
     };
 
-    return { photoData, loading, handleFileUpload };
+    return { photoData, handleFileUpload };
 };

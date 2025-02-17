@@ -16,12 +16,14 @@ interface UserFormFieldsProps {
     control: Control<z.infer<typeof formSchema>>;
     handleFileUpload: (file: File) => void;
     photoData: UpdatePhoto | null;
+    isComplete: boolean;
 }
 
 const PhotoField = ({
     control,
     handleFileUpload,
     photoData,
+    isComplete,
 }: UserFormFieldsProps) => {
     return (
         <FormField
@@ -45,7 +47,7 @@ const PhotoField = ({
                                     field.onChange(file);
                                 }
                             }}
-                            required={!photoData}
+                            required={!photoData && !isComplete}
                         />
                     </FormControl>
                     <FormMessage />

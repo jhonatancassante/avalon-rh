@@ -7,36 +7,31 @@ import { toast } from "sonner";
 import { UserComplete } from "../../_types/userComplete";
 import { UpdateUser } from "../../_types/updateUser";
 import { updateUser } from "../../_actions/updateUser";
-import LoadingIndicator from "../loading-indicator";
 import { useUserForm } from "@/app/_hooks/useUserForm";
 import { useFileUpload } from "@/app/_hooks/useFileUpload";
 import { formSchema } from "@/app/_schemas/formSchema";
 import { z } from "zod";
 import { UserFormFields } from "./user-form-fields";
 import { UserFormActions } from "./user-form-actions";
-import { useEffect, useState } from "react";
 import CpfField from "./form-fields/cpf-field";
 import PronounField from "./form-fields/pronoun-field";
 import PhoneField from "./form-fields/phone-field";
 import LocationsFields from "./form-fields/locations-fields";
 import PcdFields from "./form-fields/pcd-fields";
 import PhotoField from "./form-fields/photo-field";
+import { useLoading } from "@/app/_contexts/LoadingContext";
 
 const UserEditForm = ({ user }: UserComplete) => {
     const { update } = useSession();
     const router = useRouter();
-    const { photoData, loading, handleFileUpload } = useFileUpload();
-    const [loadingPage, setLoadingPage] = useState(false);
+    const { photoData, handleFileUpload } = useFileUpload();
+    const { isLoading, setIsLoading } = useLoading();
     const form = useUserForm({ user });
     const isAtctiveSaveButton =
         form.formState.isValid && (photoData !== null || user.isComplete);
 
-    useEffect(() => {
-        setLoadingPage(loading);
-    }, [loading]);
-
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        setLoadingPage(true);
+        setIsLoading(true);
         console.log(values);
         console.log(photoData);
         try {
@@ -69,46 +64,49 @@ const UserEditForm = ({ user }: UserComplete) => {
         } catch (error) {
             console.error("Erro ao atualizar usuário:", error);
             toast.error("Erro!", {
-                description: `Erro ao atualizar o usuário. Tente novamente mais tarde!\nMensagem de erro: ${error}`,
+                description: `Erro ao atualizar o usuário. Tente novamente mais tarde!`,
             });
+        } finally {
+            setIsLoading(false);
         }
     };
 
-    const handleExit = () => {
-        setLoadingPage(true);
-        if (!user.isComplete) return signOut();
-        router.replace(`/pages/user/${user.id}`);
+    const handleExit = async () => {
+        try {
+            setIsLoading(true);
+            if (!user.isComplete) return await signOut();
+            router.replace(`/pages/user/${user.id}`);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
-        <>
-            <Form {...form}>
-                <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-4"
-                >
-                    <CpfField control={form.control} />
-                    <PronounField control={form.control} />
-                    <UserFormFields control={form.control} />
-                    <PhoneField control={form.control} />
-                    <LocationsFields form={form} />
-                    <PcdFields control={form.control} />
-                    <PhotoField
-                        control={form.control}
-                        handleFileUpload={handleFileUpload}
-                        photoData={photoData}
-                    />
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <CpfField control={form.control} />
+                <PronounField control={form.control} />
+                <UserFormFields control={form.control} />
+                <PhoneField control={form.control} />
+                <LocationsFields form={form} />
+                <PcdFields control={form.control} />
+                <PhotoField
+                    control={form.control}
+                    handleFileUpload={handleFileUpload}
+                    photoData={photoData}
+                    isComplete={user.isComplete}
+                />
 
-                    <UserFormActions
-                        loading={loadingPage}
-                        isActive={isAtctiveSaveButton}
-                        isComplete={user.isComplete}
-                        onExit={handleExit}
-                    />
-                </form>
-            </Form>
-            {loadingPage && <LoadingIndicator />}
-        </>
+                <UserFormActions
+                    loading={isLoading}
+                    isActive={isAtctiveSaveButton}
+                    isComplete={user.isComplete}
+                    onExit={handleExit}
+                />
+            </form>
+        </Form>
     );
 };
 

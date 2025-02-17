@@ -7,6 +7,8 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { Toaster } from "sonner";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { LoadingProvider } from "./_contexts/LoadingContext";
+import LoadingIndicator from "./_components/loading-indicator";
 
 config.autoAddCss = false;
 
@@ -43,7 +45,12 @@ export default function RootLayout({
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
                 <NextThemesProvider attribute="class" defaultTheme="system">
-                    <AuthProvider>{children}</AuthProvider>
+                    <AuthProvider>
+                        <LoadingProvider>
+                            {children}
+                            <LoadingIndicator />
+                        </LoadingProvider>
+                    </AuthProvider>
                     <Toaster />
                 </NextThemesProvider>
             </body>
