@@ -6,16 +6,18 @@ import { faFacebook, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { Separator } from "./ui/separator";
 import Image from "next/image";
 import { useMediaQuery } from "@react-hook/media-query";
+import { useSession } from "next-auth/react";
 
 const Footer = () => {
     const isDesktop = useMediaQuery("(min-width: 768px)");
+    const { data: session } = useSession();
 
     return (
         <footer className="bg-primary py-8 text-primary-foreground">
             <div className="container mx-auto px-4">
                 <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-3">
                     <div className="flex flex-col items-center justify-center text-center text-2xl font-bold md:text-left">
-                        <Link href="/">
+                        <Link href={`/pages/user/${session?.user.id}`}>
                             <Image
                                 src={"/logos/logo-avalon-eventos-dark.png"}
                                 alt="Logo Avalon Eventos"

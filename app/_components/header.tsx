@@ -9,6 +9,7 @@ import { useLoading } from "../_contexts/LoadingContext";
 import { ArrowLeftIcon, LogOutIcon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useMediaQuery } from "@react-hook/media-query";
+import Link from "next/link";
 
 const Header = () => {
     const { data: session } = useSession();
@@ -35,7 +36,9 @@ const Header = () => {
 
     return (
         <header className="flex w-full items-center justify-center bg-secondary p-5 text-secondary-foreground">
-            <div className="flex w-full items-center justify-between lg:w-[900px]">
+            <div
+                className={`flex w-full items-center lg:w-[900px] ${session ? "justify-between" : "justify-center"}`}
+            >
                 {!isDesktop && (
                     <div className="h-[36px] w-[36px]">
                         <Button
@@ -54,18 +57,22 @@ const Header = () => {
                     </div>
                 )}
                 <div className="flex h-[50px] w-[225px]">
-                    <Image
-                        src={`/logos/logo-circuito-anime-fest-02-${logoTheme}.png`}
-                        sizes="(max-height: 50px)"
-                        width={225}
-                        height={50}
-                        alt="Logo do Circuito Anime Fest"
-                    />
+                    <Link href={`/pages/user/${session?.user.id}`}>
+                        <Image
+                            src={`/logos/logo-circuito-anime-fest-02-${logoTheme}.png`}
+                            sizes="(max-height: 50px)"
+                            width={225}
+                            height={50}
+                            alt="Logo do Circuito Anime Fest"
+                        />
+                    </Link>
                 </div>
-                <UserMenuButtons
-                    userId={session?.user.id ?? ""}
-                    userRole={session?.user.role ?? ""}
-                />
+                {session && (
+                    <UserMenuButtons
+                        userId={session?.user.id ?? ""}
+                        userRole={session?.user.role ?? ""}
+                    />
+                )}
             </div>
         </header>
     );

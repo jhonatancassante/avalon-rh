@@ -29,7 +29,9 @@ const EditUserPage = async ({ params }: EditUserPageProps) => {
                 <div className="grid w-full lg:max-w-xl">
                     <CardHeader>
                         <CardTitle className="flex w-full justify-center text-2xl font-bold">
-                            Editar Perfil
+                            {user.isComplete
+                                ? "Editar Perfil"
+                                : "Complete Seu Perfil"}
                         </CardTitle>
                         <div className="flex h-10 w-full items-center justify-center gap-1 px-2 py-1"></div>
                     </CardHeader>

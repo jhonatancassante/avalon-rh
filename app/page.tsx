@@ -22,7 +22,7 @@ export default function Home() {
     }, [router, session.data, session.status, setIsLoading]);
 
     return (
-        <div className="flex min-h-screen items-center justify-center bg-primary-foreground">
+        <div className="flex min-h-[85vh] items-center justify-center bg-primary-foreground">
             <LoginCard />
         </div>
     );
