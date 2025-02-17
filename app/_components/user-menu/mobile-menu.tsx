@@ -89,7 +89,16 @@ const MobileMenu = ({
                         )}
 
                         <SheetClose asChild>
-                            <ThemeToggleButton />
+                            <ThemeToggleButton
+                                onClick={() => {
+                                    // Fecha o Sheet ao alternar o tema
+                                    document.dispatchEvent(
+                                        new KeyboardEvent("keydown", {
+                                            key: "Escape", // Simula o pressionamento da tecla "Escape" para fechar o Sheet
+                                        }),
+                                    );
+                                }}
+                            />
                         </SheetClose>
 
                         <SheetClose asChild>
