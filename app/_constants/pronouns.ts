@@ -1,1 +1,1 @@
-export const Pronouns = ["Ele / dele", "Ela / Dela", "Elu / Delu"];
+export const Pronouns = ["Ele / Dele", "Ela / Dela", "Elu / Delu"];

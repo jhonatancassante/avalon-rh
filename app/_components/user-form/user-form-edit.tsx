@@ -15,6 +15,12 @@ import { z } from "zod";
 import { UserFormFields } from "./user-form-fields";
 import { UserFormActions } from "./user-form-actions";
 import { useEffect, useState } from "react";
+import CpfField from "./form-fields/cpf-field";
+import PronounField from "./form-fields/pronoun-field";
+import PhoneField from "./form-fields/phone-field";
+import LocationsFields from "./form-fields/locations-fields";
+import PcdFields from "./form-fields/pcd-fields";
+import PhotoField from "./form-fields/photo-field";
 
 const UserEditForm = ({ user }: UserComplete) => {
     const { update } = useSession();
@@ -81,12 +87,18 @@ const UserEditForm = ({ user }: UserComplete) => {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="space-y-4"
                 >
-                    <UserFormFields
-                        form={form}
+                    <CpfField control={form.control} />
+                    <PronounField control={form.control} />
+                    <UserFormFields control={form.control} />
+                    <PhoneField control={form.control} />
+                    <LocationsFields form={form} />
+                    <PcdFields control={form.control} />
+                    <PhotoField
                         control={form.control}
                         handleFileUpload={handleFileUpload}
                         photoData={photoData}
                     />
+
                     <UserFormActions
                         loading={loadingPage}
                         isActive={isAtctiveSaveButton}
