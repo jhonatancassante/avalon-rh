@@ -40,7 +40,7 @@ const ThemeToggleButton = ({ onClick }: ThemeToggleButtonProps) => {
                 </TooltipTrigger>
                 <TooltipContent>
                     <p>
-                        Altere o teme para{" "}
+                        Altere o tema para{" "}
                         <strong className="capitalize">{nextTheme}</strong>
                     </p>
                 </TooltipContent>
