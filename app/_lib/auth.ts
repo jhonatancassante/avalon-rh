@@ -3,7 +3,6 @@ import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "./prisma";
 import { Adapter, AdapterUser } from "next-auth/adapters";
-import { getUserUpdate } from "../_data/getUserUpdate";
 
 declare module "next-auth" {
     interface Session {
@@ -32,34 +31,23 @@ export const authOptions: AuthOptions = {
         strategy: "jwt",
     },
     callbacks: {
-        async jwt({ token, trigger, user }) {
+        async jwt({ token, user }) {
             if (user) {
                 token.userId = user.id;
                 token.role = (user as CustomAdapterUser).role;
                 token.isComplete = (user as CustomAdapterUser).isComplete;
             }
-            if (trigger === "update") {
-                const userUpdate = await getUserUpdate(token.userId as string);
-                token.role = userUpdate.role;
-                token.isComplete = userUpdate.isComplete;
-            }
+
             return token;
         },
-        async session({ session, trigger, token }) {
+        async session({ session, token }) {
             session.user = {
                 ...session.user,
                 id: token.userId as string,
                 role: token.role as string,
                 isComplete: token.isComplete as boolean,
             };
-            if (trigger === "update") {
-                session.user = {
-                    ...session.user,
-                    id: token.userId as string,
-                    role: token.role as string,
-                    isComplete: token.isComplete as boolean,
-                };
-            }
+
             return session;
         },
     },
