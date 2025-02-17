@@ -34,7 +34,7 @@ const Header = () => {
     };
 
     return (
-        <header className="flex w-full items-center justify-center bg-secondary p-3 text-secondary-foreground">
+        <header className="flex w-full items-center justify-center bg-secondary p-5 text-secondary-foreground">
             <div className="flex w-full items-center justify-between lg:w-[900px]">
                 {!isDesktop && (
                     <div className="h-[36px] w-[36px]">
@@ -53,12 +53,12 @@ const Header = () => {
                         </Button>
                     </div>
                 )}
-                <div className="flex h-[36px] w-[162px]">
+                <div className="flex h-[50px] w-[225px]">
                     <Image
                         src={`/logos/logo-circuito-anime-fest-02-${logoTheme}.png`}
-                        sizes="(max-height: 36px)"
-                        width={162}
-                        height={36}
+                        sizes="(max-height: 50px)"
+                        width={225}
+                        height={50}
                         alt="Logo do Circuito Anime Fest"
                     />
                 </div>
