@@ -4,22 +4,26 @@ import { useSession } from "next-auth/react";
 import LoginCard from "./_components/login-card";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import LoadingIndicator from "./_components/loading-indicator";
+import { useLoading } from "./_contexts/LoadingContext";
 
 export default function Home() {
     const session = useSession();
     const router = useRouter();
-    const isLoading = session.status === "loading" || session.data?.user;
+    const { setIsLoading } = useLoading();
 
     useEffect(() => {
         if (session.data?.user) {
             router.push(`/pages/user/${session.data.user.id}`);
         }
-    }, [router, session.data]);
+        if (session.status === "loading") {
+            setIsLoading(true);
+        }
+        setIsLoading(false);
+    }, [router, session.data, session.status, setIsLoading]);
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-primary-foreground">
-            {isLoading ? <LoadingIndicator /> : <LoginCard />}
+            <LoginCard />
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
     FormControl,
     FormField,
@@ -20,9 +20,9 @@ import {
     CommandItem,
     CommandList,
 } from "../../ui/command";
-import LoadingIndicator from "../../loading-indicator";
 import { useMediaQuery } from "@react-hook/media-query";
 import { Drawer, DrawerContent, DrawerTrigger } from "../../ui/drawer";
+import { useLoading } from "@/app/_contexts/LoadingContext";
 
 interface LocationsFieldsProps {
     form: UseFormReturn<z.infer<typeof formSchema>>;
@@ -42,12 +42,35 @@ const LocationsFields = ({ form }: LocationsFieldsProps) => {
     const [isCityOpen, setIsCityOpen] = useState(false);
     const [states, setStates] = useState<State[]>([]);
     const [citys, setCitys] = useState<City[]>([]);
-    const [loadingPage, setLoadingPage] = useState(false);
+    const { setIsLoading } = useLoading();
     const isDesktop = useMediaQuery("(min-width: 768px)");
 
-    const fetchStates = async () => {
+    const fetchCitys = useCallback(
+        async (stateId: number) => {
+            try {
+                setIsLoading(true);
+                const response = await fetch(
+                    `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateId}/municipios`,
+                );
+                const data = await response.json();
+
+                const sortedCitys = data.sort((a: City, b: City) =>
+                    a.nome.localeCompare(b.nome),
+                );
+
+                setCitys(sortedCitys);
+            } catch (error) {
+                console.error("Erro ao buscar cidades:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        },
+        [setIsLoading],
+    );
+
+    const fetchStates = useCallback(async () => {
         try {
-            setLoadingPage(true);
+            setIsLoading(true);
             const response = await fetch(
                 "https://servicodados.ibge.gov.br/api/v1/localidades/estados",
             );
@@ -65,44 +88,26 @@ const LocationsFields = ({ form }: LocationsFieldsProps) => {
                         sortedState.nome === form.getValues("state"),
                 );
 
-                fetchCitys(selectedState.id);
+                if (selectedState) {
+                    fetchCitys(selectedState.id);
+                }
             }
         } catch (error) {
             console.error("Erro ao buscar estados:", error);
         } finally {
-            setLoadingPage(false);
+            setIsLoading(false);
         }
-    };
-
-    const fetchCitys = async (stateId: number) => {
-        try {
-            setLoadingPage(true);
-            const response = await fetch(
-                `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateId}/municipios`,
-            );
-            const data = await response.json();
-
-            const sortedCitys = data.sort((a: State, b: State) =>
-                a.nome.localeCompare(b.nome),
-            );
-
-            setCitys(sortedCitys);
-        } catch (error) {
-            console.error("Erro ao buscar estados:", error);
-        } finally {
-            setLoadingPage(false);
-        }
-    };
+    }, [form, fetchCitys, setIsLoading]);
 
     useEffect(() => {
         fetchStates();
-    }, []);
+    }, [fetchStates]);
 
     return (
         <>
             {isDesktop ? (
                 <div className="flex w-full flex-col items-center justify-between gap-4 lg:flex-row">
-                    {/* States Field */}
+                    {/* States Field Desktop */}
                     <FormField
                         control={form.control}
                         name="state"
@@ -182,7 +187,7 @@ const LocationsFields = ({ form }: LocationsFieldsProps) => {
                         )}
                     />
 
-                    {/* Citys Field */}
+                    {/* Citys Field Desktop */}
                     <FormField
                         control={form.control}
                         name="city"
@@ -258,11 +263,10 @@ const LocationsFields = ({ form }: LocationsFieldsProps) => {
                             </FormItem>
                         )}
                     />
-                    {loadingPage && <LoadingIndicator />}
                 </div>
             ) : (
                 <div className="flex w-full flex-col items-center justify-between gap-4 lg:flex-row">
-                    {/* States Field */}
+                    {/* States Field Mobile */}
                     <FormField
                         control={form.control}
                         name="state"
@@ -342,18 +346,18 @@ const LocationsFields = ({ form }: LocationsFieldsProps) => {
                         )}
                     />
 
-                    {/* Citys Field */}
+                    {/* Citys Field Mobile */}
                     <FormField
                         control={form.control}
                         name="city"
                         render={({ field }) => (
                             <FormItem className="flex w-full flex-col">
                                 <FormLabel>Cidade</FormLabel>
-                                <Popover
+                                <Drawer
                                     open={isCityOpen}
                                     onOpenChange={setIsCityOpen}
                                 >
-                                    <PopoverTrigger asChild>
+                                    <DrawerTrigger asChild>
                                         <FormControl>
                                             <Button
                                                 variant="outline"
@@ -372,8 +376,8 @@ const LocationsFields = ({ form }: LocationsFieldsProps) => {
                                                 <ChevronsUpDown className="opacity-50" />
                                             </Button>
                                         </FormControl>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-[200px] p-0">
+                                    </DrawerTrigger>
+                                    <DrawerContent>
                                         <Command>
                                             <CommandInput
                                                 placeholder="Procure a cidade..."
@@ -412,13 +416,12 @@ const LocationsFields = ({ form }: LocationsFieldsProps) => {
                                                 </CommandGroup>
                                             </CommandList>
                                         </Command>
-                                    </PopoverContent>
-                                </Popover>
+                                    </DrawerContent>
+                                </Drawer>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
-                    {loadingPage && <LoadingIndicator />}
                 </div>
             )}
         </>

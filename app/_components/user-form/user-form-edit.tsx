@@ -25,7 +25,7 @@ const UserEditForm = ({ user }: UserComplete) => {
     const { update } = useSession();
     const router = useRouter();
     const { photoData, handleFileUpload } = useFileUpload();
-    const { isLoading, setIsLoading } = useLoading();
+    const { setIsLoading } = useLoading();
     const form = useUserForm({ user });
     const isAtctiveSaveButton =
         form.formState.isValid && (photoData !== null || user.isComplete);
@@ -100,7 +100,6 @@ const UserEditForm = ({ user }: UserComplete) => {
                 />
 
                 <UserFormActions
-                    loading={isLoading}
                     isActive={isAtctiveSaveButton}
                     isComplete={user.isComplete}
                     onExit={handleExit}

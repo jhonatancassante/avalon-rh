@@ -2,30 +2,31 @@
 
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import LoadingIndicator from "./loading-indicator";
 import { FileSlidersIcon, NotebookPenIcon } from "lucide-react";
 import { Roles } from "../_constants/roles";
+import { useLoading } from "../_contexts/LoadingContext";
 
 interface LeaderAdminMenuButtonsProps {
     userRole: string;
 }
 
 const LeaderAdminMenuButtons = ({ userRole }: LeaderAdminMenuButtonsProps) => {
-    const [loading, setLoading] = useState(false);
+    const { setIsLoading } = useLoading();
     const router = useRouter();
 
     const adminButton = userRole === Roles.Admin;
     const leaderButton = userRole === Roles.Admin || userRole === Roles.Leader;
 
-    const handlerLeaderPage = () => {
-        setLoading(true);
+    const handlerLeaderPage = async () => {
+        setIsLoading(true);
         router.push(`/pages/leader`);
+        setIsLoading(false);
     };
 
-    const handlerAdminPage = () => {
-        setLoading(true);
+    const handlerAdminPage = async () => {
+        setIsLoading(true);
         router.push(`/pages/admin`);
+        setIsLoading(false);
     };
 
     return (
@@ -51,7 +52,6 @@ const LeaderAdminMenuButtons = ({ userRole }: LeaderAdminMenuButtonsProps) => {
                     Administração
                 </Button>
             )}
-            {loading && <LoadingIndicator />}
         </div>
     );
 };
