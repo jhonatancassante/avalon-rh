@@ -1,4 +1,4 @@
-export interface UpdateUser {
+export default interface UpdateUser {
     isComplete?: boolean;
     profile?: {
         cpf: string;

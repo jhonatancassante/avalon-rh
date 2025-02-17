@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import cloudinary from "@/app/_lib/cloudinary";
+import { authOptions } from "@/app/_lib/auth";
 
 interface CloudinaryUploadResult {
     width: number;

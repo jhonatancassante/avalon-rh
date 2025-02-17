@@ -5,9 +5,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../_lib/auth";
 import { authorizedRoles } from "../_constants/roles";
 import { revalidatePath } from "next/cache";
-import { UpdateUser } from "../_types/updateUser";
 import { validateUserData } from "../_utils/validateUserData";
 import { encrypt } from "../_utils/crypto";
+import UpdateUser from "../_types/UpdateUser";
 
 export const updateUser = async (id: string, data: UpdateUser) => {
     const session = await getServerSession(authOptions);
