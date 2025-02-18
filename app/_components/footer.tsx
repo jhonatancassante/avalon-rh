@@ -33,7 +33,7 @@ const Footer = () => {
 
     return (
         <footer className="bg-primary py-8 text-primary-foreground">
-            <div className="container mx-auto px-4">
+            <div className="container mx-auto px-4 lg:max-w-[900px]">
                 <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-3">
                     <div className="flex flex-col items-center justify-center text-center text-2xl font-bold md:text-left">
                         <Link

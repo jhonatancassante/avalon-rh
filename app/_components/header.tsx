@@ -53,7 +53,7 @@ const Header = () => {
     return (
         <header className="flex w-full items-center justify-center bg-secondary p-5 text-secondary-foreground">
             <div
-                className={`flex w-full items-center lg:w-[900px] ${session ? "justify-between" : "justify-center"}`}
+                className={`flex w-full items-center lg:max-w-[900px] ${session ? "justify-between" : "justify-center"}`}
             >
                 {!isDesktop && (
                     <div className="h-[36px] w-[36px]">
