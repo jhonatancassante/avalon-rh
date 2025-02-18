@@ -215,7 +215,7 @@ const UserPage = async ({ params }: UserPageProps) => {
                                                                             key={
                                                                                 item
                                                                             }
-                                                                            className={`before:mr-2 before:content-["🌟"]`}
+                                                                            className="list-inside list-disc px-4"
                                                                         >
                                                                             {
                                                                                 item
