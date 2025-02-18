@@ -14,8 +14,10 @@ const UserProfileCard = ({ user }: UserProfileCardProps) => {
     return (
         <CardHeader className="flex w-full items-center justify-center pb-2">
             <UserAvatarDialog user={user} />
-            <CardTitle className="line-clamp-3 flex items-center justify-center text-ellipsis pb-2 text-center text-2xl font-bold">
-                {user.profile?.completeName}
+            <CardTitle className="flex items-center justify-center pb-2">
+                <p className="line-clamp-3 text-ellipsis text-wrap text-center text-2xl font-bold">
+                    {user.profile?.completeName}
+                </p>
             </CardTitle>
             <div className="flex h-10 w-full items-center justify-between gap-1 px-2 py-1">
                 <div className="hidden w-[130px] lg:block"></div>
