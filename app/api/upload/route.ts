@@ -81,13 +81,14 @@ export async function POST(request: Request) {
             result.width < 500 ||
             result.height < 500 ||
             result.width > 3036 ||
-            result.height > 3036
+            result.height > 3036 ||
+            result.width > result.height
         ) {
             await cloudinary.uploader.destroy(result.public_id);
             return NextResponse.json(
                 {
                     message:
-                        "A imagem deve ter dimensões entre 500x500 e 3036x3036.",
+                        "A imagem deve ter dimensões mínimas de 500px, máximas de 3036 e deve estar na vertical.",
                 },
                 { status: 400 },
             );

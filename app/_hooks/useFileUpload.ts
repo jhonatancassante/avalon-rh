@@ -42,7 +42,7 @@ export const useFileUpload = () => {
         } catch (error) {
             console.error(error);
             toast.error("Erro!", {
-                description: `Erro ao tentar fazer upload da imagem. Tente novamente mais tarde!\nMensagem de erro: ${error}`,
+                description: `Erro ao tentar fazer upload da imagem. ${error}`,
             });
             throw error;
         } finally {
