@@ -10,17 +10,35 @@ import { ArrowLeftIcon, LogOutIcon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useMediaQuery } from "@react-hook/media-query";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const Header = () => {
     const { data: session } = useSession();
     const { theme } = useTheme();
-    const logoTheme = theme === "system" ? "light" : theme;
     const { isLoading, setIsLoading } = useLoading();
     const router = useRouter();
     const pathname = usePathname();
     const isDesktop = useMediaQuery("(min-width: 768px)");
+    const [systemTheme, setSystemTheme] = useState<string>("");
 
     const isEditPage = pathname.includes("edit");
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+        setSystemTheme(mediaQuery.matches ? "dark" : "light");
+
+        const handleChange = (e: MediaQueryListEvent) => {
+            setSystemTheme(e.matches ? "dark" : "light");
+        };
+
+        mediaQuery.addEventListener("change", handleChange);
+
+        return () => {
+            mediaQuery.removeEventListener("change", handleChange);
+        };
+    }, []);
+
+    const logoTheme = theme === "system" ? systemTheme : theme;
 
     const handleExit = async () => {
         try {
@@ -29,8 +47,6 @@ const Header = () => {
             router.replace(`/pages/user/${session?.user.id}`);
         } catch (error) {
             console.error(error);
-        } finally {
-            setIsLoading(false);
         }
     };
 

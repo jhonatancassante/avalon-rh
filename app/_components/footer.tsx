@@ -6,9 +6,30 @@ import { faFacebook, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { Separator } from "./ui/separator";
 import Image from "next/image";
 import { useMediaQuery } from "@react-hook/media-query";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 const Footer = () => {
     const isDesktop = useMediaQuery("(min-width: 768px)");
+    const { theme } = useTheme();
+    const [systemTheme, setSystemTheme] = useState<string>("");
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+        setSystemTheme(mediaQuery.matches ? "dark" : "light");
+
+        const handleChange = (e: MediaQueryListEvent) => {
+            setSystemTheme(e.matches ? "dark" : "light");
+        };
+
+        mediaQuery.addEventListener("change", handleChange);
+
+        return () => {
+            mediaQuery.removeEventListener("change", handleChange);
+        };
+    }, []);
+
+    const logoTheme = theme === "system" ? systemTheme : theme;
 
     return (
         <footer className="bg-primary py-8 text-primary-foreground">
@@ -17,7 +38,7 @@ const Footer = () => {
                     <div className="flex flex-col items-center justify-center text-center text-2xl font-bold md:text-left">
                         <Link href={`/`}>
                             <Image
-                                src={"/logos/logo-avalon-eventos-dark.png"}
+                                src={`/logos/logo-avalon-eventos-${logoTheme}.png`}
                                 alt="Logo Avalon Eventos"
                                 width={200}
                                 height={100}
@@ -45,7 +66,7 @@ const Footer = () => {
                                 href="https://www.facebook.com/CircuitoAnimeFest/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-gray-400 transition-colors hover:text-white"
+                                className="text-secondary transition-colors hover:text-background hover:drop-shadow-lg"
                             >
                                 <FontAwesomeIcon icon={faFacebook} size="lg" />
                             </Link>
@@ -53,7 +74,7 @@ const Footer = () => {
                                 href="https://www.instagram.com/animefest/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-gray-400 transition-colors hover:text-white"
+                                className="text-secondary transition-colors hover:text-background hover:drop-shadow-lg"
                             >
                                 <FontAwesomeIcon icon={faInstagram} size="lg" />
                             </Link>

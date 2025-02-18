@@ -13,17 +13,20 @@ export default function Home() {
 
     useEffect(() => {
         if (session.data?.user) {
+            setIsLoading(true);
             router.push(`/pages/user/${session.data.user.id}`);
         }
-        if (session.status === "loading") {
-            setIsLoading(true);
-        }
-        setIsLoading(false);
     }, [router, session.data, session.status, setIsLoading]);
 
     return (
-        <div className="flex min-h-[85vh] items-center justify-center bg-primary-foreground">
-            <LoginCard />
-        </div>
+        <>
+            {!session.data ? (
+                <div className="flex min-h-[85vh] items-center justify-center bg-primary-foreground">
+                    <LoginCard />
+                </div>
+            ) : (
+                <div className="flex min-h-[85vh] items-center justify-center bg-primary-foreground"></div>
+            )}
+        </>
     );
 }
