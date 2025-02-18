@@ -6,30 +6,11 @@ import { faFacebook, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { Separator } from "./ui/separator";
 import Image from "next/image";
 import { useMediaQuery } from "@react-hook/media-query";
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import useThemeDetector from "../_hooks/useThemeDetector";
 
 const Footer = () => {
     const isDesktop = useMediaQuery("(min-width: 768px)");
-    const { theme } = useTheme();
-    const [systemTheme, setSystemTheme] = useState<string>("");
-    const [logoTheme, setLogoTheme] = useState<string>("");
-
-    useEffect(() => {
-        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-        setSystemTheme(mediaQuery.matches ? "dark" : "light");
-
-        const handleChange = (e: MediaQueryListEvent) => {
-            setSystemTheme(e.matches ? "dark" : "light");
-        };
-
-        mediaQuery.addEventListener("change", handleChange);
-
-        setLogoTheme(theme === "system" ? systemTheme : (theme ?? "light"));
-        return () => {
-            mediaQuery.removeEventListener("change", handleChange);
-        };
-    }, [systemTheme, theme]);
+    const { logoTheme } = useThemeDetector(); // Usando o hook customizado
 
     return (
         <footer className="bg-primary py-8 text-primary-foreground">

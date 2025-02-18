@@ -3,42 +3,23 @@
 import { signOut, useSession } from "next-auth/react";
 import UserMenuButtons from "./user-menu/user-menu-buttons";
 import Image from "next/image";
-import { useTheme } from "next-themes";
 import { Button } from "./ui/button";
 import { useLoading } from "../_contexts/LoadingContext";
 import { ArrowLeftIcon, LogOutIcon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useMediaQuery } from "@react-hook/media-query";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import useThemeDetector from "../_hooks/useThemeDetector";
 
 const Header = () => {
     const { data: session } = useSession();
-    const { theme } = useTheme();
     const { isLoading, setIsLoading } = useLoading();
     const router = useRouter();
     const pathname = usePathname();
     const isDesktop = useMediaQuery("(min-width: 768px)");
-    const [systemTheme, setSystemTheme] = useState<string>("");
-    const [logoTheme, setLogoTheme] = useState<string>("");
+    const { logoTheme } = useThemeDetector(); // Usando o hook customizado
 
     const isEditPage = pathname.includes("edit");
-
-    useEffect(() => {
-        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-        setSystemTheme(mediaQuery.matches ? "dark" : "light");
-
-        const handleChange = (e: MediaQueryListEvent) => {
-            setSystemTheme(e.matches ? "dark" : "light");
-        };
-
-        mediaQuery.addEventListener("change", handleChange);
-
-        setLogoTheme(theme === "system" ? systemTheme : (theme ?? "light"));
-        return () => {
-            mediaQuery.removeEventListener("change", handleChange);
-        };
-    }, [systemTheme, theme]);
 
     const handleExit = async () => {
         try {
