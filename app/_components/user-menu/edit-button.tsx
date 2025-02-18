@@ -1,9 +1,9 @@
 "use client";
 
 import { EditIcon } from "lucide-react";
-import MenuButton from "./menu-button";
 import { useLoading } from "@/app/_contexts/LoadingContext";
 import { useRouter } from "next/navigation";
+import MenuButton from "../ui/menu-button";
 
 interface EditButtonProps {
     userId: string;

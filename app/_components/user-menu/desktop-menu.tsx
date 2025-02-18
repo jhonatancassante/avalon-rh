@@ -4,9 +4,9 @@ import {
     FileSlidersIcon,
     LogOutIcon,
 } from "lucide-react";
-import MenuButton from "./menu-button";
 import ThemeToggleButton from "./theme-toggle-button";
 import { FunctionType } from "@/app/_types/functionType";
+import MenuButton from "../ui/menu-button";
 
 interface DesktopMenuProps {
     userId: string;
