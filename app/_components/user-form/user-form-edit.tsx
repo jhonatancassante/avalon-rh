@@ -32,8 +32,6 @@ const UserEditForm = ({ user }: UserComplete) => {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         setIsLoading(true);
-        console.log(values);
-        console.log(photoData);
         try {
             const [year, month, day] = values.birthdate.split("-");
             const birthdateIso = new Date(

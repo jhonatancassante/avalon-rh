@@ -16,7 +16,7 @@ const LoginCard = () => {
             setIsLoading(true);
             return await signIn("google");
         } catch (error) {
-            console.log(error);
+            console.error(error);
             toast.error("Erro", {
                 description:
                     "Ocorreu algum erro ao fazer login, tente novamente mais tarde.",
