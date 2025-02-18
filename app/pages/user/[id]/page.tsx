@@ -131,7 +131,7 @@ const UserPage = async ({ params }: UserPageProps) => {
                             </div>
                         </DialogContent>
                     </Dialog>
-                    <CardTitle className="flex justify-center pb-2 text-2xl font-bold">
+                    <CardTitle className="flex items-center justify-center pb-2 text-center text-2xl font-bold">
                         {user.profile?.completeName}
                     </CardTitle>
                     <div className="flex h-10 w-full items-center justify-between gap-1 px-2 py-1">
