@@ -175,8 +175,62 @@ const UserPage = async ({ params }: UserPageProps) => {
                                                 userFields["isPcd"] === "Não" &&
                                                 (field === "deficiency" ||
                                                     field === "extraSupport")
-                                            )
+                                            ) {
                                                 return null;
+                                            }
+
+                                            if (
+                                                userFields["isPcd"] === "Sim" &&
+                                                (field === "deficiency" ||
+                                                    field === "extraSupport")
+                                            ) {
+                                                const fieldValue =
+                                                    userFields[field];
+
+                                                if (Array.isArray(fieldValue)) {
+                                                    return (
+                                                        <div
+                                                            className="space-y-1"
+                                                            key={`${index} - ${fieldValue}`}
+                                                        >
+                                                            <Label
+                                                                htmlFor={
+                                                                    fields[
+                                                                        index
+                                                                    ]
+                                                                }
+                                                            >
+                                                                {fields[index]}
+                                                            </Label>
+                                                            <ul
+                                                                className={
+                                                                    "px-4"
+                                                                }
+                                                            >
+                                                                {fieldValue.map(
+                                                                    (
+                                                                        item: string,
+                                                                    ) => (
+                                                                        <li
+                                                                            key={
+                                                                                item
+                                                                            }
+                                                                            className={`before:mr-2 before:content-["🌟"]`}
+                                                                        >
+                                                                            {
+                                                                                item
+                                                                            }
+                                                                        </li>
+                                                                    ),
+                                                                )}
+                                                            </ul>
+                                                        </div>
+                                                    );
+                                                }
+
+                                                return null;
+                                            }
+
                                             return (
                                                 <div
                                                     className="space-y-1"
