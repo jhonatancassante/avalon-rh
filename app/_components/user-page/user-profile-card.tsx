@@ -1,16 +1,10 @@
-import { Prisma } from "@prisma/client";
 import EditButton from "@/app/_components/user-menu/edit-button";
 import { StarIcon } from "lucide-react";
 import { CardHeader, CardTitle } from "@/app/_components/ui/card";
 import UserAvatarDialog from "./user-avatar-dialog";
+import UserPrismaComplete from "@/app/_types/userPrismaComplete";
 
-interface UserProfileCardProps {
-    user: Prisma.UserGetPayload<{
-        include: { photo: true; profile: true };
-    }>;
-}
-
-const UserProfileCard = ({ user }: UserProfileCardProps) => {
+const UserProfileCard = ({ user }: UserPrismaComplete) => {
     return (
         <CardHeader className="flex w-full items-center justify-center pb-2">
             <UserAvatarDialog user={user} />

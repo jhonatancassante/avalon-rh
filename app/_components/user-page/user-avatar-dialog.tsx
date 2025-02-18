@@ -1,4 +1,3 @@
-import { Prisma } from "@prisma/client";
 import Image from "next/image";
 import {
     Dialog,
@@ -7,14 +6,9 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/app/_components/ui/dialog";
+import UserPrismaComplete from "@/app/_types/userPrismaComplete";
 
-interface UserAvatarDialogProps {
-    user: Prisma.UserGetPayload<{
-        include: { photo: true; profile: true };
-    }>;
-}
-
-const UserAvatarDialog = ({ user }: UserAvatarDialogProps) => {
+const UserAvatarDialog = ({ user }: UserPrismaComplete) => {
     return (
         <Dialog>
             <DialogTrigger asChild>
