@@ -36,7 +36,10 @@ const Footer = () => {
             <div className="container mx-auto px-4">
                 <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-3">
                     <div className="flex flex-col items-center justify-center text-center text-2xl font-bold md:text-left">
-                        <Link href={`/`}>
+                        <Link
+                            href={`https://animefest.com.br/`}
+                            target="_blank"
+                        >
                             <Image
                                 src={`/logos/logo-avalon-eventos-${logoTheme ?? "light"}.png`}
                                 sizes="(max-height: 100px)"
@@ -68,7 +71,7 @@ const Footer = () => {
                                 href="https://www.facebook.com/CircuitoAnimeFest/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-secondary transition-colors hover:text-background hover:drop-shadow-lg"
+                                className="text-secondary opacity-80 transition-colors hover:text-background hover:opacity-100 hover:drop-shadow-lg"
                             >
                                 <FontAwesomeIcon icon={faFacebook} size="lg" />
                             </Link>
@@ -76,7 +79,7 @@ const Footer = () => {
                                 href="https://www.instagram.com/animefest/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-secondary transition-colors hover:text-background hover:drop-shadow-lg"
+                                className="text-secondary opacity-80 transition-colors hover:text-background hover:opacity-100 hover:drop-shadow-lg"
                             >
                                 <FontAwesomeIcon icon={faInstagram} size="lg" />
                             </Link>
