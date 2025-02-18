@@ -8,8 +8,8 @@ const UserProfileCard = ({ user }: UserPrismaComplete) => {
     return (
         <CardHeader className="flex w-full items-center justify-center pb-2">
             <UserAvatarDialog user={user} />
-            <CardTitle className="flex items-center justify-center pb-2">
-                <p className="line-clamp-3 text-ellipsis text-wrap text-center text-2xl font-bold">
+            <CardTitle className="flex max-w-96 items-center justify-center pb-2">
+                <p className="line-clamp-2 text-ellipsis text-wrap text-center text-2xl font-bold">
                     {user.profile?.completeName}
                 </p>
             </CardTitle>
