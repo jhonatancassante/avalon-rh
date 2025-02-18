@@ -40,8 +40,8 @@ model Profile {
   phone        String
   birthdate    DateTime
   isPcd        Boolean  @default(false)
-  deficiency   String?
-  extraSupport String?
+  deficiency   String[]
+  extraSupport String[]
   city         String
   state        String
   createdAt    DateTime @default(now())

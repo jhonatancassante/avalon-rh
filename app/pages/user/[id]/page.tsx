@@ -64,7 +64,7 @@ const UserPage = async ({ params }: UserPageProps) => {
             throw new Error("User not found!");
         }
 
-        const userFields: { [key: string]: string } = {
+        const userFields: { [key: string]: string | string[] } = {
             cpf: user.profile?.cpf ? formatCPF(user.profile?.cpf) : "",
             pronoun: user.profile?.pronoun ?? "",
             completeName: user.profile?.completeName ?? "",
@@ -84,8 +84,8 @@ const UserPage = async ({ params }: UserPageProps) => {
             state: user.profile?.state ?? "",
             city: user.profile?.city ?? "",
             isPcd: user.profile?.isPcd ? "Sim" : "Não",
-            deficiency: user.profile?.deficiency ?? "",
-            extraSupport: user.profile?.extraSupport ?? "",
+            deficiency: user.profile?.deficiency ?? [],
+            extraSupport: user.profile?.extraSupport ?? [],
         };
 
         return (

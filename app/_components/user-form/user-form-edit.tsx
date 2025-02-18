@@ -47,6 +47,14 @@ const UserEditForm = ({ user }: UserComplete) => {
                     cpf: values.cpf.replace(/\D/g, ""),
                     birthdate: birthdateIso,
                     isPcd: values.isPcd ?? false,
+                    deficiency:
+                        values?.deficiency && values.isPcd
+                            ? values.deficiency
+                            : [],
+                    extraSupport:
+                        values.extraSupport && values.isPcd
+                            ? values.extraSupport
+                            : [],
                 },
                 photo: photoData || undefined,
             };

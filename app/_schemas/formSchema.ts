@@ -59,8 +59,8 @@ export const formSchema = z.object({
             "Você deve ter pelo menos 18 anos!",
         ),
     isPcd: z.boolean().optional(),
-    deficiency: z.string().optional(),
-    extraSupport: z.string().optional(),
+    deficiency: z.array(z.string()).optional(),
+    extraSupport: z.array(z.string()).optional(),
     city: z.string().min(1, "O campo cidade não pode ser vazio!"),
     state: z.string().min(1, "O campo estado não pode ser vazio!"),
     photo: z

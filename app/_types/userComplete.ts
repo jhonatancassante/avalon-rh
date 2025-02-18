@@ -22,8 +22,8 @@ export interface UserComplete {
             phone: string;
             birthdate: Date;
             isPcd: boolean;
-            deficiency?: string | null;
-            extraSupport?: string | null;
+            deficiency: string[];
+            extraSupport: string[];
             city: string;
             state: string;
         } | null;

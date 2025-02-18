@@ -11,8 +11,8 @@ export default interface UpdateUser {
         phone: string;
         birthdate: Date;
         isPcd: boolean;
-        deficiency?: string;
-        extraSupport?: string;
+        deficiency: string[];
+        extraSupport: string[];
         city: string;
         state: string;
     };

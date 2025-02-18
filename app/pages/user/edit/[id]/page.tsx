@@ -26,7 +26,7 @@ const EditUserPage = async ({ params }: EditUserPageProps) => {
 
         return (
             <PageLayout>
-                <div className="grid w-full lg:max-w-xl">
+                <div className="grid w-full lg:max-w-2xl">
                     <CardHeader>
                         <CardTitle className="flex w-full justify-center text-2xl font-bold">
                             {user.isComplete
