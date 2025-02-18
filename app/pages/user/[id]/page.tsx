@@ -101,20 +101,21 @@ const UserPage = async ({ params }: UserPageProps) => {
                                     }
                                     alt={user.profile?.completeName ?? ""}
                                     fill
-                                    objectFit="cover"
-                                    className="rounded-full"
+                                    sizes="max-h-28 max-w-28"
+                                    className="rounded-full object-cover"
+                                    priority
                                 />
                             </div>
                         </DialogTrigger>
-                        <DialogContent className="p-4 sm:max-w-[90%] lg:max-h-[95%] lg:max-w-[70%]">
+                        <DialogContent className="p-4 lg:max-h-[95%]">
                             <DialogHeader>
                                 <DialogTitle>Foto de Perfil</DialogTitle>
                                 <DialogDescription className="hidden">
                                     Foto de Perfil Ampliada
                                 </DialogDescription>
                             </DialogHeader>
-                            <div className="flex h-[90vh] items-end justify-center p-5">
-                                <div className="flex items-center justify-center p-5">
+                            <div className="flex h-[90vh] items-end justify-center">
+                                <div className="relative flex h-full w-full items-center justify-center">
                                     <Image
                                         src={
                                             user.photo?.url ??
@@ -122,8 +123,9 @@ const UserPage = async ({ params }: UserPageProps) => {
                                         }
                                         alt={user.profile?.completeName ?? ""}
                                         fill
-                                        objectFit="contain"
-                                        className="p-5 pt-12"
+                                        sizes="max-h-[80vh]"
+                                        className="object-contain"
+                                        priority
                                     />
                                 </div>
                             </div>
