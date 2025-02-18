@@ -17,9 +17,9 @@ import CpfField from "./form-fields/cpf-field";
 import PronounField from "./form-fields/pronoun-field";
 import PhoneField from "./form-fields/phone-field";
 import LocationsFields from "./form-fields/locations-fields";
-import PcdFields from "./form-fields/pcd-fields";
 import PhotoField from "./form-fields/photo-field";
 import { useLoading } from "@/app/_contexts/LoadingContext";
+import { PcdFields } from "./form-fields/pcd-fields";
 
 const UserEditForm = ({ user }: UserComplete) => {
     const { update } = useSession();
