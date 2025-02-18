@@ -6,13 +6,19 @@ import isValidPhone from "./isValidPhone";
 import isDateValidAndOver18 from "./isDateValidAndOver18";
 import UpdateUser from "../_types/UpdateUser";
 
+const lettersAndNumbersRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9'\-\s]+$/;
+
 export const formSchema = z.object({
     cpf: z.string().refine((value) => isValidCPF(value), "CPF inválido!"),
     completeName: z
         .string()
         .trim()
         .min(5, "Nome muito curto! Mínimo 5 caracteres!")
-        .max(100, "Nome muito longo! Máximo 100 caracteres."),
+        .max(150, "Nome muito longo! Máximo 150 caracteres.")
+        .regex(
+            lettersAndNumbersRegex,
+            "Apenas letras e números são permitidos!",
+        ),
     socialName: z
         .string()
         .trim()
