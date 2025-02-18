@@ -10,6 +10,7 @@ import {
 import {
     Dialog,
     DialogContent,
+    DialogDescription,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
@@ -108,6 +109,9 @@ const UserPage = async ({ params }: UserPageProps) => {
                         <DialogContent className="p-4 sm:max-w-[90%] lg:max-h-[95%] lg:max-w-[70%]">
                             <DialogHeader>
                                 <DialogTitle>Foto de Perfil</DialogTitle>
+                                <DialogDescription className="hidden">
+                                    Foto de Perfil Ampliada
+                                </DialogDescription>
                             </DialogHeader>
                             <div className="flex h-[90vh] items-end justify-center p-5">
                                 <div className="flex items-center justify-center p-5">
