@@ -13,6 +13,7 @@ const Footer = () => {
     const isDesktop = useMediaQuery("(min-width: 768px)");
     const { theme } = useTheme();
     const [systemTheme, setSystemTheme] = useState<string>("");
+    const [logoTheme, setLogoTheme] = useState<string>("");
 
     useEffect(() => {
         const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
@@ -24,12 +25,11 @@ const Footer = () => {
 
         mediaQuery.addEventListener("change", handleChange);
 
+        setLogoTheme(theme === "system" ? systemTheme : (theme ?? "light"));
         return () => {
             mediaQuery.removeEventListener("change", handleChange);
         };
-    }, []);
-
-    const logoTheme = theme === "system" ? systemTheme : theme;
+    }, [systemTheme, theme]);
 
     return (
         <footer className="bg-primary py-8 text-primary-foreground">
@@ -38,10 +38,12 @@ const Footer = () => {
                     <div className="flex flex-col items-center justify-center text-center text-2xl font-bold md:text-left">
                         <Link href={`/`}>
                             <Image
-                                src={`/logos/logo-avalon-eventos-${logoTheme}.png`}
+                                src={`/logos/logo-avalon-eventos-${logoTheme ?? "light"}.png`}
+                                sizes="(max-height: 100px)"
                                 alt="Logo Avalon Eventos"
                                 width={200}
                                 height={100}
+                                loading="lazy"
                             />
                         </Link>
 

@@ -20,6 +20,7 @@ const Header = () => {
     const pathname = usePathname();
     const isDesktop = useMediaQuery("(min-width: 768px)");
     const [systemTheme, setSystemTheme] = useState<string>("");
+    const [logoTheme, setLogoTheme] = useState<string>("");
 
     const isEditPage = pathname.includes("edit");
 
@@ -33,12 +34,11 @@ const Header = () => {
 
         mediaQuery.addEventListener("change", handleChange);
 
+        setLogoTheme(theme === "system" ? systemTheme : (theme ?? "light"));
         return () => {
             mediaQuery.removeEventListener("change", handleChange);
         };
-    }, []);
-
-    const logoTheme = theme === "system" ? systemTheme : theme;
+    }, [systemTheme, theme]);
 
     const handleExit = async () => {
         try {
@@ -75,11 +75,12 @@ const Header = () => {
                 <div className="flex h-[50px] w-[225px]">
                     <Link href={`/`}>
                         <Image
-                            src={`/logos/logo-circuito-anime-fest-02-${logoTheme}.png`}
+                            src={`/logos/logo-circuito-anime-fest-02-${logoTheme ?? "light"}.png`}
                             sizes="(max-height: 50px)"
+                            alt="Logo do Circuito Anime Fest"
                             width={225}
                             height={50}
-                            alt="Logo do Circuito Anime Fest"
+                            loading="lazy"
                         />
                     </Link>
                 </div>

@@ -29,13 +29,14 @@ const ThemeToggleButton = ({ onClick }: ThemeToggleButtonProps) => {
                     <Button
                         variant="ghost"
                         onClick={handleClick}
-                        className="items-center justify-start gap-2"
+                        className="w-full items-center justify-start gap-2"
                     >
                         {theme === "light" ? (
                             <SunIcon size={18} />
                         ) : (
                             <MoonIcon size={18} />
-                        )}
+                        )}{" "}
+                        Tema
                     </Button>
                 </TooltipTrigger>
                 <TooltipContent>

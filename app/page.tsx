@@ -14,18 +14,36 @@ export default function Home() {
     useEffect(() => {
         if (session.data?.user) {
             setIsLoading(true);
-            router.push(`/pages/user/${session.data.user.id}`);
+            router.prefetch(`/pages/user/${session.data.user.id}`);
+
+            const timer = setTimeout(() => {
+                router.push(`/pages/user/${session.data.user.id}`);
+                setIsLoading(false);
+            }, 2000);
+
+            return () => clearTimeout(timer);
+        }
+        if (!session.data?.user.isComplete) {
+            setIsLoading(true);
+            router.prefetch(`/pages/user/edit/${session?.data?.user.id}`);
+
+            const timer = setTimeout(() => {
+                router.push(`/pages/user/edit/${session?.data?.user.id}`);
+                setIsLoading(false);
+            }, 2000);
+
+            return () => clearTimeout(timer);
         }
     }, [router, session.data, session.status, setIsLoading]);
 
     return (
         <>
             {!session.data ? (
-                <div className="flex min-h-[85vh] items-center justify-center bg-primary-foreground">
+                <div className="flex min-h-[88vh] items-center justify-center bg-primary-foreground">
                     <LoginCard />
                 </div>
             ) : (
-                <div className="flex min-h-[85vh] items-center justify-center bg-primary-foreground"></div>
+                <div className="flex min-h-[88vh] items-center justify-center bg-primary-foreground"></div>
             )}
         </>
     );
