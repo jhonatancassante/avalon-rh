@@ -1,71 +1,68 @@
 "use client";
 
-import { ChevronRight, type LucideIcon } from "lucide-react";
+import { Plus, type LucideIcon } from "lucide-react";
 
-import {
-    Collapsible,
-    CollapsibleContent,
-    CollapsibleTrigger,
-} from "@/app/_components/ui/collapsible";
 import {
     SidebarGroup,
     SidebarGroupLabel,
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-    SidebarMenuSub,
-    SidebarMenuSubButton,
-    SidebarMenuSubItem,
 } from "@/app/_components/ui/sidebar";
+import { Button } from "./ui/button";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "./ui/tooltip";
+import Link from "next/link";
 
 export function NavMain({
     items,
 }: {
-    items: {
+    readonly items: {
         title: string;
         url: string;
-        icon?: LucideIcon;
-        isActive?: boolean;
-        items?: {
-            title: string;
-            url: string;
-        }[];
+        icon: LucideIcon;
     }[];
 }) {
     return (
-        <SidebarGroup>
-            <SidebarGroupLabel>Platform</SidebarGroupLabel>
+        <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+            <SidebarGroupLabel>Eventos</SidebarGroupLabel>
             <SidebarMenu>
                 {items.map((item) => (
-                    <Collapsible
+                    <SidebarMenuItem
                         key={item.title}
-                        asChild
-                        defaultOpen={item.isActive}
-                        className="group/collapsible"
+                        className="flex items-center"
                     >
-                        <SidebarMenuItem>
-                            <CollapsibleTrigger asChild>
-                                <SidebarMenuButton tooltip={item.title}>
-                                    {item.icon && <item.icon />}
-                                    <span>{item.title}</span>
-                                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                                </SidebarMenuButton>
-                            </CollapsibleTrigger>
-                            <CollapsibleContent>
-                                <SidebarMenuSub>
-                                    {item.items?.map((subItem) => (
-                                        <SidebarMenuSubItem key={subItem.title}>
-                                            <SidebarMenuSubButton asChild>
-                                                <a href={subItem.url}>
-                                                    <span>{subItem.title}</span>
-                                                </a>
-                                            </SidebarMenuSubButton>
-                                        </SidebarMenuSubItem>
-                                    ))}
-                                </SidebarMenuSub>
-                            </CollapsibleContent>
-                        </SidebarMenuItem>
-                    </Collapsible>
+                        <SidebarMenuButton asChild>
+                            <Link href={item.url}>
+                                <item.icon />
+                                <span>{item.title}</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        {item.title !== "Configurações" && (
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button
+                                            variant={"ghost"}
+                                            className="flex h-4 w-4 items-center justify-center rounded-full"
+                                            asChild
+                                        >
+                                            <Link href={`${item.url}/add`}>
+                                                <Plus className="text-muted-foreground" />
+                                            </Link>
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Criar Novo</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                        )}
+                    </SidebarMenuItem>
                 ))}
             </SidebarMenu>
         </SidebarGroup>

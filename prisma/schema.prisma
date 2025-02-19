@@ -119,8 +119,9 @@ model Event {
   name                String
   edition             Int
   date                DateTime
+  state               String
   city                String
-  areInscriptionsOpen Boolean     @default(true)
+  areInscriptionsOpen Boolean     @default(false)
   dateToClose         DateTime
   isFinished          Boolean     @default(false)
   isDeleted           Boolean     @default(false)

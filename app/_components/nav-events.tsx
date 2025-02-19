@@ -1,9 +1,10 @@
 "use client";
 
 import {
-    Folder,
-    Forward,
+    Edit,
     MoreHorizontal,
+    Pencil,
+    Search,
     Trash2,
     type LucideIcon,
 } from "lucide-react";
@@ -25,10 +26,10 @@ import {
     useSidebar,
 } from "@/app/_components/ui/sidebar";
 
-export function NavProjects({
+export function NavEvents({
     projects,
 }: {
-    projects: {
+    readonly projects: {
         name: string;
         url: string;
         icon: LucideIcon;
@@ -38,7 +39,7 @@ export function NavProjects({
 
     return (
         <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-            <SidebarGroupLabel>Projects</SidebarGroupLabel>
+            <SidebarGroupLabel>Eventos</SidebarGroupLabel>
             <SidebarMenu>
                 {projects.map((item) => (
                     <SidebarMenuItem key={item.name}>
@@ -52,7 +53,7 @@ export function NavProjects({
                             <DropdownMenuTrigger asChild>
                                 <SidebarMenuAction showOnHover>
                                     <MoreHorizontal />
-                                    <span className="sr-only">More</span>
+                                    <span className="sr-only">Mais</span>
                                 </SidebarMenuAction>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent
@@ -61,28 +62,26 @@ export function NavProjects({
                                 align={isMobile ? "end" : "start"}
                             >
                                 <DropdownMenuItem>
-                                    <Folder className="text-muted-foreground" />
-                                    <span>View Project</span>
+                                    <Search className="text-muted-foreground" />
+                                    <span>Visualizar</span>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem>
-                                    <Forward className="text-muted-foreground" />
-                                    <span>Share Project</span>
+                                    <Edit className="text-muted-foreground" />
+                                    <span>Editar</span>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <Pencil className="text-muted-foreground" />
+                                    <span>Abrir Inscrições</span>
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem>
                                     <Trash2 className="text-muted-foreground" />
-                                    <span>Delete Project</span>
+                                    <span>Deletar Evento</span>
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </SidebarMenuItem>
                 ))}
-                <SidebarMenuItem>
-                    <SidebarMenuButton className="text-sidebar-foreground/70">
-                        <MoreHorizontal className="text-sidebar-foreground/70" />
-                        <span>More</span>
-                    </SidebarMenuButton>
-                </SidebarMenuItem>
             </SidebarMenu>
         </SidebarGroup>
     );

@@ -3,19 +3,17 @@
 import * as React from "react";
 import {
     AudioWaveform,
-    BookOpen,
-    Bot,
+    Calendar,
+    CalendarCog,
     Command,
-    Frame,
+    FolderCog,
     GalleryVerticalEnd,
-    Map,
-    PieChart,
     Settings2,
-    SquareTerminal,
+    UserCog,
 } from "lucide-react";
 
 import { NavMain } from "@/app/_components/nav-main";
-import { NavProjects } from "@/app/_components/nav-projects";
+import { NavEvents } from "@/app/_components/nav-events";
 import { NavUser } from "@/app/_components/nav-user";
 import { TeamSwitcher } from "@/app/_components/team-switcher";
 import {
@@ -26,7 +24,6 @@ import {
     SidebarRail,
 } from "@/app/_components/ui/sidebar";
 
-// This is sample data.
 const data = {
     user: {
         name: "shadcn",
@@ -52,106 +49,41 @@ const data = {
     ],
     navMain: [
         {
-            title: "Playground",
-            url: "#",
-            icon: SquareTerminal,
-            isActive: true,
-            items: [
-                {
-                    title: "History",
-                    url: "#",
-                },
-                {
-                    title: "Starred",
-                    url: "#",
-                },
-                {
-                    title: "Settings",
-                    url: "#",
-                },
-            ],
+            title: "Eventos",
+            url: "/pages/admin/event",
+            icon: CalendarCog,
         },
         {
-            title: "Models",
+            title: "Usuários",
             url: "#",
-            icon: Bot,
-            items: [
-                {
-                    title: "Genesis",
-                    url: "#",
-                },
-                {
-                    title: "Explorer",
-                    url: "#",
-                },
-                {
-                    title: "Quantum",
-                    url: "#",
-                },
-            ],
+            icon: UserCog,
         },
         {
-            title: "Documentation",
+            title: "Setores",
             url: "#",
-            icon: BookOpen,
-            items: [
-                {
-                    title: "Introduction",
-                    url: "#",
-                },
-                {
-                    title: "Get Started",
-                    url: "#",
-                },
-                {
-                    title: "Tutorials",
-                    url: "#",
-                },
-                {
-                    title: "Changelog",
-                    url: "#",
-                },
-            ],
+            icon: FolderCog,
         },
         {
-            title: "Settings",
+            title: "Configurações",
             url: "#",
             icon: Settings2,
-            items: [
-                {
-                    title: "General",
-                    url: "#",
-                },
-                {
-                    title: "Team",
-                    url: "#",
-                },
-                {
-                    title: "Billing",
-                    url: "#",
-                },
-                {
-                    title: "Limits",
-                    url: "#",
-                },
-            ],
         },
     ],
-    projects: [
+    events: [
         {
             name: "Design Engineering",
             url: "#",
-            icon: Frame,
+            icon: Calendar,
         },
         {
             name: "Sales & Marketing",
             url: "#",
-            icon: PieChart,
+            icon: Calendar,
         },
         {
             name: "Travel",
             url: "#",
-            icon: Map,
+            icon: Calendar,
         },
     ],
 };
@@ -164,7 +96,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarHeader>
             <SidebarContent>
                 <NavMain items={data.navMain} />
-                <NavProjects projects={data.projects} />
+                <NavEvents projects={data.events} />
             </SidebarContent>
             <SidebarFooter>
                 <NavUser user={data.user} />

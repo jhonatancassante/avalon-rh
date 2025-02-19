@@ -1,8 +1,8 @@
 import {
-    EditIcon,
     NotebookPenIcon,
     FileSlidersIcon,
     LogOutIcon,
+    User,
 } from "lucide-react";
 import ThemeToggleButton from "./theme-toggle-button";
 import { FunctionType } from "@/app/_types/functionType";
@@ -25,7 +25,7 @@ const DesktopMenu = ({
     return (
         <nav className="flex gap-1">
             <MenuButton
-                icon={<EditIcon size={18} />}
+                icon={<User size={18} />}
                 label={"Perfil"}
                 onClick={() => buttonFuctions(userId, "profile")}
             />

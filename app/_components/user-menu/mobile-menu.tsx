@@ -1,9 +1,9 @@
 import {
-    EditIcon,
     NotebookPenIcon,
     FileSlidersIcon,
     LogOutIcon,
     MenuIcon,
+    User,
 } from "lucide-react";
 import {
     Sheet,
@@ -47,7 +47,7 @@ const MobileMenu = ({
                     <div className="flex flex-col gap-2 border-b border-solid py-5">
                         <SheetClose asChild>
                             <MenuButton
-                                icon={<EditIcon size={18} />}
+                                icon={<User size={18} />}
                                 label={"Perfil"}
                                 onClick={() =>
                                     buttonFuctions(userId, "profile")
