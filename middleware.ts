@@ -29,6 +29,11 @@ export async function middleware(request: NextRequest) {
             return NextResponse.redirect(new URL(PATHS.HOME, request.url));
         }
 
+        if (token.isDeleted) {
+            console.error("Access Forbiden. Redirecting to forbiden page.");
+            return NextResponse.redirect(new URL(PATHS.ERROR_403, request.url));
+        }
+
         if (
             !token.isComplete &&
             !request.nextUrl.pathname.startsWith(PATHS.USER_EDIT)

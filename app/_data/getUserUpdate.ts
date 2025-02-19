@@ -6,7 +6,6 @@ export const getUserUpdate = async (id: string) => {
     const user = await db.user.findUnique({
         where: {
             id: id,
-            isDeleted: false,
         },
         select: {
             role: true,

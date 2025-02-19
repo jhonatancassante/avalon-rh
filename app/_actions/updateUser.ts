@@ -27,7 +27,10 @@ export const updateUser = async (id: string, data: UpdateUser) => {
     }
 
     const user = await db.user.findUnique({
-        where: { id },
+        where: {
+            id: id,
+            isDeleted: false,
+        },
         include: { profile: true, photo: true },
     });
 
