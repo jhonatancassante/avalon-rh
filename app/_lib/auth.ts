@@ -11,12 +11,14 @@ declare module "next-auth" {
             id: string;
             role: string;
             isComplete: boolean;
+            isDeleted: boolean;
         };
     }
 
     interface User {
         role: string;
         isComplete: boolean;
+        isDeleted: boolean;
     }
 }
 
@@ -37,11 +39,13 @@ export const authOptions: AuthOptions = {
                 token.userId = user.id;
                 token.role = user.role;
                 token.isComplete = user.isComplete;
+                token.isDeleted = user.isDeleted;
             }
             if (trigger === "update") {
                 const userUpdate = await getUserUpdate(token.userId as string);
                 token.role = userUpdate.role;
                 token.isComplete = userUpdate.isComplete;
+                token.isDeleted = userUpdate.isDeleted;
             }
             return token;
         },
@@ -51,6 +55,7 @@ export const authOptions: AuthOptions = {
                 id: token.userId as string,
                 role: token.role as string,
                 isComplete: token.isComplete as boolean,
+                isDeleted: token.isDeleted as boolean,
             };
             if (trigger === "update") {
                 session.user = {
@@ -58,6 +63,7 @@ export const authOptions: AuthOptions = {
                     id: token.userId as string,
                     role: token.role as string,
                     isComplete: token.isComplete as boolean,
+                    isDeleted: token.isDeleted as boolean,
                 };
             }
             return session;

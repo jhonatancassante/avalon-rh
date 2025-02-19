@@ -3,6 +3,7 @@ import { CardContent } from "@/app/_components/ui/card";
 import { Separator } from "@/app/_components/ui/separator";
 import UserProfileCard from "@/app/_components/user-page/user-profile-card";
 import UserTabs from "@/app/_components/user-page/user-tabs";
+import { PATHS } from "@/app/_constants/paths";
 import { getUser } from "@/app/_data/getUser";
 import { formatUserFields } from "@/app/_utils/formatUserFields";
 import { redirect } from "next/navigation";
@@ -35,7 +36,7 @@ const UserPage = async ({ params }: UserPageProps) => {
         );
     } catch (error) {
         console.error(error);
-        redirect("/pages/errors/500");
+        redirect(`${PATHS.ERROR_500}`);
     }
 };
 

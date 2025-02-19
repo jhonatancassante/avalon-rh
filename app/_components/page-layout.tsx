@@ -16,7 +16,7 @@ const PageLayout = ({ children }: PageLayoutProps) => {
             setIsLoading(false);
         }, 5000);
 
-        return () => clearTimeout(timer); // Limpe o timer quando o componente for desmontado
+        return () => clearTimeout(timer);
     }, [setIsLoading]);
 
     return (

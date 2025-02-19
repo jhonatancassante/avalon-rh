@@ -2,20 +2,13 @@ import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { Roles } from "./app/_constants/roles";
-
-const PATHS = {
-    ADMIN: "/pages/admin",
-    LEADER: "/pages/leader",
-    USER: "/pages/user",
-    UNAUTHORIZED: "/pages/errors/401",
-    HOME: "/",
-    USER_EDIT: "/pages/user/edit",
-};
+import { PATHS } from "./app/_constants/paths";
 
 interface Token {
     userId: string;
     role: string;
     isComplete: boolean;
+    isDeleted: boolean;
 }
 
 const hasRequiredRole = (token: Token | null, allowedRoles: string[]) => {
@@ -51,18 +44,14 @@ export async function middleware(request: NextRequest) {
     if (request.nextUrl.pathname.startsWith(PATHS.ADMIN)) {
         if (!hasRequiredRole(token, [Roles.Admin])) {
             console.error("Redirecting to unauthorized page");
-            return NextResponse.redirect(
-                new URL(PATHS.UNAUTHORIZED, request.url),
-            );
+            return NextResponse.redirect(new URL(PATHS.ERROR_401, request.url));
         }
     }
 
     if (request.nextUrl.pathname.startsWith(PATHS.LEADER)) {
         if (!hasRequiredRole(token, [Roles.Leader, Roles.Admin])) {
             console.error("Redirecting to unauthorized page");
-            return NextResponse.redirect(
-                new URL(PATHS.UNAUTHORIZED, request.url),
-            );
+            return NextResponse.redirect(new URL(PATHS.ERROR_401, request.url));
         }
     }
 

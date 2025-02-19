@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Button } from "../../../_components/ui/button"; // Componente de botão do shadcn/ui
 import { AlertTriangle } from "lucide-react"; // Ícone de alerta
+import { PATHS } from "@/app/_constants/paths";
 
 export default function UnauthorizedPage() {
     return (
@@ -23,7 +24,7 @@ export default function UnauthorizedPage() {
 
                 {/* Botão para voltar à página inicial */}
                 <Button className="mt-6" asChild>
-                    <Link href="/">Voltar à página inicial</Link>
+                    <Link href={PATHS.HOME}>Voltar à página inicial</Link>
                 </Button>
             </div>
         </div>

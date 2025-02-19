@@ -14,13 +14,13 @@ export default function ServerErrorPage() {
 
                 {/* Título */}
                 <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100">
-                    500 - Erro no Servidor
+                    403 - Acesso Proibido
                 </h1>
 
                 {/* Mensagem de erro */}
                 <p className="text-lg text-gray-600 dark:text-gray-300">
-                    Não foi possível acessar o banco de dados no momento. Por
-                    favor, tente novamente mais tarde.
+                    Sua conta foi excluída ou desativada. Entre em contato com o
+                    suporte para mais informações.
                 </p>
 
                 {/* Botão para voltar à página inicial */}

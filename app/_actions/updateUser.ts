@@ -8,6 +8,7 @@ import { revalidatePath } from "next/cache";
 import { validateUserData } from "../_utils/validateUserData";
 import { encrypt } from "../_utils/crypto";
 import UpdateUser from "../_types/UpdateUser";
+import { PATHS } from "../_constants/paths";
 
 export const updateUser = async (id: string, data: UpdateUser) => {
     const session = await getServerSession(authOptions);
@@ -95,7 +96,7 @@ export const updateUser = async (id: string, data: UpdateUser) => {
         },
     });
 
-    revalidatePath("/pages/user/[id]", "page");
+    revalidatePath(`${PATHS.USER}/[id]`, "page");
 
     return updatedUser;
 };

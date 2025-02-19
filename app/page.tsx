@@ -5,6 +5,7 @@ import LoginCard from "./_components/login-card";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useLoading } from "./_contexts/LoadingContext";
+import { PATHS } from "./_constants/paths";
 
 export default function Home() {
     const session = useSession();
@@ -14,10 +15,10 @@ export default function Home() {
     useEffect(() => {
         if (session.data?.user) {
             setIsLoading(true);
-            router.prefetch(`/pages/user/${session.data.user.id}`);
+            router.prefetch(`${PATHS.USER}/${session.data.user.id}`);
 
             const timer = setTimeout(() => {
-                router.push(`/pages/user/${session.data.user.id}`);
+                router.push(`${PATHS.USER}/${session.data.user.id}`);
                 setIsLoading(false);
             }, 2000);
 
@@ -25,10 +26,10 @@ export default function Home() {
         }
         if (!session.data?.user.isComplete) {
             setIsLoading(true);
-            router.prefetch(`/pages/user/edit/${session?.data?.user.id}`);
+            router.prefetch(`${PATHS.USER_EDIT}/${session?.data?.user.id}`);
 
             const timer = setTimeout(() => {
-                router.push(`/pages/user/edit/${session?.data?.user.id}`);
+                router.push(`${PATHS.USER_EDIT}/${session?.data?.user.id}`);
                 setIsLoading(false);
             }, 2000);
 

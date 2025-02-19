@@ -8,6 +8,7 @@ import MobileMenu from "./mobile-menu";
 import { useLoading } from "@/app/_contexts/LoadingContext";
 import { signOut } from "next-auth/react";
 import { FunctionType } from "@/app/_types/functionType";
+import { PATHS } from "@/app/_constants/paths";
 
 interface UserMenuButtonsProps {
     userId: string;
@@ -26,19 +27,19 @@ const UserMenuButtons = ({ userId, userRole }: UserMenuButtonsProps) => {
         const buttonsFunctions = {
             profile: (userId: string) => {
                 setIsLoading(true);
-                router.push(`/pages/user/${userId}`);
+                router.push(`${PATHS.USER}/${userId}`);
                 setIsLoading(false);
             },
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             leaderPage: (userId: string) => {
                 setIsLoading(true);
-                router.push(`/pages/leader`);
+                router.push(`${PATHS.LEADER}`);
                 setIsLoading(false);
             },
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             adminPage: (userId: string) => {
                 setIsLoading(true);
-                router.push(`/pages/admin`);
+                router.push(`${PATHS.ADMIN}`);
                 setIsLoading(false);
             },
             // eslint-disable-next-line @typescript-eslint/no-unused-vars

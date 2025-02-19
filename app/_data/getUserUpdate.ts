@@ -11,10 +11,15 @@ export const getUserUpdate = async (id: string) => {
         select: {
             role: true,
             isComplete: true,
+            isDeleted: true,
         },
     });
 
     if (!user) throw new Error("Usuário não encontrado!");
 
-    return { role: user.role, isComplete: user.isComplete };
+    return {
+        role: user.role,
+        isComplete: user.isComplete,
+        isDeleted: user.isDeleted,
+    };
 };

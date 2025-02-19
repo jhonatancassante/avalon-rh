@@ -1,6 +1,7 @@
 import PageLayout from "@/app/_components/page-layout";
 import { CardContent, CardHeader, CardTitle } from "@/app/_components/ui/card";
 import UserFormEdit from "@/app/_components/user-form/user-form-edit";
+import { PATHS } from "@/app/_constants/paths";
 import { getUser } from "@/app/_data/getUser";
 import formatCPF from "@/app/_utils/formatCPF";
 import { redirect } from "next/navigation";
@@ -43,7 +44,7 @@ const EditUserPage = async ({ params }: EditUserPageProps) => {
         );
     } catch (error) {
         console.error(error);
-        redirect("/pages/errors/500");
+        redirect(`${PATHS.ERROR_500}`);
     }
 };
 

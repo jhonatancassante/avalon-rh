@@ -4,6 +4,7 @@ import { EditIcon } from "lucide-react";
 import { useLoading } from "@/app/_contexts/LoadingContext";
 import { useRouter } from "next/navigation";
 import MenuButton from "../ui/menu-button";
+import { PATHS } from "@/app/_constants/paths";
 
 interface EditButtonProps {
     userId: string;
@@ -15,7 +16,7 @@ const EditButton = ({ userId }: EditButtonProps) => {
 
     const editProfile = (userId: string) => {
         setIsLoading(true);
-        router.push(`/pages/user/edit/${userId}`);
+        router.push(`${PATHS.USER_EDIT}/${userId}`);
         setIsLoading(false);
     };
 

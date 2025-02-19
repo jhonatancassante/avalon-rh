@@ -20,6 +20,7 @@ import LocationsFields from "./form-fields/locations-fields";
 import PhotoField from "./form-fields/photo-field";
 import { useLoading } from "@/app/_contexts/LoadingContext";
 import { PcdFields } from "./form-fields/pcd-fields";
+import { PATHS } from "@/app/_constants/paths";
 
 const UserEditForm = ({ user }: UserComplete) => {
     const { update } = useSession();
@@ -66,7 +67,7 @@ const UserEditForm = ({ user }: UserComplete) => {
                 description: "Usuário atualizado com sucesso!",
             });
 
-            router.replace(`/pages/user/${user.id}`);
+            router.replace(`${PATHS.USER}/${user.id}`);
         } catch (error) {
             console.error("Erro ao atualizar usuário:", error);
             toast.error("Erro!", {
@@ -81,7 +82,7 @@ const UserEditForm = ({ user }: UserComplete) => {
         try {
             setIsLoading(true);
             if (!user.isComplete) return await signOut();
-            router.replace(`/pages/user/${user.id}`);
+            router.replace(`${PATHS.USER}/${user.id}`);
         } catch (error) {
             console.error(error);
         } finally {

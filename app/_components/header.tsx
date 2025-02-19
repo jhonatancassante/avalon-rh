@@ -10,6 +10,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useMediaQuery } from "@react-hook/media-query";
 import Link from "next/link";
 import useThemeDetector from "../_hooks/useThemeDetector";
+import { PATHS } from "../_constants/paths";
 
 const Header = () => {
     const { data: session } = useSession();
@@ -25,7 +26,7 @@ const Header = () => {
         try {
             setIsLoading(true);
             if (!session?.user.isComplete) return await signOut();
-            router.replace(`/pages/user/${session?.user.id}`);
+            router.replace(`${PATHS.USER}/${session?.user.id}`);
         } catch (error) {
             console.error(error);
         }
@@ -54,7 +55,7 @@ const Header = () => {
                     </div>
                 )}
                 <div className="flex h-[50px] w-[225px]">
-                    <Link href={`/`}>
+                    <Link href={PATHS.HOME}>
                         <Image
                             src={`/logos/logo-circuito-anime-fest-02-${logoTheme ?? "light"}.png`}
                             sizes="(max-height: 50px)"
