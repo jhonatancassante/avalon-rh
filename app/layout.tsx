@@ -11,6 +11,7 @@ import { LoadingProvider } from "./_contexts/LoadingContext";
 import LoadingIndicator from "./_components/loading-indicator";
 import Header from "./_components/header";
 import Footer from "./_components/footer";
+import { SidebarProvider } from "./_components/ui/sidebar";
 
 config.autoAddCss = false;
 
@@ -43,9 +44,15 @@ export default function RootLayout({
                 <NextThemesProvider attribute="class" defaultTheme="system">
                     <AuthProvider>
                         <LoadingProvider>
-                            <Header />
-                            {children}
-                            <Footer />
+                            <SidebarProvider>
+                                <div className="flex min-h-screen w-full flex-col">
+                                    <Header />
+                                    <main className="flex w-full items-center justify-center">
+                                        {children}
+                                    </main>
+                                    <Footer />
+                                </div>
+                            </SidebarProvider>
                             <LoadingIndicator />
                         </LoadingProvider>
                     </AuthProvider>

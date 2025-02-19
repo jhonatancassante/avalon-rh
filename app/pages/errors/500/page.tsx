@@ -5,7 +5,7 @@ import { PATHS } from "@/app/_constants/paths";
 
 export default function ServerErrorPage() {
     return (
-        <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100 dark:bg-gray-900">
+        <div className="flex min-h-screen min-w-full flex-col items-center justify-center bg-gray-100 dark:bg-gray-900">
             <div className="space-y-6 text-center">
                 {/* Ícone de alerta */}
                 <div className="flex justify-center">
