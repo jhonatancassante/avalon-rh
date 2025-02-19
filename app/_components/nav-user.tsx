@@ -33,7 +33,7 @@ import {
 export function NavUser({
     user,
 }: {
-    user: {
+    readonly user: {
         name: string;
         email: string;
         avatar: string;
