@@ -1,6 +1,7 @@
 import { Input } from "@/app/_components/ui/input";
 import { Label } from "@/app/_components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Checkbox } from "../ui/checkbox";
 
 interface UserFieldsProps {
     userFields: { [key: string]: string | string[] };
@@ -54,16 +55,22 @@ const UserFields = ({ userFields }: UserFieldsProps) => {
                                     <Label htmlFor={fields[index]}>
                                         {fields[index]}
                                     </Label>
-                                    <ul className="px-4">
+                                    <div className="flex flex-col items-start gap-3 px-5">
                                         {fieldValue.map((item: string) => (
-                                            <li
+                                            <div
                                                 key={item}
-                                                className="list-inside list-disc px-4"
+                                                className="m-0 flex items-center space-x-2"
                                             >
-                                                {item}
-                                            </li>
+                                                <Checkbox id="terms" checked />
+                                                <label
+                                                    htmlFor="terms"
+                                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                >
+                                                    {item}
+                                                </label>
+                                            </div>
                                         ))}
-                                    </ul>
+                                    </div>
                                 </div>
                             );
                         }
