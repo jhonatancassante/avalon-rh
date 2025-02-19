@@ -10,8 +10,10 @@ export async function GET(request: Request) {
     }
 
     try {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        const now = new Date();
+        const offset = -3; // UTC-3 (São Paulo)
+        const today = new Date(now.getTime() + offset * 60 * 60 * 1000);
+        today.setHours(0, 0, 0, 0); // Define o horário para meia-noite no fuso de São Paulo
 
         const updatedEvents = await db.event.updateMany({
             where: {
