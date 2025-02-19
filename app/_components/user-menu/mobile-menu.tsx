@@ -32,7 +32,7 @@ const MobileMenu = ({
     buttonFuctions,
 }: MobileMenuProps) => {
     return (
-        <div>
+        <nav>
             <Sheet>
                 <SheetTrigger asChild>
                     <Button size="icon" className="p-0">
@@ -104,7 +104,7 @@ const MobileMenu = ({
                     </div>
                 </SheetContent>
             </Sheet>
-        </div>
+        </nav>
     );
 };
 

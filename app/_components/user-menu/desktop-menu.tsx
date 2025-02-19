@@ -23,7 +23,7 @@ const DesktopMenu = ({
     buttonFuctions,
 }: DesktopMenuProps) => {
     return (
-        <div className="flex gap-1">
+        <nav className="flex gap-1">
             <MenuButton
                 icon={<EditIcon size={18} />}
                 label={"Perfil"}
@@ -53,7 +53,7 @@ const DesktopMenu = ({
                 label="Sair"
                 onClick={() => buttonFuctions(userId, "signOut")}
             />
-        </div>
+        </nav>
     );
 };
 
