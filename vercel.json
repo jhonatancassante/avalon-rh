@@ -2,7 +2,7 @@
     "crons": [
         {
             "path": "/api/cron/updateInscriptions",
-            "schedule": "30 13 * * *"
+            "schedule": "0 0 * * *"
         }
     ]
 }

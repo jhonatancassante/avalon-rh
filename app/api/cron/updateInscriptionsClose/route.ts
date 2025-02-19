@@ -9,9 +9,6 @@ export async function GET(request: Request) {
         return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    console.log("##########################################");
-    console.log("Rodou o agendamento. Teste bem sucedido! Uhul!");
-
     try {
         const now = new Date();
         const offset = -3; // UTC-3 (São Paulo)
