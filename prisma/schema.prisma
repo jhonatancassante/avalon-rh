@@ -115,15 +115,18 @@ model VerificationToken {
 }
 
 model Event {
-  id         String      @id @default(auto()) @map("_id") @db.ObjectId
-  name       String
-  edition    Int
-  date       DateTime
-  city       String
-  deletedAt  DateTime?
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  userEvents UserEvent[]
+  id                  String      @id @default(auto()) @map("_id") @db.ObjectId
+  name                String
+  edition             Int
+  date                DateTime
+  city                String
+  areInscriptionsOpen Boolean     @default(true)
+  dateToClose         DateTime
+  isFinished          Boolean     @default(false)
+  isDeleted           Boolean     @default(false)
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  userEvents          UserEvent[]
 
   @@map("events")
 }
@@ -131,7 +134,7 @@ model Event {
 model Section {
   id           String        @id @default(auto()) @map("_id") @db.ObjectId
   name         String
-  deletedAt    DateTime?
+  isDeleted    Boolean       @default(false)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   userSections UserSection[]
