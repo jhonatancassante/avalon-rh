@@ -18,28 +18,26 @@ interface BreadcrumbAdminProps {
 
 const BreadcrumbAdmin = ({ breadcrumbList }: BreadcrumbAdminProps) => {
     const allExceptLast = breadcrumbList.slice(0, -1);
-    const lastItem = breadcrumbList.slice(-1);
+    const lastItem = breadcrumbList[breadcrumbList.length - 1];
 
     return (
         <Breadcrumb>
-            <BreadcrumbList key={`${crypto.randomUUID()}`}>
-                {allExceptLast.map((item) => (
-                    <>
-                        <BreadcrumbItem
-                            className="hidden md:block"
-                            key={`${item.label} - ${crypto.randomUUID()}`}
-                        >
+            <BreadcrumbList>
+                {allExceptLast.map((item, index) => (
+                    <div
+                        key={`${item.label}-${index}`}
+                        className="hidden items-center gap-3 md:inline-flex"
+                    >
+                        <BreadcrumbItem>
                             <BreadcrumbLink href={item.url}>
                                 {item.label}
                             </BreadcrumbLink>
                         </BreadcrumbItem>
-                        <BreadcrumbSeparator className="hidden md:block" />
-                    </>
+                        <BreadcrumbSeparator />
+                    </div>
                 ))}
-                <BreadcrumbItem
-                    key={`${lastItem[0].label} - ${crypto.randomUUID()}`}
-                >
-                    <BreadcrumbPage>{lastItem[0].label}</BreadcrumbPage>
+                <BreadcrumbItem key={lastItem.label}>
+                    <BreadcrumbPage>{lastItem.label}</BreadcrumbPage>
                 </BreadcrumbItem>
             </BreadcrumbList>
         </Breadcrumb>
