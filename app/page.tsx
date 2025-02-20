@@ -40,11 +40,11 @@ export default function Home() {
     return (
         <>
             {!session.data ? (
-                <div className="flex min-h-[88vh] items-center justify-center bg-primary-foreground">
+                <div className="flex min-h-[88vh] w-full items-center justify-center bg-primary-foreground">
                     <LoginCard />
                 </div>
             ) : (
-                <div className="flex min-h-[88vh] items-center justify-center bg-primary-foreground"></div>
+                <div className="flex min-h-[88vh] w-full items-center justify-center bg-primary-foreground"></div>
             )}
         </>
     );
