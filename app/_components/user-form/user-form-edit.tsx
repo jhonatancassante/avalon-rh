@@ -22,7 +22,11 @@ import { useLoading } from "@/app/_contexts/LoadingContext";
 import { PcdFields } from "./form-fields/pcd-fields";
 import { PATHS } from "@/app/_constants/paths";
 
-const UserEditForm = ({ user }: UserComplete) => {
+interface UserEditFormProps {
+    user: UserComplete;
+}
+
+const UserEditForm = ({ user }: UserEditFormProps) => {
     const { update } = useSession();
     const router = useRouter();
     const { photoData, handleFileUpload } = useFileUpload();

@@ -6,7 +6,11 @@ import { ptBR } from "date-fns/locale";
 import { formSchema } from "../_schemas/formSchema";
 import { UserComplete } from "../_types/userComplete";
 
-export const useUserForm = ({ user }: UserComplete) => {
+interface UseUserFormProps {
+    user: UserComplete;
+}
+
+export const useUserForm = ({ user }: UseUserFormProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         mode: "onChange",
