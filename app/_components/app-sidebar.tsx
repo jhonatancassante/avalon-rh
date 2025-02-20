@@ -12,7 +12,7 @@ import {
 
 import { NavMain } from "@/app/_components/nav-main";
 import { NavEvents } from "@/app/_components/nav-events/nav-events";
-import { NavUser } from "@/app/_components/nav-user";
+import { NavUser } from "@/app/_components/nav-user/nav-user";
 import { SidebarHeaderLogo } from "@/app/_components/siderbar-header-logo";
 import {
     Sidebar,
@@ -23,11 +23,6 @@ import {
 } from "@/app/_components/ui/sidebar";
 
 const data = {
-    user: {
-        name: "shadcn",
-        email: "m@example.com",
-        avatar: "/avatars/shadcn.jpg",
-    },
     navMain: [
         {
             title: "Home",
@@ -79,7 +74,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <NavEvents />
             </SidebarContent>
             <SidebarFooter>
-                <NavUser user={data.user} />
+                <NavUser />
             </SidebarFooter>
             <SidebarRail />
         </Sidebar>

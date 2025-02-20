@@ -9,15 +9,15 @@ import {
 } from "../ui/tooltip";
 
 interface ThemeToggleButtonProps {
-    onClick?: () => void; // Adicionando uma prop opcional para onClick
+    onClick?: () => void;
 }
 
 const ThemeToggleButton = ({ onClick }: ThemeToggleButtonProps) => {
     const { theme, setTheme } = useTheme();
 
     const handleClick = () => {
-        setTheme(theme === "light" ? "dark" : "light"); // Alterna o tema
-        onClick?.(); // Executa a função onClick, se fornecida
+        setTheme(theme === "light" ? "dark" : "light");
+        onClick?.();
     };
 
     const nextTheme = theme === "light" ? "dark" : "light";
