@@ -12,7 +12,7 @@ import { Skeleton } from "./ui/skeleton";
 import Link from "next/link";
 import { PATHS } from "../_constants/paths";
 
-export function TeamSwitcher() {
+export function SidebarHeaderLogo() {
     const { logoTheme, isThemeLoaded } = useThemeDetector();
 
     return (
