@@ -23,6 +23,11 @@ export function NavUser() {
         router.push(`${PATHS.USER}/${user?.id}`);
     };
 
+    const handleEdit = () => {
+        setIsLoading(true);
+        router.push(`${PATHS.USER_EDIT}/${user?.id}`);
+    };
+
     const handleLogout = useCallback(async () => {
         setIsLoading(true);
         await signOut();
@@ -36,6 +41,7 @@ export function NavUser() {
                     user={user}
                     onLogout={handleLogout}
                     onProfile={handleProfile}
+                    onEdit={handleEdit}
                     isMobile={isMobile}
                 />
             </SidebarMenuItem>

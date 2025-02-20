@@ -8,7 +8,7 @@ import {
     DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
 import { UserComplete } from "@/app/_types/userComplete";
-import { Bell, ChevronsUpDown, LogOut, User } from "lucide-react";
+import { ChevronsUpDown, Edit, LogOut, User } from "lucide-react";
 import { UserAvatar } from "./user-avatar";
 import { ThemeToggle } from "./theme-toggle";
 import { SidebarMenuButton } from "../ui/sidebar";
@@ -17,6 +17,7 @@ interface UserDropdownMenuProps {
     user: UserComplete | null;
     onLogout: () => void;
     onProfile: () => void;
+    onEdit: () => void;
     isMobile: boolean;
 }
 
@@ -24,6 +25,7 @@ export const UserDropdownMenu = ({
     user,
     onLogout,
     onProfile,
+    onEdit,
     isMobile,
 }: UserDropdownMenuProps) => {
     return (
@@ -52,9 +54,9 @@ export const UserDropdownMenu = ({
                         <User className="mr-2" />
                         Perfil
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        <Bell className="mr-2" />
-                        Notificações
+                    <DropdownMenuItem onClick={onEdit}>
+                        <Edit className="mr-2" />
+                        Editar Perfil
                     </DropdownMenuItem>
                     <ThemeToggle />
                 </DropdownMenuGroup>
