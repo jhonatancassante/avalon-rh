@@ -8,9 +8,10 @@ import { PATHS } from "@/app/_constants/paths";
 
 interface EditButtonProps {
     userId: string;
+    isDesktop: boolean;
 }
 
-const EditButton = ({ userId }: EditButtonProps) => {
+const EditButton = ({ userId, isDesktop }: EditButtonProps) => {
     const { setIsLoading } = useLoading();
     const router = useRouter();
 
@@ -23,7 +24,7 @@ const EditButton = ({ userId }: EditButtonProps) => {
     return (
         <MenuButton
             icon={<EditIcon size={18} />}
-            label={"Editar Perfil"}
+            label={isDesktop ? "Editar Perfil" : ""}
             onClick={() => editProfile(userId)}
         />
     );

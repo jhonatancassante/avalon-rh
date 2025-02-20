@@ -24,16 +24,18 @@ const BreadcrumbAdmin = ({ breadcrumbList }: BreadcrumbAdminProps) => {
         <Breadcrumb>
             <BreadcrumbList>
                 {allExceptLast.map((item) => (
-                    <BreadcrumbItem
-                        className="hidden md:block"
-                        key={item.label}
-                    >
-                        <BreadcrumbLink href={item.url}>
-                            {item.label}
-                        </BreadcrumbLink>
-                    </BreadcrumbItem>
+                    <>
+                        <BreadcrumbItem
+                            className="hidden md:block"
+                            key={item.label}
+                        >
+                            <BreadcrumbLink href={item.url}>
+                                {item.label}
+                            </BreadcrumbLink>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator className="hidden md:block" />
+                    </>
                 ))}
-                <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
                     <BreadcrumbPage>{lastItem[0].label}</BreadcrumbPage>
                 </BreadcrumbItem>

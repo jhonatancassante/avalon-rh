@@ -2,6 +2,7 @@ import { Input } from "@/app/_components/ui/input";
 import { Label } from "@/app/_components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Checkbox } from "../ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
 interface UserFieldsProps {
     userFields: { [key: string]: string | string[] };
@@ -38,6 +39,29 @@ const UserFields = ({ userFields }: UserFieldsProps) => {
                         (field === "deficiency" || field === "extraSupport")
                     ) {
                         return null;
+                    }
+
+                    if (field === "isPcd") {
+                        return (
+                            <div
+                                key={field}
+                                className="flex flex-col gap-2 py-2"
+                            >
+                                <Label>{fields[index]}</Label>
+                                <RadioGroup
+                                    key={field}
+                                    className="flex items-center gap-2 px-4"
+                                >
+                                    <RadioGroupItem
+                                        value={fields[index]}
+                                        checked
+                                    />{" "}
+                                    <Label className="font-normal">
+                                        {userFields[field]}
+                                    </Label>
+                                </RadioGroup>
+                            </div>
+                        );
                     }
 
                     if (

@@ -9,7 +9,6 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/app/_components/ui/sidebar";
-import { Button } from "./ui/button";
 import {
     Tooltip,
     TooltipContent,
@@ -25,6 +24,7 @@ export function NavMain({
         title: string;
         url: string;
         icon: LucideIcon;
+        plus: boolean;
     }[];
 }) {
     return (
@@ -42,19 +42,16 @@ export function NavMain({
                                 <span>{item.title}</span>
                             </Link>
                         </SidebarMenuButton>
-                        {item.title !== "Configurações" && (
+                        {item.plus && (
                             <TooltipProvider>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
-                                        <Button
-                                            variant={"ghost"}
-                                            className="flex h-4 w-4 items-center justify-center rounded-full"
-                                            asChild
+                                        <Link
+                                            href={`${item.url}/add`}
+                                            className="flex h-4 w-4 items-center justify-center rounded-full bg-foreground"
                                         >
-                                            <Link href={`${item.url}/add`}>
-                                                <Plus className="text-muted-foreground" />
-                                            </Link>
-                                        </Button>
+                                            <Plus className="h-4 w-4 stroke-background text-muted-foreground" />
+                                        </Link>
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         <p>Criar Novo</p>

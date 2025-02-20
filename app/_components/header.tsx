@@ -11,6 +11,7 @@ import { useMediaQuery } from "@react-hook/media-query";
 import Link from "next/link";
 import useThemeDetector from "../_hooks/useThemeDetector";
 import { PATHS } from "../_constants/paths";
+import { Skeleton } from "./ui/skeleton";
 
 const Header = () => {
     const { data: session } = useSession();
@@ -18,7 +19,7 @@ const Header = () => {
     const router = useRouter();
     const pathname = usePathname();
     const isDesktop = useMediaQuery("(min-width: 768px)");
-    const { logoTheme } = useThemeDetector(); // Usando o hook customizado
+    const { logoTheme, isThemeLoaded } = useThemeDetector();
 
     const isEditPage = pathname.includes("edit");
 
@@ -57,14 +58,18 @@ const Header = () => {
                     )}
                     <div className="flex h-[50px] w-[225px]">
                         <Link href={PATHS.HOME}>
-                            <Image
-                                src={`/logos/logo-circuito-anime-fest-02-${logoTheme ?? "light"}.png`}
-                                sizes="(max-height: 50px)"
-                                alt="Logo do Circuito Anime Fest"
-                                width={225}
-                                height={50}
-                                loading="lazy"
-                            />
+                            {isThemeLoaded ? (
+                                <Image
+                                    src={`/logos/logo-circuito-anime-fest-02-${logoTheme}.png`}
+                                    sizes="(max-height: 50px)"
+                                    alt="Logo do Circuito Anime Fest"
+                                    width={225}
+                                    height={50}
+                                    loading="lazy"
+                                />
+                            ) : (
+                                <Skeleton className="h-[50px] w-[225px]" />
+                            )}
                         </Link>
                     </div>
                     {session && (

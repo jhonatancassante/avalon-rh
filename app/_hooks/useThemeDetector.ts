@@ -5,6 +5,7 @@ const useThemeDetector = () => {
     const { theme } = useTheme();
     const [systemTheme, setSystemTheme] = useState<string>("");
     const [logoTheme, setLogoTheme] = useState<string>("");
+    const [isThemeLoaded, setIsThemeLoaded] = useState<boolean>(false);
 
     useEffect(() => {
         const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
@@ -17,12 +18,14 @@ const useThemeDetector = () => {
         mediaQuery.addEventListener("change", handleChange);
 
         setLogoTheme(theme === "system" ? systemTheme : (theme ?? "light"));
+        setIsThemeLoaded(true);
+
         return () => {
             mediaQuery.removeEventListener("change", handleChange);
         };
     }, [systemTheme, theme]);
 
-    return { logoTheme };
+    return { logoTheme, isThemeLoaded };
 };
 
 export default useThemeDetector;

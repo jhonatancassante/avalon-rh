@@ -8,6 +8,7 @@ import {
     Command,
     FolderCog,
     GalleryVerticalEnd,
+    House,
     Settings2,
     UserCog,
 } from "lucide-react";
@@ -49,24 +50,34 @@ const data = {
     ],
     navMain: [
         {
+            title: "Home",
+            url: "/",
+            icon: House,
+            plus: false,
+        },
+        {
             title: "Eventos",
             url: "/pages/admin/event",
             icon: CalendarCog,
+            plus: true,
         },
         {
             title: "Usuários",
             url: "#",
             icon: UserCog,
+            plus: true,
         },
         {
             title: "Setores",
             url: "#",
             icon: FolderCog,
+            plus: true,
         },
         {
             title: "Configurações",
             url: "#",
             icon: Settings2,
+            plus: false,
         },
     ],
     events: [

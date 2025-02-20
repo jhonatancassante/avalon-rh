@@ -9,10 +9,11 @@ import { useMediaQuery } from "@react-hook/media-query";
 import useThemeDetector from "../_hooks/useThemeDetector";
 import { PATHS } from "../_constants/paths";
 import { usePathname } from "next/navigation";
+import { Skeleton } from "./ui/skeleton";
 
 const Footer = () => {
     const isDesktop = useMediaQuery("(min-width: 768px)");
-    const { logoTheme } = useThemeDetector();
+    const { logoTheme, isThemeLoaded } = useThemeDetector();
     const pathname = usePathname();
 
     return (
@@ -25,14 +26,18 @@ const Footer = () => {
                                 href={`https://animefest.com.br/`}
                                 target="_blank"
                             >
-                                <Image
-                                    src={`/logos/logo-avalon-eventos-${logoTheme ?? "light"}.png`}
-                                    sizes="(max-height: 100px)"
-                                    alt="Logo Avalon Eventos"
-                                    width={200}
-                                    height={100}
-                                    loading="lazy"
-                                />
+                                {isThemeLoaded ? (
+                                    <Image
+                                        src={`/logos/logo-avalon-eventos-${logoTheme}.png`}
+                                        sizes="(max-height: 100px)"
+                                        alt="Logo Avalon Eventos"
+                                        width={200}
+                                        height={100}
+                                        loading="lazy"
+                                    />
+                                ) : (
+                                    <Skeleton className="h-[100px] w-[200px]" />
+                                )}
                             </Link>
 
                             <p className="text-center text-xs text-gray-400 md:text-left">
