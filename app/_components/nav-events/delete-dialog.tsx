@@ -27,13 +27,11 @@ const DeleteDialog = ({
         <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
             <AlertDialogContent>
                 <AlertDialogHeader>
-                    <AlertDialogTitle>
-                        Are you absolutely sure?
-                    </AlertDialogTitle>
+                    <AlertDialogTitle>Tem certeza absoluta?</AlertDialogTitle>
                     <AlertDialogDescription>
-                        This action cannot be undone. This will permanently
-                        delete your account and remove your data from our
-                        servers.
+                        Esta ação não pode ser desfeita. Isso excluirá
+                        permanentemente o evento e todos os dados associados a
+                        ele.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
