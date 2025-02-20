@@ -1,9 +1,4 @@
-import {
-    NotebookPenIcon,
-    FileSlidersIcon,
-    LogOutIcon,
-    User,
-} from "lucide-react";
+import { NotebookPenIcon, LogOutIcon, User, SettingsIcon } from "lucide-react";
 import ThemeToggleButton from "./theme-toggle-button";
 import { FunctionType } from "@/app/_types/functionType";
 import MenuButton from "../ui/menu-button";
@@ -40,7 +35,7 @@ const DesktopMenu = ({
 
             {isAdmin && (
                 <MenuButton
-                    icon={<FileSlidersIcon size={18} />}
+                    icon={<SettingsIcon size={18} />}
                     label="Administração"
                     onClick={() => buttonFuctions(userId, "adminPage")}
                 />

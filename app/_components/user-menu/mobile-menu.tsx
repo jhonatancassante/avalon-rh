@@ -1,9 +1,9 @@
 import {
     NotebookPenIcon,
-    FileSlidersIcon,
     LogOutIcon,
     MenuIcon,
     User,
+    SettingsIcon,
 } from "lucide-react";
 import {
     Sheet,
@@ -70,7 +70,7 @@ const MobileMenu = ({
                         {isAdmin && (
                             <SheetClose asChild>
                                 <MenuButton
-                                    icon={<FileSlidersIcon size={18} />}
+                                    icon={<SettingsIcon size={18} />}
                                     label="Administração"
                                     onClick={() =>
                                         buttonFuctions(userId, "adminPage")

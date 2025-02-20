@@ -2,18 +2,15 @@
 
 import PageLayoutSidebar from "@/app/_components/page-layout-sidebar";
 import { PATHS } from "@/app/_constants/paths";
-import { useSession } from "next-auth/react";
 
 const EventPage = () => {
-    const { data: session } = useSession();
-
     const breadcrumbList = [
         {
-            label: "Perfil",
-            url: `${PATHS.USER}/${session?.user.id}`,
+            label: "Home",
+            url: PATHS.HOME,
         },
         {
-            label: "Admin",
+            label: "Administração",
             url: PATHS.ADMIN,
         },
         {

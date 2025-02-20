@@ -2,13 +2,11 @@
 
 import * as React from "react";
 import {
-    AudioWaveform,
     Calendar,
     CalendarCog,
-    Command,
     FolderCog,
-    GalleryVerticalEnd,
     House,
+    Settings,
     Settings2,
     UserCog,
 } from "lucide-react";
@@ -31,28 +29,17 @@ const data = {
         email: "m@example.com",
         avatar: "/avatars/shadcn.jpg",
     },
-    teams: [
-        {
-            name: "Acme Inc",
-            logo: GalleryVerticalEnd,
-            plan: "Enterprise",
-        },
-        {
-            name: "Acme Corp.",
-            logo: AudioWaveform,
-            plan: "Startup",
-        },
-        {
-            name: "Evil Corp.",
-            logo: Command,
-            plan: "Free",
-        },
-    ],
     navMain: [
         {
             title: "Home",
             url: "/",
             icon: House,
+            plus: false,
+        },
+        {
+            title: "Administração",
+            url: "/pages/admin",
+            icon: Settings,
             plus: false,
         },
         {
