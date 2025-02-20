@@ -7,7 +7,7 @@ import {
     SidebarGroupLabel,
     SidebarMenu,
 } from "@/app/_components/ui/sidebar";
-import { getEventList } from "@/app/_data/getEvent";
+import { getEventListNonFinished } from "@/app/_data/getEvent";
 import { EventItem } from "./event-item";
 
 export function NavEvents() {
@@ -17,7 +17,7 @@ export function NavEvents() {
 
     const fetchEvents = useCallback(async () => {
         try {
-            const events = await getEventList();
+            const events = await getEventListNonFinished();
             setEventList(events);
         } catch (error) {
             console.error("Erro ao buscar eventos:", error);

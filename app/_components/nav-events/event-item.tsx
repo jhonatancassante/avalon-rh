@@ -8,6 +8,9 @@ import {
 } from "@/app/_components/ui/sidebar";
 import { PATHS } from "@/app/_constants/paths";
 import { EventActionsDropdown } from "./event-actions-dropdown";
+import DeleteDialog from "./delete-dialog";
+import { useState } from "react";
+import { deleteEvent } from "@/app/_actions/deleteEvent";
 
 interface EventItemProps {
     readonly event: Event;
@@ -15,6 +18,13 @@ interface EventItemProps {
 }
 
 export function EventItem({ event, onEventUpdated }: Readonly<EventItemProps>) {
+    const [isAlertOpen, setIsAlertOpen] = useState(false);
+
+    const handleDeleteEvent = async () => {
+        await deleteEvent(event.id);
+        onEventUpdated();
+    };
+
     return (
         <SidebarMenuItem className="m-1 flex items-center">
             <SidebarMenuButton asChild>
@@ -25,6 +35,13 @@ export function EventItem({ event, onEventUpdated }: Readonly<EventItemProps>) {
             <EventActionsDropdown
                 event={event}
                 onEventUpdated={onEventUpdated}
+                setIsAlertOpen={setIsAlertOpen}
+            />
+            <DeleteDialog
+                idEvent={event.id}
+                isOpen={isAlertOpen}
+                setIsOpen={setIsAlertOpen}
+                onDelete={handleDeleteEvent}
             />
         </SidebarMenuItem>
     );

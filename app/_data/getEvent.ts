@@ -19,3 +19,23 @@ export const getEventList = async () => {
 
     return eventList;
 };
+
+export const getEventListNonFinished = async () => {
+    const session = await getServerSession(authOptions);
+
+    if (!session || session.user.role !== Roles.Admin)
+        throw new Error("Unauthorized!");
+
+    const eventList = await db.event.findMany({
+        where: {
+            isDeleted: false,
+            isFinished: false,
+        },
+        orderBy: {
+            date: "asc",
+        },
+        take: 5,
+    });
+
+    return eventList;
+};

@@ -1,6 +1,7 @@
 "use client";
 
 import {
+    Delete,
     Edit,
     MoreHorizontal,
     Pencil,
@@ -19,17 +20,22 @@ import { Event } from "@prisma/client";
 import { SidebarMenuAction, useSidebar } from "../ui/sidebar";
 import Link from "next/link";
 import { PATHS } from "@/app/_constants/paths";
-import { updateEventAreInscriptionsOpen } from "@/app/_actions/updateEvent";
-import { deleteEvent } from "@/app/_actions/deleteEvent";
+import {
+    updateEventAreInscriptionsOpen,
+    updateEventIsFinished,
+} from "@/app/_actions/updateEvent";
+import { Dispatch, SetStateAction } from "react";
 
 interface EventActionsDropdownProps {
     readonly event: Event;
     onEventUpdated: () => void;
+    setIsAlertOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export function EventActionsDropdown({
     event,
     onEventUpdated,
+    setIsAlertOpen,
 }: Readonly<EventActionsDropdownProps>) {
     const { isMobile } = useSidebar();
 
@@ -43,9 +49,13 @@ export function EventActionsDropdown({
         onEventUpdated();
     };
 
-    const handleDeleteEvent = async () => {
-        await deleteEvent(event.id);
+    const handleFinishEvent = async () => {
+        await updateEventIsFinished(event.id);
         onEventUpdated();
+    };
+
+    const handleOpenAlert = () => {
+        setIsAlertOpen(true);
     };
 
     return (
@@ -84,8 +94,12 @@ export function EventActionsDropdown({
                         <span>Abrir Inscrições</span>
                     </DropdownMenuItem>
                 )}
+                <DropdownMenuItem onClick={handleFinishEvent}>
+                    <Delete className="text-muted-foreground" />
+                    <span>Finalizar</span>
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleDeleteEvent}>
+                <DropdownMenuItem onClick={handleOpenAlert}>
                     <Trash2 className="text-muted-foreground" />
                     <span>Deletar Evento</span>
                 </DropdownMenuItem>
