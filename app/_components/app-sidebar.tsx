@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import {
-    Calendar,
     CalendarCog,
     FolderCog,
     House,
@@ -12,7 +11,7 @@ import {
 } from "lucide-react";
 
 import { NavMain } from "@/app/_components/nav-main";
-import { NavEvents } from "@/app/_components/nav-events";
+import { NavEvents } from "@/app/_components/nav-events/nav-events";
 import { NavUser } from "@/app/_components/nav-user";
 import { SidebarHeaderLogo } from "@/app/_components/siderbar-header-logo";
 import {
@@ -67,23 +66,6 @@ const data = {
             plus: false,
         },
     ],
-    events: [
-        {
-            name: "Design Engineering",
-            url: "#",
-            icon: Calendar,
-        },
-        {
-            name: "Sales & Marketing",
-            url: "#",
-            icon: Calendar,
-        },
-        {
-            name: "Travel",
-            url: "#",
-            icon: Calendar,
-        },
-    ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -94,7 +76,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarHeader>
             <SidebarContent>
                 <NavMain items={data.navMain} />
-                <NavEvents projects={data.events} />
+                <NavEvents />
             </SidebarContent>
             <SidebarFooter>
                 <NavUser user={data.user} />

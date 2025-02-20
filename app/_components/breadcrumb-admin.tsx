@@ -22,12 +22,12 @@ const BreadcrumbAdmin = ({ breadcrumbList }: BreadcrumbAdminProps) => {
 
     return (
         <Breadcrumb>
-            <BreadcrumbList>
+            <BreadcrumbList key={`${crypto.randomUUID()}`}>
                 {allExceptLast.map((item) => (
                     <>
                         <BreadcrumbItem
                             className="hidden md:block"
-                            key={item.label}
+                            key={`${item.label} - ${crypto.randomUUID()}`}
                         >
                             <BreadcrumbLink href={item.url}>
                                 {item.label}
@@ -36,7 +36,9 @@ const BreadcrumbAdmin = ({ breadcrumbList }: BreadcrumbAdminProps) => {
                         <BreadcrumbSeparator className="hidden md:block" />
                     </>
                 ))}
-                <BreadcrumbItem>
+                <BreadcrumbItem
+                    key={`${lastItem[0].label} - ${crypto.randomUUID()}`}
+                >
                     <BreadcrumbPage>{lastItem[0].label}</BreadcrumbPage>
                 </BreadcrumbItem>
             </BreadcrumbList>
