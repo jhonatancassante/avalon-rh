@@ -8,7 +8,7 @@ import {
     DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
 import { UserComplete } from "@/app/_types/userComplete";
-import { BadgeCheck, Bell, ChevronsUpDown, LogOut } from "lucide-react";
+import { Bell, ChevronsUpDown, LogOut, User } from "lucide-react";
 import { UserAvatar } from "./user-avatar";
 import { ThemeToggle } from "./theme-toggle";
 import { SidebarMenuButton } from "../ui/sidebar";
@@ -49,7 +49,7 @@ export const UserDropdownMenu = ({
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                     <DropdownMenuItem onClick={onProfile}>
-                        <BadgeCheck className="mr-2" />
+                        <User className="mr-2" />
                         Perfil
                     </DropdownMenuItem>
                     <DropdownMenuItem>
