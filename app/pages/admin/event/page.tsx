@@ -23,7 +23,7 @@ const EventListPage = async () => {
         <PageLayoutSidebar breadcrumbList={breadcrumbList}>
             <main className="flex flex-col items-center py-6">
                 <h1 className="text-2xl font-bold">Lista de Eventos</h1>
-                <div className="mx-auto w-full py-6 md:max-w-[90%]">
+                <div className="mx-auto w-full py-6 md:max-w-[80%]">
                     <DataTable columns={eventColumns} />
                 </div>
             </main>
