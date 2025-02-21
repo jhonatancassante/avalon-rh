@@ -14,6 +14,9 @@ import {
     updateEventIsFinished,
 } from "@/app/_actions/updateEvent";
 import { Event } from "@prisma/client";
+import { deleteEvent } from "@/app/_actions/deleteEvent";
+import { useState } from "react";
+import DeleteDialog from "../delete-dialog";
 
 interface DataTableActionButtonsProps<TData> {
     selectedRows: Row<TData>[];
@@ -24,6 +27,8 @@ export function DataTableActionButtons<TData>({
     selectedRows,
     onActionCompleted,
 }: Readonly<DataTableActionButtonsProps<TData>>) {
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
     const handleInscriptionsOpen = async () => {
         selectedRows.forEach(async (row) => {
             const event = row.original as Event;
@@ -46,6 +51,19 @@ export function DataTableActionButtons<TData>({
         selectedRows.forEach(async (row) => {
             const event = row.original as Event;
             await updateEventIsFinished(event.id);
+            row.toggleSelected();
+        });
+        await onActionCompleted();
+    };
+
+    const handleDeleteDialog = async () => {
+        setDeleteDialogOpen(true);
+    };
+
+    const handleDelete = async () => {
+        selectedRows.forEach(async (row) => {
+            const event = row.original as Event;
+            await deleteEvent(event.id);
             row.toggleSelected();
         });
         await onActionCompleted();
@@ -80,13 +98,19 @@ export function DataTableActionButtons<TData>({
                 </Tooltip>
                 <Tooltip>
                     <TooltipTrigger asChild>
-                        <Button size={"icon"}>
+                        <Button size={"icon"} onClick={handleDeleteDialog}>
                             <Trash2 />
                         </Button>
                     </TooltipTrigger>
                     <TooltipContent>Deletar</TooltipContent>
                 </Tooltip>
             </TooltipProvider>
+            <DeleteDialog
+                itemType="evento"
+                isOpen={deleteDialogOpen}
+                setIsOpen={setDeleteDialogOpen}
+                onDelete={handleDelete}
+            />
         </div>
     );
 }
