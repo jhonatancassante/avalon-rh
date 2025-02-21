@@ -8,9 +8,9 @@ import {
 } from "@/app/_components/ui/sidebar";
 import { PATHS } from "@/app/_constants/paths";
 import { EventActionsDropdown } from "./event-actions-dropdown";
-import DeleteDialog from "./delete-dialog";
 import { useState } from "react";
 import { deleteEvent } from "@/app/_actions/deleteEvent";
+import DeleteDialog from "../delete-dialog";
 
 interface EventItemProps {
     readonly event: Event;
@@ -38,6 +38,7 @@ export function EventItem({ event, onEventUpdated }: Readonly<EventItemProps>) {
                 setIsAlertOpen={setIsAlertOpen}
             />
             <DeleteDialog
+                itemType="evento"
                 idEvent={event.id}
                 isOpen={isAlertOpen}
                 setIsOpen={setIsAlertOpen}

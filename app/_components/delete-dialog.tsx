@@ -8,16 +8,18 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-} from "../ui/alert-dialog";
+} from "./ui/alert-dialog";
 
 interface DeleteDialogProps {
+    itemType: string;
     isOpen: boolean;
-    idEvent: string;
+    idEvent?: string;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
-    onDelete: (idEvent: string) => void;
+    onDelete: (idEvent: string | undefined) => void;
 }
 
 const DeleteDialog = ({
+    itemType,
     isOpen,
     idEvent,
     setIsOpen,
@@ -30,8 +32,8 @@ const DeleteDialog = ({
                     <AlertDialogTitle>Tem certeza absoluta?</AlertDialogTitle>
                     <AlertDialogDescription>
                         Esta ação não pode ser desfeita. Isso excluirá
-                        permanentemente o evento e todos os dados associados a
-                        ele.
+                        permanentemente o {itemType} e todos os dados associados
+                        a ele.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
