@@ -1,12 +1,9 @@
-import { columns } from "@/app/_components/data-table/columns";
+import { eventColumns } from "@/app/_components/data-table/event-columns";
 import { DataTable } from "@/app/_components/data-table/data-table";
 import PageLayoutSidebar from "@/app/_components/page-layout-sidebar";
 import { PATHS } from "@/app/_constants/paths";
-import { getEventList } from "@/app/_data/getEvent";
 
 const EventListPage = async () => {
-    const data = await getEventList();
-
     const breadcrumbList = [
         {
             label: "Home",
@@ -27,7 +24,7 @@ const EventListPage = async () => {
             <main className="flex flex-col items-center py-6">
                 <h1 className="text-2xl font-bold">Lista de Eventos</h1>
                 <div className="mx-auto w-full py-6 md:max-w-[90%]">
-                    <DataTable columns={columns} data={data} />
+                    <DataTable columns={eventColumns} />
                 </div>
             </main>
         </PageLayoutSidebar>

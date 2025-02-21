@@ -1,42 +1,39 @@
 "use client";
 
-import { useEffect, useState, useCallback, useMemo } from "react";
-import { Event } from "@prisma/client";
+import { useMemo } from "react";
 import {
     SidebarGroup,
     SidebarGroupLabel,
     SidebarMenu,
 } from "@/app/_components/ui/sidebar";
-import { getEventListNonFinished } from "@/app/_data/getEvent";
 import { EventItem } from "./event-item";
+import { useEvents } from "@/app/_contexts/EventContext";
 
 export function NavEvents() {
-    const [eventList, setEventList] = useState<Event[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-
-    const fetchEvents = useCallback(async () => {
-        try {
-            const events = await getEventListNonFinished();
-            setEventList(events);
-        } catch (error) {
-            console.error("Erro ao buscar eventos:", error);
-            setError("Erro ao carregar eventos.");
-        } finally {
-            setIsLoading(false);
-        }
-    }, []);
-
-    const refreshEvents = useCallback(async () => {
-        await fetchEvents();
-    }, [fetchEvents]);
-
-    useEffect(() => {
-        fetchEvents();
-    }, [fetchEvents]);
+    const { eventList, isLoading, eventError, refreshEvents } = useEvents();
 
     const renderedEvents = useMemo(() => {
-        return eventList.map((event) => (
+        if (!eventList) return null;
+        const filteredEventList = eventList
+            .filter((event) => event.isFinished === false)
+            .sort(
+                (a, b) =>
+                    new Date(a.date).getTime() - new Date(b.date).getTime(),
+            );
+
+        if (filteredEventList.length >= 3) {
+            return filteredEventList
+                .slice(0, 3)
+                .map((event) => (
+                    <EventItem
+                        key={event.id}
+                        event={event}
+                        onEventUpdated={refreshEvents}
+                    />
+                ));
+        }
+
+        return filteredEventList.map((event) => (
             <EventItem
                 key={event.id}
                 event={event}
@@ -50,8 +47,8 @@ export function NavEvents() {
             return <p className="p-2 text-sm">Carregando eventos...</p>;
         }
 
-        if (error) {
-            return <p className="p-2 text-sm text-red-500">{error}</p>;
+        if (eventError) {
+            return <p className="p-2 text-sm text-red-500">{eventError}</p>;
         }
 
         if (eventList.length === 0) {

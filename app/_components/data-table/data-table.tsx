@@ -14,13 +14,13 @@ import {
     useReactTable,
     VisibilityState,
 } from "@tanstack/react-table";
-import { FilterControls } from "./filter-controls";
-import { ActionButtons } from "./action-buttons";
-import { DataTableHeader } from "./data-table-header";
-import { DataTableBody } from "./data-table-body";
+import { DataTableFilterControls } from "./filter-controls";
+import { DataTableActionButtons } from "./action-buttons";
+import { DataTableHeader } from "./header";
+import { DataTableBody } from "./body";
+import { useEvents } from "@/app/_contexts/EventContext";
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
-    data: TData[];
 }
 
 const columnsWithFilters = [
@@ -31,7 +31,6 @@ const columnsWithFilters = [
 
 export function DataTable<TData, TValue>({
     columns,
-    data,
 }: Readonly<DataTableProps<TData, TValue>>) {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -40,9 +39,10 @@ export function DataTable<TData, TValue>({
     );
     const [rowSelection, setRowSelection] = useState({});
     const [selectedFilter, setSelectedFilter] = useState(columnsWithFilters[0]);
+    const { eventList, refreshEvents } = useEvents();
 
     const table = useReactTable({
-        data,
+        data: eventList as TData[],
         columns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
@@ -58,13 +58,16 @@ export function DataTable<TData, TValue>({
     return (
         <div>
             <div className="flex items-center py-4">
-                <FilterControls
+                <DataTableFilterControls
                     selectedFilter={selectedFilter}
                     setSelectedFilter={setSelectedFilter}
                     columnsWithFilters={columnsWithFilters}
                     table={table}
                 />
-                <ActionButtons />
+                <DataTableActionButtons
+                    selectedRows={table.getSelectedRowModel().rows}
+                    onActionCompleted={refreshEvents}
+                />
                 <DataTableViewOptions table={table} />
             </div>
             <div className="rounded-md border">
