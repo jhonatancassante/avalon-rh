@@ -25,7 +25,7 @@ import { Event } from "@prisma/client";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
-export const columns: ColumnDef<Event>[] = [
+export const eventColumns: ColumnDef<Event>[] = [
     {
         id: "select",
         header: ({ table }) => (
