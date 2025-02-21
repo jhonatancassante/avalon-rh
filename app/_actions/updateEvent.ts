@@ -41,17 +41,38 @@ export const updateEventIsFinished = async (id: string) => {
 
     if (session.user.role !== Roles.Admin) {
         throw new Error(
-            "Unauthorized: You do not have permission to create an event.",
+            "Unauthorized: You do not have permission to update event status.",
         );
     }
 
-    await db.event.update({
-        where: {
-            id: id,
-            isDeleted: false,
-        },
-        data: {
-            isFinished: true,
-        },
-    });
+    try {
+        const event = await db.event.findUnique({
+            where: {
+                id: id,
+                isDeleted: false,
+            },
+            select: {
+                isFinished: true,
+            },
+        });
+
+        if (!event) {
+            throw new Error("Event not found.");
+        }
+
+        const newIsFinished = !event.isFinished;
+
+        await db.event.update({
+            where: {
+                id: id,
+                isDeleted: false,
+            },
+            data: {
+                isFinished: newIsFinished,
+            },
+        });
+    } catch (error) {
+        console.error("Error updating event status:", error);
+        throw error;
+    }
 };
