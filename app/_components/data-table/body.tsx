@@ -7,10 +7,10 @@ interface DataTableBodyProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
 }
 
-export function DataTableBody<TData, TValue>({
+export const DataTableBody = <TData, TValue>({
     table,
     columns,
-}: Readonly<DataTableBodyProps<TData, TValue>>) {
+}: Readonly<DataTableBodyProps<TData, TValue>>) => {
     const { isLoading } = useEvents();
 
     const renderTable = () => {
@@ -45,4 +45,4 @@ export function DataTableBody<TData, TValue>({
     };
 
     return <TableBody>{renderTable()}</TableBody>;
-}
+};

@@ -9,7 +9,7 @@ import {
 import { EventItem } from "./event-item";
 import { useEvents } from "@/app/_contexts/EventContext";
 
-export function NavEvents() {
+export const NavEvents = () => {
     const { eventList, isLoading, eventError, refreshEvents } = useEvents();
 
     const renderedEvents = useMemo(() => {
@@ -64,4 +64,4 @@ export function NavEvents() {
             <SidebarMenu>{renderContent()}</SidebarMenu>
         </SidebarGroup>
     );
-}
+};

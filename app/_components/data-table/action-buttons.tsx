@@ -18,10 +18,10 @@ interface DataTableActionButtonsProps<TData> {
     onActionCompleted: () => Promise<void>;
 }
 
-export function DataTableActionButtons<TData>({
+export const DataTableActionButtons = <TData,>({
     selectedRows,
     onActionCompleted,
-}: Readonly<DataTableActionButtonsProps<TData>>) {
+}: Readonly<DataTableActionButtonsProps<TData>>) => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     const handleDelete = async () => {
@@ -78,4 +78,4 @@ export function DataTableActionButtons<TData>({
             />
         </div>
     );
-}
+};

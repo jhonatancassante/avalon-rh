@@ -17,7 +17,7 @@ import {
 } from "./ui/tooltip";
 import Link from "next/link";
 
-export function NavMain({
+export const NavMain = ({
     items,
 }: {
     readonly items: {
@@ -26,7 +26,7 @@ export function NavMain({
         icon: LucideIcon;
         plus: boolean;
     }[];
-}) {
+}) => {
     return (
         <SidebarGroup className="group-data-[collapsible=icon]:hidden">
             <SidebarGroupLabel>Eventos</SidebarGroupLabel>
@@ -64,4 +64,4 @@ export function NavMain({
             </SidebarMenu>
         </SidebarGroup>
     );
-}
+};

@@ -1,4 +1,4 @@
-export default function isValidCPF(cpf: string): boolean {
+const isValidCPF = (cpf: string): boolean => {
     cpf = cpf.replace(/\D/g, "");
 
     if (cpf.length !== 11) return false;
@@ -22,4 +22,6 @@ export default function isValidCPF(cpf: string): boolean {
     if (remainder !== parseInt(cpf.charAt(10))) return false;
 
     return true;
-}
+};
+
+export default isValidCPF;

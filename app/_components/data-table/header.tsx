@@ -5,9 +5,9 @@ interface DataTableHeaderProps<TData> {
     table: Table<TData>;
 }
 
-export function DataTableHeader<TData>({
+export const DataTableHeader = <TData,>({
     table,
-}: Readonly<DataTableHeaderProps<TData>>) {
+}: Readonly<DataTableHeaderProps<TData>>) => {
     return (
         <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -26,4 +26,4 @@ export function DataTableHeader<TData>({
             ))}
         </TableHeader>
     );
-}
+};

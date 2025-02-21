@@ -29,9 +29,9 @@ const columnsWithFilters = [
     { field: "dateToClose", label: "data de encerramento" },
 ];
 
-export function DataTable<TData, TValue>({
+export const DataTable = <TData, TValue>({
     columns,
-}: Readonly<DataTableProps<TData, TValue>>) {
+}: Readonly<DataTableProps<TData, TValue>>) => {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
@@ -77,4 +77,4 @@ export function DataTable<TData, TValue>({
             <DataTablePagination table={table} />
         </div>
     );
-}
+};

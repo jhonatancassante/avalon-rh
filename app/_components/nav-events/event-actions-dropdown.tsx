@@ -32,11 +32,11 @@ interface EventActionsDropdownProps {
     setIsAlertOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export function EventActionsDropdown({
+export const EventActionsDropdown = ({
     event,
     onEventUpdated,
     setIsAlertOpen,
-}: Readonly<EventActionsDropdownProps>) {
+}: Readonly<EventActionsDropdownProps>) => {
     const { isMobile } = useSidebar();
 
     const handleCloseInscriptionsOpen = async () => {
@@ -106,4 +106,4 @@ export function EventActionsDropdown({
             </DropdownMenuContent>
         </DropdownMenu>
     );
-}
+};

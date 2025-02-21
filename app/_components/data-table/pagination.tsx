@@ -12,9 +12,9 @@ interface DataTablePaginationProps<TData> {
     table: Table<TData>;
 }
 
-export function DataTablePagination<TData>({
+export const DataTablePagination = <TData,>({
     table,
-}: Readonly<DataTablePaginationProps<TData>>) {
+}: Readonly<DataTablePaginationProps<TData>>) => {
     return (
         <div className="flex items-center justify-between px-2">
             <div className="flex-1 text-sm text-muted-foreground">
@@ -67,4 +67,4 @@ export function DataTablePagination<TData>({
             </div>
         </div>
     );
-}
+};

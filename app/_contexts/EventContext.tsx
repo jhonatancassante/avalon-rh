@@ -21,11 +21,11 @@ interface EventContextType {
 
 const EventContext = createContext<EventContextType | undefined>(undefined);
 
-export function EventProvider({
+export const EventProvider = ({
     children,
 }: {
     readonly children: React.ReactNode;
-}) {
+}) => {
     const [eventList, setEventList] = useState<Event[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [eventError, setEventError] = useState<string | null>(null);
@@ -66,12 +66,12 @@ export function EventProvider({
             {children}
         </EventContext.Provider>
     );
-}
+};
 
-export function useEvents() {
+export const useEvents = () => {
     const context = useContext(EventContext);
     if (!context) {
         throw new Error("useEvents deve ser usado dentro de um EventProvider");
     }
     return context;
-}
+};

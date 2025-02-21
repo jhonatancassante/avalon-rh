@@ -13,7 +13,7 @@ import { PATHS } from "@/app/_constants/paths";
 import { signOut } from "next-auth/react";
 import { UserDropdownMenu } from "./user-dropdown-menu";
 
-export function NavUser() {
+export const NavUser = () => {
     const { isMobile } = useSidebar();
     const { user } = useUser();
     const { setIsLoading } = useLoading();
@@ -47,4 +47,4 @@ export function NavUser() {
             </SidebarMenuItem>
         </SidebarMenu>
     );
-}
+};

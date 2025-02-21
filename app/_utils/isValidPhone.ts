@@ -1,4 +1,4 @@
-export default function isValidPhone(phone: string): boolean {
+const isValidPhone = (phone: string): boolean => {
     phone = phone.replace(/\D/g, "");
 
     if (phone.length !== 11) return false;
@@ -6,4 +6,6 @@ export default function isValidPhone(phone: string): boolean {
     if (!/^([1-9]\d)9\d{8}$/.test(phone)) return false;
 
     return true;
-}
+};
+
+export default isValidPhone;

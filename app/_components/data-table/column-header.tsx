@@ -27,11 +27,11 @@ const sortedArrow = (sortOrder: "asc" | "desc" | false) => {
     return iconDirection[sortOrder];
 };
 
-export function DataTableColumnHeader<TData, TValue>({
+export const DataTableColumnHeader = <TData, TValue>({
     column,
     title,
     className,
-}: Readonly<DataTableColumnHeaderProps<TData, TValue>>) {
+}: Readonly<DataTableColumnHeaderProps<TData, TValue>>) => {
     if (!column.getCanSort()) {
         return <div className={cn(className)}>{title}</div>;
     }
@@ -73,4 +73,4 @@ export function DataTableColumnHeader<TData, TValue>({
             </DropdownMenu>
         </div>
     );
-}
+};

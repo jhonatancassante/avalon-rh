@@ -12,7 +12,7 @@ import { Skeleton } from "./ui/skeleton";
 import Link from "next/link";
 import { PATHS } from "../_constants/paths";
 
-export function SidebarHeaderLogo() {
+export const SidebarHeaderLogo = () => {
     const { logoTheme, isThemeLoaded } = useThemeDetector();
 
     return (
@@ -50,4 +50,4 @@ export function SidebarHeaderLogo() {
             </SidebarMenuItem>
         </SidebarMenu>
     );
-}
+};

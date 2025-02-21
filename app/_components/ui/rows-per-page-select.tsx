@@ -12,11 +12,11 @@ interface RowsPerPageSelectProps {
     options: number[];
 }
 
-export function RowsPerPageSelect({
+export const RowsPerPageSelect = ({
     value,
     onChange,
     options,
-}: Readonly<RowsPerPageSelectProps>) {
+}: Readonly<RowsPerPageSelectProps>) => {
     return (
         <Select value={value} onValueChange={onChange}>
             <SelectTrigger className="h-8 w-[70px]">
@@ -31,4 +31,4 @@ export function RowsPerPageSelect({
             </SelectContent>
         </Select>
     );
-}
+};

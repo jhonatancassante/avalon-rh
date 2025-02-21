@@ -9,13 +9,13 @@ interface PaginationButtonProps {
     className?: string;
 }
 
-export function PaginationButton({
+export const PaginationButton = ({
     icon,
     onClick,
     disabled,
     ariaLabel,
     className,
-}: Readonly<PaginationButtonProps>) {
+}: Readonly<PaginationButtonProps>) => {
     return (
         <Button
             variant="outline"
@@ -27,4 +27,4 @@ export function PaginationButton({
             {icon}
         </Button>
     );
-}
+};

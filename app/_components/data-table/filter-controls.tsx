@@ -15,12 +15,12 @@ interface FilterControlsProps<TData> {
     table: Table<TData>;
 }
 
-export function DataTableFilterControls<TData>({
+export const DataTableFilterControls = <TData,>({
     selectedFilter,
     setSelectedFilter,
     columnsWithFilters,
     table,
-}: Readonly<FilterControlsProps<TData>>) {
+}: Readonly<FilterControlsProps<TData>>) => {
     return (
         <div className="flex gap-4">
             <Input
@@ -59,4 +59,4 @@ export function DataTableFilterControls<TData>({
             </Select>
         </div>
     );
-}
+};

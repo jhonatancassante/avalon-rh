@@ -17,7 +17,10 @@ interface EventItemProps {
     onEventUpdated: () => void;
 }
 
-export function EventItem({ event, onEventUpdated }: Readonly<EventItemProps>) {
+export const EventItem = ({
+    event,
+    onEventUpdated,
+}: Readonly<EventItemProps>) => {
     const [isAlertOpen, setIsAlertOpen] = useState(false);
 
     const handleDeleteEvent = async () => {
@@ -46,4 +49,4 @@ export function EventItem({ event, onEventUpdated }: Readonly<EventItemProps>) {
             />
         </SidebarMenuItem>
     );
-}
+};
