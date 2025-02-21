@@ -15,7 +15,7 @@ interface FilterControlsProps<TData> {
     table: Table<TData>;
 }
 
-export function FilterControls<TData>({
+export function DataTableFilterControls<TData>({
     selectedFilter,
     setSelectedFilter,
     columnsWithFilters,
