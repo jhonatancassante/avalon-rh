@@ -10,11 +10,11 @@ export async function GET(request: Request) {
     }
 
     try {
+        console.log("Iniciando função de fechamento das inscrições...");
+
         const now = new Date();
         const today = new Date(now.getTime());
         today.setHours(0, 0, 0, 0);
-
-        console.log("Iniciando função de fechamento das inscrições...");
 
         const updatedEvents = await db.event.updateMany({
             where: {
