@@ -12,6 +12,7 @@ import {
 import { deleteEvent } from "@/app/_actions/deleteEvent";
 import { handleEventAction } from "@/app/_lib/event-actions";
 import DeleteDialog from "../delete-dialog";
+import { useLoading } from "@/app/_contexts/LoadingContext";
 
 interface DataTableActionButtonsProps<TData> {
     selectedRows: Row<TData>[];
@@ -23,9 +24,12 @@ export const DataTableActionButtons = <TData,>({
     onActionCompleted,
 }: Readonly<DataTableActionButtonsProps<TData>>) => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const { setIsLoading } = useLoading();
 
     const handleDelete = async () => {
+        setIsLoading(true);
         await handleEventAction(selectedRows, deleteEvent, onActionCompleted);
+        setIsLoading(false);
     };
 
     return (
