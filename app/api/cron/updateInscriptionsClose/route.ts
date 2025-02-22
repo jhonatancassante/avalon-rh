@@ -15,6 +15,8 @@ export async function GET(request: Request) {
         const today = new Date(now.getTime() + offset * 60 * 60 * 1000);
         today.setHours(0, 0, 0, 0); // Define o horário para meia-noite no fuso de São Paulo
 
+        console.log("Run scheduled function Close Inscriptions.");
+
         const updatedEvents = await db.event.updateMany({
             where: {
                 dateToClose: {
