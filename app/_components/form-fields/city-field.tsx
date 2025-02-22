@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { UseFormReturn } from "react-hook-form";
-import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
-import { Drawer, DrawerContent, DrawerTrigger } from "../../ui/drawer";
-import { Button } from "../../ui/button";
+import { Path, PathValue, UseFormReturn } from "react-hook-form";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Drawer, DrawerContent, DrawerTrigger } from "../ui/drawer";
+import { Button } from "../ui/button";
 import { Check, ChevronsUpDown } from "lucide-react";
 import {
     Command,
@@ -11,39 +11,36 @@ import {
     CommandInput,
     CommandItem,
     CommandList,
-} from "../../ui/command";
+} from "../ui/command";
 import {
     FormControl,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
-} from "../../ui/form";
-import { formSchema } from "@/app/_schemas/formSchema";
-import { z } from "zod";
+} from "../ui/form";
+import { TypeOf, z } from "zod";
 
-interface StateFieldProps {
-    form: UseFormReturn<z.infer<typeof formSchema>>;
-    states: { id: number; nome: string }[];
+interface CityFieldProps<T extends z.ZodObject<z.ZodRawShape>> {
+    form: UseFormReturn<z.infer<T>>;
+    cities: { nome: string }[];
     isDesktop: boolean;
-    fetchCities: (stateId: number) => void;
 }
 
-const StateField = ({
+const CityField = <T extends z.ZodObject<z.ZodRawShape>>({
     form,
-    states,
+    cities,
     isDesktop,
-    fetchCities,
-}: StateFieldProps) => {
+}: CityFieldProps<T>) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
         <FormField
             control={form.control}
-            name="state"
+            name={"city" as Path<z.infer<T>>}
             render={({ field }) => (
                 <FormItem className="flex w-full flex-col">
-                    <FormLabel>Estado</FormLabel>
+                    <FormLabel>Cidade</FormLabel>
                     {isDesktop ? (
                         <Popover open={isOpen} onOpenChange={setIsOpen}>
                             <PopoverTrigger asChild>
@@ -56,12 +53,11 @@ const StateField = ({
                                         }`}
                                     >
                                         {field.value
-                                            ? states.find(
-                                                  (state) =>
-                                                      state.nome ===
-                                                      field.value,
+                                            ? cities.find(
+                                                  (city) =>
+                                                      city.nome === field.value,
                                               )?.nome
-                                            : "Selecione o estado"}
+                                            : "Selecione a cidade"}
                                         <ChevronsUpDown className="opacity-50" />
                                     </Button>
                                 </FormControl>
@@ -69,31 +65,35 @@ const StateField = ({
                             <PopoverContent className="w-[200px] p-0">
                                 <Command>
                                     <CommandInput
-                                        placeholder="Procure o estado..."
+                                        placeholder="Procure a cidade..."
                                         className="h-9"
                                     />
                                     <CommandList>
                                         <CommandEmpty>
-                                            Nenhum estado encontrado.
+                                            Nenhuma cidade encontrada.
                                         </CommandEmpty>
                                         <CommandGroup>
-                                            {states.map((state) => (
+                                            {cities.map((city) => (
                                                 <CommandItem
-                                                    value={state.nome}
-                                                    key={state.nome}
+                                                    value={city.nome}
+                                                    key={city.nome}
                                                     onSelect={() => {
                                                         form.setValue(
-                                                            "state",
-                                                            state.nome,
+                                                            "city" as Path<
+                                                                z.infer<T>
+                                                            >,
+                                                            city.nome as PathValue<
+                                                                TypeOf<T>,
+                                                                Path<TypeOf<T>>
+                                                            >,
                                                         );
-                                                        fetchCities(state.id);
                                                         setIsOpen(false);
                                                     }}
                                                 >
-                                                    {state.nome}
+                                                    {city.nome}
                                                     <Check
                                                         className={`ml-auto ${
-                                                            state.nome ===
+                                                            city.nome ===
                                                             field.value
                                                                 ? "opacity-100"
                                                                 : "opacity-0"
@@ -118,12 +118,11 @@ const StateField = ({
                                         }`}
                                     >
                                         {field.value
-                                            ? states.find(
-                                                  (state) =>
-                                                      state.nome ===
-                                                      field.value,
+                                            ? cities.find(
+                                                  (city) =>
+                                                      city.nome === field.value,
                                               )?.nome
-                                            : "Selecione o estado"}
+                                            : "Selecione a cidade"}
                                         <ChevronsUpDown className="opacity-50" />
                                     </Button>
                                 </FormControl>
@@ -131,31 +130,35 @@ const StateField = ({
                             <DrawerContent>
                                 <Command>
                                     <CommandInput
-                                        placeholder="Procure o estado..."
+                                        placeholder="Procure a cidade..."
                                         className="h-9"
                                     />
                                     <CommandList>
                                         <CommandEmpty>
-                                            Nenhum estado encontrado.
+                                            Nenhuma cidade encontrada.
                                         </CommandEmpty>
                                         <CommandGroup>
-                                            {states.map((state) => (
+                                            {cities.map((city) => (
                                                 <CommandItem
-                                                    value={state.nome}
-                                                    key={state.nome}
+                                                    value={city.nome}
+                                                    key={city.nome}
                                                     onSelect={() => {
                                                         form.setValue(
-                                                            "state",
-                                                            state.nome,
+                                                            "city" as Path<
+                                                                z.infer<T>
+                                                            >,
+                                                            city.nome as PathValue<
+                                                                TypeOf<T>,
+                                                                Path<TypeOf<T>>
+                                                            >,
                                                         );
-                                                        fetchCities(state.id);
                                                         setIsOpen(false);
                                                     }}
                                                 >
-                                                    {state.nome}
+                                                    {city.nome}
                                                     <Check
                                                         className={`ml-auto ${
-                                                            state.nome ===
+                                                            city.nome ===
                                                             field.value
                                                                 ? "opacity-100"
                                                                 : "opacity-0"
@@ -176,4 +179,4 @@ const StateField = ({
     );
 };
 
-export default StateField;
+export default CityField;

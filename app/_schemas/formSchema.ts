@@ -10,7 +10,7 @@ import isValidPix from "../_utils/isValidPix";
 
 const lettersAndNumbersRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9'\-\s]+$/;
 
-export const formSchema = z.object({
+export const userFormSchema = z.object({
     cpf: z.string().refine((value) => isValidCPF(value), "CPF inválido!"),
     completeName: z
         .string()

@@ -1,43 +1,27 @@
-import { Control } from "react-hook-form";
+import { Control, Path } from "react-hook-form";
 import { z } from "zod";
-import { formSchema } from "@/app/_schemas/formSchema";
 import { FormField, FormItem, FormLabel } from "./form";
 import FormTooltip from "../user-form/user-form-tooltip";
 import { CheckboxItem } from "./checkbox-item";
 
-interface CheckboxListProps {
-    control: Control<z.infer<typeof formSchema>>;
-    name:
-        | "cpf"
-        | "completeName"
-        | "socialName"
-        | "nickname"
-        | "pronoun"
-        | "pixKey"
-        | "contactEmail"
-        | "phone"
-        | "birthdate"
-        | "city"
-        | "state"
-        | "isPcd"
-        | "deficiency"
-        | "extraSupport"
-        | "photo";
+interface CheckboxListProps<T extends z.ZodObject<z.ZodRawShape>> {
+    control: Control<z.infer<T>>;
+    name: string;
     label: string;
     items: { label: string }[];
     tooltipMsg?: string;
 }
 
-export const CheckboxList = ({
+export const CheckboxList = <T extends z.ZodObject<z.ZodRawShape>>({
     control,
     name,
     label,
     items,
     tooltipMsg,
-}: CheckboxListProps) => (
+}: CheckboxListProps<T>) => (
     <FormField
         control={control}
-        name={name}
+        name={name as Path<z.infer<T>>}
         render={() => (
             <FormItem>
                 <FormLabel className="flex gap-2">
@@ -48,7 +32,7 @@ export const CheckboxList = ({
                     <FormField
                         key={item.label}
                         control={control}
-                        name={name}
+                        name={name as Path<z.infer<T>>}
                         render={({ field: checkboxField }) => {
                             const value = Array.isArray(checkboxField.value)
                                 ? checkboxField.value

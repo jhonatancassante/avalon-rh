@@ -1,43 +1,27 @@
-import { Control } from "react-hook-form";
+import { Control, Path } from "react-hook-form";
 import { z } from "zod";
 import { FormControl, FormField, FormItem, FormLabel } from "./form";
 import FormTooltip from "../user-form/user-form-tooltip";
 import { RadioGroup, RadioGroupItem } from "./radio-group";
-import { formSchema } from "@/app/_schemas/formSchema";
 
-interface RadioGroupFieldProps {
-    control: Control<z.infer<typeof formSchema>>;
-    name:
-        | "cpf"
-        | "completeName"
-        | "socialName"
-        | "nickname"
-        | "pronoun"
-        | "pixKey"
-        | "contactEmail"
-        | "phone"
-        | "birthdate"
-        | "city"
-        | "state"
-        | "isPcd"
-        | "deficiency"
-        | "extraSupport"
-        | "photo";
+interface RadioGroupFieldProps<T extends z.ZodObject<z.ZodRawShape>> {
+    control: Control<z.infer<T>>;
+    name: string;
     label: string;
     options: { value: string; label: string }[];
     tooltipMsg?: string;
 }
 
-export const RadioGroupField = ({
+export const RadioGroupField = <T extends z.ZodObject<z.ZodRawShape>>({
     control,
     name,
     label,
     options,
     tooltipMsg,
-}: RadioGroupFieldProps) => (
+}: RadioGroupFieldProps<T>) => (
     <FormField
         control={control}
-        name={name}
+        name={name as Path<z.infer<T>>}
         render={({ field }) => (
             <FormItem className="space-y-3">
                 <FormLabel>

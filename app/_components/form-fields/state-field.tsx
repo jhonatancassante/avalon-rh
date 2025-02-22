@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { UseFormReturn } from "react-hook-form";
-import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
-import { Drawer, DrawerContent, DrawerTrigger } from "../../ui/drawer";
-import { Button } from "../../ui/button";
+import { Path, PathValue, UseFormReturn } from "react-hook-form";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Drawer, DrawerContent, DrawerTrigger } from "../ui/drawer";
+import { Button } from "../ui/button";
 import { Check, ChevronsUpDown } from "lucide-react";
 import {
     Command,
@@ -11,33 +11,38 @@ import {
     CommandInput,
     CommandItem,
     CommandList,
-} from "../../ui/command";
+} from "../ui/command";
 import {
     FormControl,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
-} from "../../ui/form";
-import { formSchema } from "@/app/_schemas/formSchema";
-import { z } from "zod";
+} from "../ui/form";
+import { TypeOf, z } from "zod";
 
-interface CityFieldProps {
-    form: UseFormReturn<z.infer<typeof formSchema>>;
-    cities: { nome: string }[];
+interface StateFieldProps<T extends z.ZodObject<z.ZodRawShape>> {
+    form: UseFormReturn<z.infer<T>>;
+    states: { id: number; nome: string }[];
     isDesktop: boolean;
+    fetchCities: (stateId: number) => void;
 }
 
-const CityField = ({ form, cities, isDesktop }: CityFieldProps) => {
+const StateField = <T extends z.ZodObject<z.ZodRawShape>>({
+    form,
+    states,
+    isDesktop,
+    fetchCities,
+}: StateFieldProps<T>) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
         <FormField
             control={form.control}
-            name="city"
+            name={"state" as Path<z.infer<T>>}
             render={({ field }) => (
                 <FormItem className="flex w-full flex-col">
-                    <FormLabel>Cidade</FormLabel>
+                    <FormLabel>Estado</FormLabel>
                     {isDesktop ? (
                         <Popover open={isOpen} onOpenChange={setIsOpen}>
                             <PopoverTrigger asChild>
@@ -50,11 +55,12 @@ const CityField = ({ form, cities, isDesktop }: CityFieldProps) => {
                                         }`}
                                     >
                                         {field.value
-                                            ? cities.find(
-                                                  (city) =>
-                                                      city.nome === field.value,
+                                            ? states.find(
+                                                  (state) =>
+                                                      state.nome ===
+                                                      field.value,
                                               )?.nome
-                                            : "Selecione a cidade"}
+                                            : "Selecione o estado"}
                                         <ChevronsUpDown className="opacity-50" />
                                     </Button>
                                 </FormControl>
@@ -62,30 +68,36 @@ const CityField = ({ form, cities, isDesktop }: CityFieldProps) => {
                             <PopoverContent className="w-[200px] p-0">
                                 <Command>
                                     <CommandInput
-                                        placeholder="Procure a cidade..."
+                                        placeholder="Procure o estado..."
                                         className="h-9"
                                     />
                                     <CommandList>
                                         <CommandEmpty>
-                                            Nenhuma cidade encontrada.
+                                            Nenhum estado encontrado.
                                         </CommandEmpty>
                                         <CommandGroup>
-                                            {cities.map((city) => (
+                                            {states.map((state) => (
                                                 <CommandItem
-                                                    value={city.nome}
-                                                    key={city.nome}
+                                                    value={state.nome}
+                                                    key={state.nome}
                                                     onSelect={() => {
                                                         form.setValue(
-                                                            "city",
-                                                            city.nome,
+                                                            "state" as Path<
+                                                                z.infer<T>
+                                                            >,
+                                                            state.nome as PathValue<
+                                                                TypeOf<T>,
+                                                                Path<TypeOf<T>>
+                                                            >,
                                                         );
+                                                        fetchCities(state.id);
                                                         setIsOpen(false);
                                                     }}
                                                 >
-                                                    {city.nome}
+                                                    {state.nome}
                                                     <Check
                                                         className={`ml-auto ${
-                                                            city.nome ===
+                                                            state.nome ===
                                                             field.value
                                                                 ? "opacity-100"
                                                                 : "opacity-0"
@@ -110,11 +122,12 @@ const CityField = ({ form, cities, isDesktop }: CityFieldProps) => {
                                         }`}
                                     >
                                         {field.value
-                                            ? cities.find(
-                                                  (city) =>
-                                                      city.nome === field.value,
+                                            ? states.find(
+                                                  (state) =>
+                                                      state.nome ===
+                                                      field.value,
                                               )?.nome
-                                            : "Selecione a cidade"}
+                                            : "Selecione o estado"}
                                         <ChevronsUpDown className="opacity-50" />
                                     </Button>
                                 </FormControl>
@@ -122,30 +135,36 @@ const CityField = ({ form, cities, isDesktop }: CityFieldProps) => {
                             <DrawerContent>
                                 <Command>
                                     <CommandInput
-                                        placeholder="Procure a cidade..."
+                                        placeholder="Procure o estado..."
                                         className="h-9"
                                     />
                                     <CommandList>
                                         <CommandEmpty>
-                                            Nenhuma cidade encontrada.
+                                            Nenhum estado encontrado.
                                         </CommandEmpty>
                                         <CommandGroup>
-                                            {cities.map((city) => (
+                                            {states.map((state) => (
                                                 <CommandItem
-                                                    value={city.nome}
-                                                    key={city.nome}
+                                                    value={state.nome}
+                                                    key={state.nome}
                                                     onSelect={() => {
                                                         form.setValue(
-                                                            "city",
-                                                            city.nome,
+                                                            "state" as Path<
+                                                                z.infer<T>
+                                                            >,
+                                                            state.nome as PathValue<
+                                                                TypeOf<T>,
+                                                                Path<TypeOf<T>>
+                                                            >,
                                                         );
+                                                        fetchCities(state.id);
                                                         setIsOpen(false);
                                                     }}
                                                 >
-                                                    {city.nome}
+                                                    {state.nome}
                                                     <Check
                                                         className={`ml-auto ${
-                                                            city.nome ===
+                                                            state.nome ===
                                                             field.value
                                                                 ? "opacity-100"
                                                                 : "opacity-0"
@@ -166,4 +185,4 @@ const CityField = ({ form, cities, isDesktop }: CityFieldProps) => {
     );
 };
 
-export default CityField;
+export default StateField;

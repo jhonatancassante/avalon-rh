@@ -1,5 +1,4 @@
-import { formSchema } from "@/app/_schemas/formSchema";
-import { Control } from "react-hook-form";
+import { Control, Path } from "react-hook-form";
 import { z } from "zod";
 import {
     FormControl,
@@ -7,20 +6,22 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "../../ui/form";
-import FormTooltip from "../user-form-tooltip";
-import { Input } from "../../ui/input";
+} from "../ui/form";
+import FormTooltip from "../user-form/user-form-tooltip";
+import { Input } from "../ui/input";
 import formatPhone from "@/app/_utils/formatPhone";
 
-interface PhoneFieldProps {
-    control: Control<z.infer<typeof formSchema>>;
+interface PhoneFieldProps<T extends z.ZodObject<z.ZodRawShape>> {
+    control: Control<z.infer<T>>;
 }
 
-const PhoneField = ({ control }: PhoneFieldProps) => {
+const PhoneField = <T extends z.ZodObject<z.ZodRawShape>>({
+    control,
+}: PhoneFieldProps<T>) => {
     return (
         <FormField
             control={control}
-            name="phone"
+            name={"phone" as Path<z.infer<T>>}
             render={({ field }) => (
                 <FormItem>
                     <FormLabel className="flex gap-2">

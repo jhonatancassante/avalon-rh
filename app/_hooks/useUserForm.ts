@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { formSchema } from "../_schemas/formSchema";
+import { userFormSchema } from "../_schemas/formSchema";
 import { UserComplete } from "../_types/userComplete";
 
 interface UseUserFormProps {
@@ -11,8 +11,8 @@ interface UseUserFormProps {
 }
 
 export const useUserForm = ({ user }: UseUserFormProps) => {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof userFormSchema>>({
+        resolver: zodResolver(userFormSchema),
         mode: "onChange",
         defaultValues: {
             cpf: user.profile?.cpf ?? "",

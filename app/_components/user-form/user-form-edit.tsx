@@ -9,18 +9,19 @@ import UpdateUser from "../../_types/UpdateUser";
 import { updateUser } from "../../_actions/updateUser";
 import { useUserForm } from "@/app/_hooks/useUserForm";
 import { useFileUpload } from "@/app/_hooks/useFileUpload";
-import { formSchema } from "@/app/_schemas/formSchema";
 import { z } from "zod";
-import { UserFormFields } from "./user-form-fields";
+import { FormFields } from "../form-fields/form-fields";
 import { UserFormActions } from "./user-form-actions";
-import CpfField from "./form-fields/cpf-field";
-import PronounField from "./form-fields/pronoun-field";
-import PhoneField from "./form-fields/phone-field";
-import LocationsFields from "./form-fields/locations-fields";
-import PhotoField from "./form-fields/photo-field";
+import CpfField from "../form-fields/cpf-field";
+import PronounField from "../form-fields/pronoun-field";
+import PhoneField from "../form-fields/phone-field";
+import LocationsFields from "../form-fields/locations-fields";
+import PhotoField from "../form-fields/photo-field";
 import { useLoading } from "@/app/_contexts/LoadingContext";
-import { PcdFields } from "./form-fields/pcd-fields";
+import { PcdFields } from "../form-fields/pcd-fields";
 import { PATHS } from "@/app/_constants/paths";
+import { userFormSchema } from "@/app/_schemas/formSchema";
+import { editUserFields } from "@/app/_constants/editUserFields";
 
 interface UserEditFormProps {
     user: UserComplete;
@@ -35,7 +36,7 @@ const UserEditForm = ({ user }: UserEditFormProps) => {
     const isAtctiveSaveButton =
         form.formState.isValid && (photoData !== null || user.isComplete);
 
-    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const onSubmit = async (values: z.infer<typeof userFormSchema>) => {
         setIsLoading(true);
         try {
             const [year, month, day] = values.birthdate.split("-");
@@ -97,13 +98,17 @@ const UserEditForm = ({ user }: UserEditFormProps) => {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <CpfField control={form.control} />
-                <PronounField control={form.control} />
-                <UserFormFields control={form.control} />
-                <PhoneField control={form.control} />
-                <LocationsFields form={form} />
-                <PcdFields control={form.control} />
-                <PhotoField
+                <CpfField<typeof userFormSchema> control={form.control} />
+                <PronounField<typeof userFormSchema> control={form.control} />
+                <FormFields
+                    control={form.control}
+                    formSchema={userFormSchema}
+                    editFields={editUserFields}
+                />
+                <PhoneField<typeof userFormSchema> control={form.control} />
+                <LocationsFields<typeof userFormSchema> form={form} />
+                <PcdFields<typeof userFormSchema> control={form.control} />
+                <PhotoField<typeof userFormSchema>
                     control={form.control}
                     handleFileUpload={handleFileUpload}
                     photoData={photoData}

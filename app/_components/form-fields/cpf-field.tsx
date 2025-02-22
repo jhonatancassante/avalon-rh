@@ -5,22 +5,23 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "../../ui/form";
-import { Input } from "../../ui/input";
-import FormTooltip from "../user-form-tooltip";
-import { Control } from "react-hook-form";
+} from "../ui/form";
+import { Input } from "../ui/input";
+import FormTooltip from "../user-form/user-form-tooltip";
+import { Control, Path } from "react-hook-form";
 import { z } from "zod";
-import { formSchema } from "@/app/_schemas/formSchema";
 
-interface CpfFieldProps {
-    control: Control<z.infer<typeof formSchema>>;
+interface CpfFieldProps<T extends z.ZodObject<z.ZodRawShape>> {
+    control: Control<z.infer<T>>;
 }
 
-const CpfField = ({ control }: CpfFieldProps) => {
+const CpfField = <T extends z.ZodObject<z.ZodRawShape>>({
+    control,
+}: CpfFieldProps<T>) => {
     return (
         <FormField
             control={control}
-            name="cpf"
+            name={"cpf" as Path<z.infer<T>>}
             render={({ field }) => (
                 <FormItem>
                     <FormLabel className="flex gap-2">

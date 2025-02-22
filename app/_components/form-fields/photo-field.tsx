@@ -1,34 +1,33 @@
-import { Control } from "react-hook-form";
+import { Control, Path } from "react-hook-form";
 import {
     FormControl,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
-} from "../../ui/form";
+} from "../ui/form";
 import { z } from "zod";
-import { formSchema } from "@/app/_schemas/formSchema";
 import UpdatePhoto from "@/app/_types/updatePhoto";
-import FormTooltip from "../user-form-tooltip";
-import { Input } from "../../ui/input";
+import FormTooltip from "../user-form/user-form-tooltip";
+import { Input } from "../ui/input";
 
-interface UserFormFieldsProps {
-    control: Control<z.infer<typeof formSchema>>;
+interface UserFormFieldsProps<T extends z.ZodObject<z.ZodRawShape>> {
+    control: Control<z.infer<T>>;
     handleFileUpload: (file: File) => void;
     photoData: UpdatePhoto | null;
     isComplete: boolean;
 }
 
-const PhotoField = ({
+const PhotoField = <T extends z.ZodObject<z.ZodRawShape>>({
     control,
     handleFileUpload,
     photoData,
     isComplete,
-}: UserFormFieldsProps) => {
+}: UserFormFieldsProps<T>) => {
     return (
         <FormField
             control={control}
-            name="photo"
+            name={"photo" as Path<z.infer<T>>}
             render={({ field }) => (
                 <FormItem>
                     <FormLabel className="flex gap-2">

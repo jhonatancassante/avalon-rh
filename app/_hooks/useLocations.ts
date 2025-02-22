@@ -1,7 +1,6 @@
 import { useState, useCallback } from "react";
-import { UseFormReturn } from "react-hook-form";
+import { Path, UseFormReturn } from "react-hook-form";
 import { useLoading } from "@/app/_contexts/LoadingContext";
-import { formSchema } from "../_schemas/formSchema";
 import { z } from "zod";
 
 interface State {
@@ -13,8 +12,8 @@ interface City {
     nome: string;
 }
 
-export const useLocations = (
-    form: UseFormReturn<z.infer<typeof formSchema>>,
+export const useLocations = <T extends z.ZodObject<z.ZodRawShape>>(
+    form: UseFormReturn<z.infer<T>>,
 ) => {
     const [states, setStates] = useState<State[]>([]);
     const [cities, setCities] = useState<City[]>([]);
@@ -54,7 +53,8 @@ export const useLocations = (
             setStates(sortedStates);
 
             const selectedState = sortedStates.find(
-                (state: State) => state.nome === form.getValues("state"),
+                (state: State) =>
+                    state.nome === form.getValues("state" as Path<z.infer<T>>),
             );
             if (selectedState) {
                 fetchCities(selectedState.id);

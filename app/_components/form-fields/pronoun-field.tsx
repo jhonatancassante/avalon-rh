@@ -1,5 +1,4 @@
-import { formSchema } from "@/app/_schemas/formSchema";
-import { Control } from "react-hook-form";
+import { Control, Path } from "react-hook-form";
 import { z } from "zod";
 import {
     FormControl,
@@ -7,25 +6,27 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "../../ui/form";
+} from "../ui/form";
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "../../ui/select";
+} from "../ui/select";
 import { Pronouns } from "@/app/_constants/pronouns";
 
-interface PronounFieldProps {
-    control: Control<z.infer<typeof formSchema>>;
+interface PronounFieldProps<T extends z.ZodObject<z.ZodRawShape>> {
+    control: Control<z.infer<T>>;
 }
 
-const PronounField = ({ control }: PronounFieldProps) => {
+const PronounField = <T extends z.ZodObject<z.ZodRawShape>>({
+    control,
+}: PronounFieldProps<T>) => {
     return (
         <FormField
             control={control}
-            name="pronoun"
+            name={"pronoun" as Path<z.infer<T>>}
             render={({ field }) => (
                 <FormItem>
                     <FormLabel>Pronome</FormLabel>

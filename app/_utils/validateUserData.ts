@@ -8,7 +8,7 @@ import UpdateUser from "../_types/UpdateUser";
 
 const lettersAndNumbersRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9'\-\s]+$/;
 
-export const formSchema = z.object({
+export const validadeUserFormSchema = z.object({
     cpf: z.string().refine((value) => isValidCPF(value), "CPF inválido!"),
     completeName: z
         .string()
@@ -57,7 +57,7 @@ export const validateUserData = (data: UpdateUser) => {
                           },
                       ),
                   };
-        formSchema.parse(dataToValidade);
+        validadeUserFormSchema.parse(dataToValidade);
         return { isValid: true, errors: null };
     } catch (error) {
         if (error instanceof z.ZodError) {
