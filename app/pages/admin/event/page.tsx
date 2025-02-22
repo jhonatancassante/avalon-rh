@@ -1,9 +1,11 @@
-import { eventColumns } from "@/app/_components/data-table/event-columns";
-import { DataTable } from "@/app/_components/data-table/data-table";
+"use client";
+
 import PageLayoutSidebar from "@/app/_components/page-layout-sidebar";
 import { PATHS } from "@/app/_constants/paths";
+import { EventProvider } from "@/app/_contexts/EventContext";
+import EventDataTable from "@/app/_components/event-data-table/event-data-table";
 
-const EventListPage = async () => {
+const EventListPage = () => {
     const breadcrumbList = [
         {
             label: "Home",
@@ -20,14 +22,11 @@ const EventListPage = async () => {
     ] as const;
 
     return (
-        <PageLayoutSidebar breadcrumbList={breadcrumbList}>
-            <main className="flex flex-col items-center py-6">
-                <h1 className="text-2xl font-bold">Lista de Eventos</h1>
-                <div className="mx-auto w-full py-6 md:max-w-[80%]">
-                    <DataTable columns={eventColumns} />
-                </div>
-            </main>
-        </PageLayoutSidebar>
+        <EventProvider>
+            <PageLayoutSidebar breadcrumbList={breadcrumbList}>
+                <EventDataTable />
+            </PageLayoutSidebar>
+        </EventProvider>
     );
 };
 

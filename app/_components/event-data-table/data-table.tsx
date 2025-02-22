@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { DataTablePagination } from "./pagination";
-import { DataTableViewOptions } from "./view-options";
+import { DataTablePagination } from "../data-table/pagination";
+import { DataTableViewOptions } from "../data-table/view-options";
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -14,23 +14,24 @@ import {
     useReactTable,
     VisibilityState,
 } from "@tanstack/react-table";
-import { DataTableFilterControls } from "./filter-controls";
-import { DataTableActionButtons } from "./action-buttons";
-import { DataTableHeader } from "./header";
-import { DataTableBody } from "./body";
-import { useEvents } from "@/app/_contexts/EventContext";
+import { DataTableFilterControls } from "../data-table/filter-controls";
+import { DataTableActionButtons } from "../data-table/action-buttons";
+import { DataTableHeader } from "../data-table/header";
+import { DataTableBody } from "../data-table/body";
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
+    itemList: object[];
+    isLoading: boolean;
+    columnsWithFilters: { field: string; label: string }[];
+    refreshList: () => Promise<void>;
 }
-
-const columnsWithFilters = [
-    { field: "name", label: "nome" },
-    { field: "date", label: "data" },
-    { field: "dateToClose", label: "data de encerramento" },
-];
 
 export const DataTable = <TData, TValue>({
     columns,
+    itemList,
+    isLoading,
+    columnsWithFilters,
+    refreshList,
 }: Readonly<DataTableProps<TData, TValue>>) => {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -39,10 +40,9 @@ export const DataTable = <TData, TValue>({
     );
     const [rowSelection, setRowSelection] = useState({});
     const [selectedFilter, setSelectedFilter] = useState(columnsWithFilters[0]);
-    const { eventList, refreshEvents } = useEvents();
 
     const table = useReactTable({
-        data: eventList as TData[],
+        data: itemList as TData[],
         columns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
@@ -66,13 +66,17 @@ export const DataTable = <TData, TValue>({
                 />
                 <DataTableActionButtons
                     selectedRows={table.getSelectedRowModel().rows}
-                    onActionCompleted={refreshEvents}
+                    onActionCompleted={refreshList}
                 />
                 <DataTableViewOptions table={table} />
             </div>
             <div className="rounded-md border">
                 <DataTableHeader table={table} />
-                <DataTableBody table={table} columns={columns} />
+                <DataTableBody
+                    table={table}
+                    columns={columns}
+                    isLoading={isLoading}
+                />
             </div>
             <DataTablePagination table={table} />
         </div>

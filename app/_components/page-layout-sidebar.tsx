@@ -3,7 +3,6 @@ import { AppSidebar } from "./app-sidebar";
 import { SidebarInset, SidebarTrigger } from "./ui/sidebar";
 import { Separator } from "./ui/separator";
 import BreadcrumbAdmin from "./breadcrumb-admin";
-import { EventProvider } from "../_contexts/EventContext";
 
 interface PageLayoutSidebarProps {
     children: ReactNode;
@@ -15,7 +14,7 @@ const PageLayoutSidebar = ({
     breadcrumbList,
 }: PageLayoutSidebarProps) => {
     return (
-        <EventProvider>
+        <>
             <AppSidebar />
             <SidebarInset>
                 <header className="flex h-16 shrink-0 items-center gap-2 shadow-md transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
@@ -30,7 +29,7 @@ const PageLayoutSidebar = ({
                 </header>
                 {children}
             </SidebarInset>
-        </EventProvider>
+        </>
     );
 };
 

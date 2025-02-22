@@ -1,18 +1,17 @@
 import { ColumnDef, flexRender, Table } from "@tanstack/react-table";
 import { TableBody, TableCell, TableRow } from "@/app/_components/ui/table";
-import { useEvents } from "@/app/_contexts/EventContext";
 
 interface DataTableBodyProps<TData, TValue> {
     table: Table<TData>;
     columns: ColumnDef<TData, TValue>[];
+    isLoading: boolean;
 }
 
 export const DataTableBody = <TData, TValue>({
     table,
     columns,
+    isLoading,
 }: Readonly<DataTableBodyProps<TData, TValue>>) => {
-    const { isLoading } = useEvents();
-
     const renderTable = () => {
         if (table.getRowModel().rows?.length) {
             return table.getRowModel().rows.map((row) => (
