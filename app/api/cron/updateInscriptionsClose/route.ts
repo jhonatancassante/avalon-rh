@@ -11,17 +11,15 @@ export async function GET(request: Request) {
 
     try {
         const now = new Date();
-        const offset = -3; // UTC-3 (São Paulo)
-        const today = new Date(now.getTime() + offset * 60 * 60 * 1000);
-        today.setHours(0, 0, 0, 0); // Define o horário para meia-noite no fuso de São Paulo
+        const today = new Date(now.getTime());
+        today.setHours(0, 0, 0, 0);
 
-        console.log("Run scheduled function Close Inscriptions.");
+        console.log("Iniciando função de fechamento das inscrições...");
 
         const updatedEvents = await db.event.updateMany({
             where: {
                 dateToClose: {
-                    gte: today,
-                    lt: new Date(today.getTime() + 24 * 60 * 60 * 1000),
+                    lt: today,
                 },
                 areInscriptionsOpen: true,
             },
@@ -31,13 +29,13 @@ export async function GET(request: Request) {
         });
 
         return NextResponse.json({
-            message: "Inscrições atualizadas com sucesso!",
+            message: "Inscrições fechadas com sucesso!",
             updatedEvents,
         });
     } catch (error) {
-        console.error("Erro ao atualizar inscrições:", error);
+        console.error("Erro ao fechar inscrições:", error);
         return NextResponse.json(
-            { message: "Erro ao atualizar inscrições" },
+            { message: "Erro ao fechar inscrições" },
             { status: 500 },
         );
     }
