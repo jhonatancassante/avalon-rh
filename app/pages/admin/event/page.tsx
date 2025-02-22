@@ -2,7 +2,6 @@
 
 import PageLayoutSidebar from "@/app/_components/page-layout-sidebar";
 import { PATHS } from "@/app/_constants/paths";
-import { EventProvider } from "@/app/_contexts/EventContext";
 import EventDataTable from "@/app/_components/event-data-table/event-data-table";
 
 const EventListPage = () => {
@@ -22,11 +21,9 @@ const EventListPage = () => {
     ] as const;
 
     return (
-        <EventProvider>
-            <PageLayoutSidebar breadcrumbList={breadcrumbList}>
-                <EventDataTable />
-            </PageLayoutSidebar>
-        </EventProvider>
+        <PageLayoutSidebar breadcrumbList={breadcrumbList}>
+            <EventDataTable />
+        </PageLayoutSidebar>
     );
 };
 
