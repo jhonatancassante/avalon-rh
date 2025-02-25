@@ -17,7 +17,7 @@ import {
 import { DataTableFilterControls } from "./filter-controls";
 import { DataTableHeader } from "./header";
 import { DataTableBody } from "./body";
-import { DataTableActionButtonsProps } from "../data-table/action-buttons";
+import { DataTableEventActionButtonsProps } from "../event-data-table/event-action-buttons";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -25,7 +25,7 @@ interface DataTableProps<TData, TValue> {
     isLoading: boolean;
     columnsWithFilters: { field: string; label: string }[];
     refreshList: () => Promise<void>;
-    actionButtons?: React.ReactElement<DataTableActionButtonsProps<TData>>;
+    actionButtons?: React.ReactElement<DataTableEventActionButtonsProps<TData>>;
 }
 
 export const DataTable = <TData, TValue>({
