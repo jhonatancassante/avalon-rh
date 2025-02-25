@@ -10,13 +10,28 @@ export async function GET(request: Request) {
     }
 
     try {
-        console.log("Iniciando função de fechamento das inscrições...");
+        console.log("Iniciando função de atualização das inscrições...");
 
         const now = new Date();
         const today = new Date(now.getTime());
         today.setHours(0, 0, 0, 0);
 
-        const updatedEvents = await db.event.updateMany({
+        const updatedOpenEvents = await db.event.updateMany({
+            where: {
+                dateToOpen: {
+                    lt: today,
+                },
+                areInscriptionsOpen: false,
+                dateToClose: {
+                    gt: today,
+                },
+            },
+            data: {
+                areInscriptionsOpen: true,
+            },
+        });
+
+        const updatedClosedEvents = await db.event.updateMany({
             where: {
                 dateToClose: {
                     lt: today,
@@ -29,13 +44,14 @@ export async function GET(request: Request) {
         });
 
         return NextResponse.json({
-            message: "Inscrições fechadas com sucesso!",
-            updatedEvents,
+            message: "Inscrições atualizadas com sucesso!",
+            updatedOpenEvents,
+            updatedClosedEvents,
         });
     } catch (error) {
-        console.error("Erro ao fechar inscrições:", error);
+        console.error("Erro ao atualizar inscrições:", error);
         return NextResponse.json(
-            { message: "Erro ao fechar inscrições" },
+            { message: "Erro ao atualizar inscrições" },
             { status: 500 },
         );
     }
