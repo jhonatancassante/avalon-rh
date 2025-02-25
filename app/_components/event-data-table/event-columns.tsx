@@ -1,24 +1,6 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Button } from "../ui/button";
-import {
-    Copy,
-    Delete,
-    Edit,
-    MoreHorizontal,
-    Pencil,
-    Trash2,
-    View,
-} from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
 import { DataTableColumnHeader } from "../data-table/column-header";
 import { Event } from "@prisma/client";
@@ -26,6 +8,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import Link from "next/link";
 import { PATHS } from "@/app/_constants/paths";
+import EventRowActionMenu from "./event-row-action-menu";
 
 export const eventColumns: ColumnDef<Event>[] = [
     {
@@ -173,44 +156,7 @@ export const eventColumns: ColumnDef<Event>[] = [
         cell: ({ row }) => {
             const event = row.original;
 
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Abrir Menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Ações</DropdownMenuLabel>
-                        <DropdownMenuItem
-                            onClick={() =>
-                                navigator.clipboard.writeText(event.id)
-                            }
-                        >
-                            <Copy />
-                            Copiar ID
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>
-                            <View /> Visualizar
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            <Edit /> Editar
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            <Pencil /> Abrir Inscrições
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            <Delete /> Finalizar
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>
-                            <Trash2 /> Excluir
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            );
+            return <EventRowActionMenu event={event} />;
         },
     },
 ];
