@@ -47,10 +47,7 @@ const EventDataTable = () => {
                         }
                     />
                 </TabsContent>
-                <TabsContent
-                    value="finished"
-                    className="mx-auto w-full py-3 md:max-w-[90%]"
-                >
+                <TabsContent value="finished" className="mx-auto w-full py-3">
                     <DataTable
                         columns={eventColumns}
                         itemList={eventListFinished}
@@ -66,39 +63,6 @@ const EventDataTable = () => {
                     />
                 </TabsContent>
             </Tabs>
-            {/* <div className="mx-auto w-full py-3 md:max-w-[90%]">
-                <DataTable
-                    columns={eventColumns}
-                    itemList={eventListNotFinished}
-                    isLoading={isLoading}
-                    columnsWithFilters={columnsWithFilters}
-                    refreshList={refreshEvents}
-                    actionButtons={
-                        <DataTableEventActionButtons
-                            selectedRows={[]}
-                            onActionCompleted={refreshEvents}
-                        />
-                    }
-                />
-            </div> */}
-            {/* <h1 className="mt-10 text-2xl font-bold">
-                Lista de Eventos Finalizados
-            </h1>
-            <div className="mx-auto w-full py-3 md:max-w-[90%]">
-                <DataTable
-                    columns={eventColumns}
-                    itemList={eventListFinished}
-                    isLoading={isLoading}
-                    columnsWithFilters={columnsWithFilters}
-                    refreshList={refreshEvents}
-                    actionButtons={
-                        <DataTableEventFinishedActionButtons
-                            selectedRows={[]}
-                            onActionCompleted={refreshEvents}
-                        />
-                    }
-                />
-            </div> */}
         </main>
     );
 };
