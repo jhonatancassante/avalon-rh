@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Row } from "@tanstack/react-table";
-import { Pencil, PencilOff, Trash2, BadgePlus } from "lucide-react";
+import { Pencil, PencilOff, Trash2, Repeat } from "lucide-react";
 import { TooltipProvider } from "../ui/tooltip";
 import { ActionButton } from "../ui/action-button";
 import {
@@ -63,7 +63,7 @@ export const DataTableEventFinishedActionButtons = <TData,>({
                     }
                 />
                 <ActionButton
-                    icon={<BadgePlus />}
+                    icon={<Repeat />}
                     tooltipText="Reiniciar"
                     onClick={() =>
                         handleEventAction(
