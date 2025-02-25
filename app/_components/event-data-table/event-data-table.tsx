@@ -21,7 +21,7 @@ const EventDataTable = () => {
     return (
         <main className="flex flex-col items-center py-6">
             <h1 className="text-2xl font-bold">Lista de Eventos</h1>
-            <div className="mx-auto w-full py-6 md:max-w-[80%]">
+            <div className="mx-auto w-full py-6 md:max-w-[90%]">
                 <DataTable
                     columns={eventColumns}
                     itemList={eventListNotFinished}
@@ -39,7 +39,7 @@ const EventDataTable = () => {
             <h1 className="mt-10 text-2xl font-bold">
                 Lista de Eventos Finalizados
             </h1>
-            <div className="mx-auto w-full py-6 md:max-w-[80%]">
+            <div className="mx-auto w-full py-6 md:max-w-[90%]">
                 <DataTable
                     columns={eventColumns}
                     itemList={eventListFinished}

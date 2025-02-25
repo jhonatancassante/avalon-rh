@@ -67,12 +67,39 @@ export const eventColumns: ColumnDef<Event>[] = [
             <DataTableColumnHeader column={column} title="Nome" />
         ),
         cell: ({ row }) => (
-            <div className="capitalize">
-                <Link href={`${PATHS.EVENTS}/${row.original.id}`}>
-                    {row.getValue("name")}
-                </Link>
-            </div>
+            <Link href={`${PATHS.EVENTS}/${row.original.id}`}>
+                <div className="capitalize">{row.getValue("name")}</div>
+            </Link>
         ),
+    },
+    {
+        accessorKey: "date",
+        header: ({ column }) => (
+            <DataTableColumnHeader column={column} title="Data Evento" />
+        ),
+        cell: ({ row }) => (
+            <Link href={`${PATHS.EVENTS}/${row.original.id}`}>
+                <div className="capitalize">
+                    {format(row.getValue("date"), "dd/MM/yyyy", {
+                        locale: ptBR,
+                    })}
+                </div>
+            </Link>
+        ),
+        filterFn: (row, columnId, filterValue) => {
+            const rowValue = row.getValue(columnId);
+
+            if (
+                typeof rowValue === "string" ||
+                typeof rowValue === "number" ||
+                rowValue instanceof Date
+            ) {
+                const formattedRowValue = format(rowValue, "dd/MM/yyyy");
+                return formattedRowValue.includes(filterValue);
+            }
+
+            return false;
+        },
     },
     {
         accessorKey: "dateToOpen",
@@ -80,11 +107,13 @@ export const eventColumns: ColumnDef<Event>[] = [
             <DataTableColumnHeader column={column} title="Data Abertura" />
         ),
         cell: ({ row }) => (
-            <div className="capitalize">
-                {format(row.getValue("dateToOpen"), "dd/MM/yyyy", {
-                    locale: ptBR,
-                })}
-            </div>
+            <Link href={`${PATHS.EVENTS}/${row.original.id}`}>
+                <div className="capitalize">
+                    {format(row.getValue("dateToOpen"), "dd/MM/yyyy", {
+                        locale: ptBR,
+                    })}
+                </div>
+            </Link>
         ),
         filterFn: (row, columnId, filterValue) => {
             const rowValue = row.getValue(columnId);
@@ -104,10 +133,7 @@ export const eventColumns: ColumnDef<Event>[] = [
     {
         accessorKey: "areInscriptionsOpen",
         header: ({ column }) => (
-            <DataTableColumnHeader
-                column={column}
-                title="Inscrições Abertas?"
-            />
+            <DataTableColumnHeader column={column} title="Abertas?" />
         ),
         cell: ({ row }) => (
             <Checkbox checked={row.getValue("areInscriptionsOpen")} />
@@ -119,11 +145,13 @@ export const eventColumns: ColumnDef<Event>[] = [
             <DataTableColumnHeader column={column} title="Data Fechamento" />
         ),
         cell: ({ row }) => (
-            <div className="capitalize">
-                {format(row.getValue("dateToClose"), "dd/MM/yyyy", {
-                    locale: ptBR,
-                })}
-            </div>
+            <Link href={`${PATHS.EVENTS}/${row.original.id}`}>
+                <div className="capitalize">
+                    {format(row.getValue("dateToClose"), "dd/MM/yyyy", {
+                        locale: ptBR,
+                    })}
+                </div>
+            </Link>
         ),
         filterFn: (row, columnId, filterValue) => {
             const rowValue = row.getValue(columnId);
