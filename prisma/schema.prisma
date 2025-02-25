@@ -122,6 +122,7 @@ model Event {
   state               String
   city                String
   areInscriptionsOpen Boolean     @default(false)
+  dateToOpen          DateTime    @default(now())
   dateToClose         DateTime
   isFinished          Boolean     @default(false)
   isDeleted           Boolean     @default(false)

@@ -1,6 +1,7 @@
 import { useEvents } from "@/app/_contexts/EventContext";
-import { DataTable } from "./data-table";
+import { DataTable } from "../data-table/data-table";
 import { eventColumns } from "../data-table/event-columns";
+import { DataTableEventActionButtons } from "./event-action-buttons";
 
 const EventDataTable = () => {
     const { eventList, isLoading, refreshEvents } = useEvents();
@@ -8,6 +9,7 @@ const EventDataTable = () => {
     const columnsWithFilters = [
         { field: "name", label: "nome" },
         { field: "date", label: "data" },
+        { field: "dateToOpen", label: "data de abertura" },
         { field: "dateToClose", label: "data de encerramento" },
     ];
 
@@ -21,6 +23,12 @@ const EventDataTable = () => {
                     isLoading={isLoading}
                     columnsWithFilters={columnsWithFilters}
                     refreshList={refreshEvents}
+                    actionButtons={
+                        <DataTableEventActionButtons
+                            selectedRows={[]}
+                            onActionCompleted={refreshEvents}
+                        />
+                    }
                 />
             </div>
         </main>

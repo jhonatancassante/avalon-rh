@@ -14,22 +14,25 @@ import { handleEventAction } from "@/app/_lib/event-actions";
 import DeleteDialog from "../delete-dialog";
 import { useLoading } from "@/app/_contexts/LoadingContext";
 
-interface DataTableActionButtonsProps<TData> {
+export interface DataTableEventActionButtonsProps<TData> {
     selectedRows: Row<TData>[];
     onActionCompleted: () => Promise<void>;
 }
 
-export const DataTableActionButtons = <TData,>({
+export const DataTableEventActionButtons = <TData,>({
     selectedRows,
     onActionCompleted,
-}: Readonly<DataTableActionButtonsProps<TData>>) => {
+}: Readonly<DataTableEventActionButtonsProps<TData>>) => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const { setIsLoading } = useLoading();
 
     const handleDelete = async () => {
-        setIsLoading(true);
-        await handleEventAction(selectedRows, deleteEvent, onActionCompleted);
-        setIsLoading(false);
+        await handleEventAction(
+            selectedRows,
+            deleteEvent,
+            onActionCompleted,
+            setIsLoading,
+        );
     };
 
     return (
@@ -43,6 +46,7 @@ export const DataTableActionButtons = <TData,>({
                             selectedRows,
                             (id) => updateEventAreInscriptionsOpen(id, true),
                             onActionCompleted,
+                            setIsLoading,
                         )
                     }
                 />
@@ -54,6 +58,7 @@ export const DataTableActionButtons = <TData,>({
                             selectedRows,
                             (id) => updateEventAreInscriptionsOpen(id, false),
                             onActionCompleted,
+                            setIsLoading,
                         )
                     }
                 />
@@ -65,6 +70,7 @@ export const DataTableActionButtons = <TData,>({
                             selectedRows,
                             updateEventIsFinished,
                             onActionCompleted,
+                            setIsLoading,
                         )
                     }
                 />

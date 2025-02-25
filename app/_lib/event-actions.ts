@@ -5,7 +5,9 @@ export const handleEventAction = async <TData>(
     rows: Row<TData>[],
     action: (eventId: string) => Promise<void>,
     onCompleted: () => Promise<void>,
+    setIsLoading: (arg0: boolean) => void,
 ) => {
+    setIsLoading(true);
     await Promise.all(
         rows.map(async (row) => {
             const event = row.original as Event;
@@ -14,4 +16,5 @@ export const handleEventAction = async <TData>(
         }),
     );
     await onCompleted();
+    setIsLoading(false);
 };

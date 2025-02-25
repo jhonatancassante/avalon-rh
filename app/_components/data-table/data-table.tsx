@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { DataTablePagination } from "../data-table/pagination";
-import { DataTableViewOptions } from "../data-table/view-options";
+import { cloneElement, useState } from "react";
+import { DataTablePagination } from "./pagination";
+import { DataTableViewOptions } from "./view-options";
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -14,16 +14,18 @@ import {
     useReactTable,
     VisibilityState,
 } from "@tanstack/react-table";
-import { DataTableFilterControls } from "../data-table/filter-controls";
-import { DataTableActionButtons } from "../data-table/action-buttons";
-import { DataTableHeader } from "../data-table/header";
-import { DataTableBody } from "../data-table/body";
+import { DataTableFilterControls } from "./filter-controls";
+import { DataTableHeader } from "./header";
+import { DataTableBody } from "./body";
+import { DataTableActionButtonsProps } from "../data-table/action-buttons";
+
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     itemList: object[];
     isLoading: boolean;
     columnsWithFilters: { field: string; label: string }[];
     refreshList: () => Promise<void>;
+    actionButtons?: React.ReactElement<DataTableActionButtonsProps<TData>>;
 }
 
 export const DataTable = <TData, TValue>({
@@ -31,7 +33,7 @@ export const DataTable = <TData, TValue>({
     itemList,
     isLoading,
     columnsWithFilters,
-    refreshList,
+    actionButtons,
 }: Readonly<DataTableProps<TData, TValue>>) => {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -64,10 +66,10 @@ export const DataTable = <TData, TValue>({
                     columnsWithFilters={columnsWithFilters}
                     table={table}
                 />
-                <DataTableActionButtons
-                    selectedRows={table.getSelectedRowModel().rows}
-                    onActionCompleted={refreshList}
-                />
+                {actionButtons &&
+                    cloneElement(actionButtons, {
+                        selectedRows: table.getSelectedRowModel().rows,
+                    })}
                 <DataTableViewOptions table={table} />
             </div>
             <div className="rounded-md border">

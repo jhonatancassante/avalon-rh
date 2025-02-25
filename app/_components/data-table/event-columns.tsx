@@ -94,6 +94,33 @@ export const eventColumns: ColumnDef<Event>[] = [
         },
     },
     {
+        accessorKey: "dateToOpen",
+        header: ({ column }) => (
+            <DataTableColumnHeader column={column} title="Data de Abertura" />
+        ),
+        cell: ({ row }) => (
+            <div className="capitalize">
+                {format(row.getValue("dateToOpen"), "dd/MM/yyyy", {
+                    locale: ptBR,
+                })}
+            </div>
+        ),
+        filterFn: (row, columnId, filterValue) => {
+            const rowValue = row.getValue(columnId);
+
+            if (
+                typeof rowValue === "string" ||
+                typeof rowValue === "number" ||
+                rowValue instanceof Date
+            ) {
+                const formattedRowValue = format(rowValue, "dd/MM/yyyy");
+                return formattedRowValue.includes(filterValue);
+            }
+
+            return false;
+        },
+    },
+    {
         accessorKey: "areInscriptionsOpen",
         header: ({ column }) => (
             <DataTableColumnHeader
