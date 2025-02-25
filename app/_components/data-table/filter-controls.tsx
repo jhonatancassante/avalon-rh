@@ -7,6 +7,14 @@ import {
     SelectTrigger,
     SelectValue,
 } from "../ui/select";
+import { Button } from "../ui/button";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "../ui/tooltip";
+import { X } from "lucide-react";
 
 interface FilterControlsProps<TData> {
     selectedFilter: { field: string; label: string };
@@ -21,8 +29,14 @@ export const DataTableFilterControls = <TData,>({
     columnsWithFilters,
     table,
 }: Readonly<FilterControlsProps<TData>>) => {
+    const handleCleanFilter = () => {
+        table.resetColumnFilters();
+
+        table.getColumn(selectedFilter.field)?.setFilterValue("");
+    };
+
     return (
-        <div className="flex gap-4">
+        <div className="relative flex gap-4">
             <Input
                 placeholder={`Filtrar por ${selectedFilter.label}...`}
                 value={
@@ -37,6 +51,25 @@ export const DataTableFilterControls = <TData,>({
                 }
                 className="max-w-sm"
             />
+            <TooltipProvider>
+                <Tooltip>
+                    <TooltipTrigger
+                        className="absolute right-[136px] top-0"
+                        asChild
+                    >
+                        <Button
+                            size={"icon"}
+                            variant={"ghost"}
+                            onClick={handleCleanFilter}
+                        >
+                            <X />
+                        </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        <p>Limpar filtro</p>
+                    </TooltipContent>
+                </Tooltip>
+            </TooltipProvider>
             <Select
                 value={selectedFilter.field}
                 onValueChange={(value) => {
