@@ -7,6 +7,7 @@ export const handleEventAction = async <TData>(
     onCompleted: () => Promise<void>,
     setIsLoading: (arg0: boolean) => void,
 ) => {
+    if (rows.length === 0) return;
     setIsLoading(true);
     await Promise.all(
         rows.map(async (row) => {

@@ -26,6 +26,11 @@ export const DataTableEventFinishedActionButtons = <TData,>({
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const { setIsLoading } = useLoading();
 
+    const handleDialogOpen = () => {
+        if (selectedRows.length === 0) return;
+        setDeleteDialogOpen(true);
+    };
+
     const handleDelete = async () => {
         await handleEventAction(
             selectedRows,
@@ -77,7 +82,7 @@ export const DataTableEventFinishedActionButtons = <TData,>({
                 <ActionButton
                     icon={<Trash2 />}
                     tooltipText="Deletar"
-                    onClick={() => setDeleteDialogOpen(true)}
+                    onClick={handleDialogOpen}
                 />
             </TooltipProvider>
             <DeleteDialog
