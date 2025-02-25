@@ -19,7 +19,7 @@ export async function GET(request: Request) {
         const updatedOpenEvents = await db.event.updateMany({
             where: {
                 dateToOpen: {
-                    lt: today,
+                    lte: today,
                 },
                 areInscriptionsOpen: false,
                 dateToClose: {
