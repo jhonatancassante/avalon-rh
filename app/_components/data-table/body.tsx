@@ -1,5 +1,6 @@
 import { ColumnDef, flexRender, Table } from "@tanstack/react-table";
 import { TableBody, TableCell, TableRow } from "@/app/_components/ui/table";
+import WaveText from "../ui/wave-text";
 
 interface DataTableBodyProps<TData, TValue> {
     table: Table<TData>;
@@ -37,7 +38,13 @@ export const DataTableBody = <TData, TValue>({
                     colSpan={columns.length}
                     className="h-24 text-center"
                 >
-                    {isLoading ? "Carregando..." : "No results."}
+                    {isLoading ? (
+                        <span className="flex w-full items-center justify-center">
+                            <WaveText text="Carregando..." />
+                        </span>
+                    ) : (
+                        "No results."
+                    )}
                 </TableCell>
             </TableRow>
         );
