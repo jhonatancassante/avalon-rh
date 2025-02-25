@@ -50,7 +50,7 @@ export const EventActionsDropdown = ({
     };
 
     const handleFinishEvent = async () => {
-        await updateEventIsFinished(event.id);
+        await updateEventIsFinished(event.id, true);
         onEventUpdated();
     };
 

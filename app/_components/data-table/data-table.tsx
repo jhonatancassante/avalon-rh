@@ -10,6 +10,7 @@ import {
     getFilteredRowModel,
     getPaginationRowModel,
     getSortedRowModel,
+    Row,
     SortingState,
     useReactTable,
     VisibilityState,
@@ -17,7 +18,11 @@ import {
 import { DataTableFilterControls } from "./filter-controls";
 import { DataTableHeader } from "./header";
 import { DataTableBody } from "./body";
-import { DataTableEventActionButtonsProps } from "../event-data-table/event-action-buttons";
+
+export interface DataTableActionButtonsProps<TData> {
+    selectedRows: Row<TData>[];
+    onActionCompleted: () => Promise<void>;
+}
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -25,7 +30,7 @@ interface DataTableProps<TData, TValue> {
     isLoading: boolean;
     columnsWithFilters: { field: string; label: string }[];
     refreshList: () => Promise<void>;
-    actionButtons?: React.ReactElement<DataTableEventActionButtonsProps<TData>>;
+    actionButtons?: React.ReactElement<DataTableActionButtonsProps<TData>>;
 }
 
 export const DataTable = <TData, TValue>({

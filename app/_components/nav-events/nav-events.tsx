@@ -10,19 +10,14 @@ import { EventItem } from "./event-item";
 import { useEvents } from "@/app/_contexts/EventContext";
 
 export const NavEvents = () => {
-    const { eventList, isLoading, eventError, refreshEvents } = useEvents();
+    const { eventListNotFinished, isLoading, eventError, refreshEvents } =
+        useEvents();
 
     const renderedEvents = useMemo(() => {
-        if (!eventList) return null;
-        const filteredEventList = eventList
-            .filter((event) => event.isFinished === false)
-            .sort(
-                (a, b) =>
-                    new Date(a.date).getTime() - new Date(b.date).getTime(),
-            );
+        if (!eventListNotFinished) return null;
 
-        if (filteredEventList.length >= 3) {
-            return filteredEventList
+        if (eventListNotFinished.length >= 3) {
+            return eventListNotFinished
                 .slice(0, 3)
                 .map((event) => (
                     <EventItem
@@ -33,14 +28,14 @@ export const NavEvents = () => {
                 ));
         }
 
-        return filteredEventList.map((event) => (
+        return eventListNotFinished.map((event) => (
             <EventItem
                 key={event.id}
                 event={event}
                 onEventUpdated={refreshEvents}
             />
         ));
-    }, [eventList, refreshEvents]);
+    }, [eventListNotFinished, refreshEvents]);
 
     const renderContent = () => {
         if (isLoading) {
@@ -51,7 +46,7 @@ export const NavEvents = () => {
             return <p className="p-2 text-sm text-red-500">{eventError}</p>;
         }
 
-        if (eventList.length === 0) {
+        if (eventListNotFinished.length === 0) {
             return <p className="p-2 text-sm">Nenhum evento cadastrado!</p>;
         }
 

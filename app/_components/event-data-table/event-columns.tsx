@@ -20,10 +20,12 @@ import {
     View,
 } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
-import { DataTableColumnHeader } from "./column-header";
+import { DataTableColumnHeader } from "../data-table/column-header";
 import { Event } from "@prisma/client";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import Link from "next/link";
+import { PATHS } from "@/app/_constants/paths";
 
 export const eventColumns: ColumnDef<Event>[] = [
     {
@@ -65,38 +67,17 @@ export const eventColumns: ColumnDef<Event>[] = [
             <DataTableColumnHeader column={column} title="Nome" />
         ),
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("name")}</div>
-        ),
-    },
-    {
-        accessorKey: "date",
-        header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Data" />
-        ),
-        cell: ({ row }) => (
             <div className="capitalize">
-                {format(row.getValue("date"), "dd/MM/yyyy", { locale: ptBR })}
+                <Link href={`${PATHS.EVENTS}/${row.original.id}`}>
+                    {row.getValue("name")}
+                </Link>
             </div>
         ),
-        filterFn: (row, columnId, filterValue) => {
-            const rowValue = row.getValue(columnId);
-
-            if (
-                typeof rowValue === "string" ||
-                typeof rowValue === "number" ||
-                rowValue instanceof Date
-            ) {
-                const formattedRowValue = format(rowValue, "dd/MM/yyyy");
-                return formattedRowValue.includes(filterValue);
-            }
-
-            return false;
-        },
     },
     {
         accessorKey: "dateToOpen",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Data de Abertura" />
+            <DataTableColumnHeader column={column} title="Data Abertura" />
         ),
         cell: ({ row }) => (
             <div className="capitalize">
@@ -135,10 +116,7 @@ export const eventColumns: ColumnDef<Event>[] = [
     {
         accessorKey: "dateToClose",
         header: ({ column }) => (
-            <DataTableColumnHeader
-                column={column}
-                title="Data de Encerramento"
-            />
+            <DataTableColumnHeader column={column} title="Data Fechamento" />
         ),
         cell: ({ row }) => (
             <div className="capitalize">
@@ -161,13 +139,6 @@ export const eventColumns: ColumnDef<Event>[] = [
 
             return false;
         },
-    },
-    {
-        accessorKey: "isFinished",
-        header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Finalizado?" />
-        ),
-        cell: ({ row }) => <Checkbox checked={row.getValue("isFinished")} />,
     },
     {
         id: "actions",

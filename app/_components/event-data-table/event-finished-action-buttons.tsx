@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Row } from "@tanstack/react-table";
-import { Pencil, PencilOff, Trash2, BadgeMinus } from "lucide-react";
+import { Pencil, PencilOff, Trash2, BadgePlus } from "lucide-react";
 import { TooltipProvider } from "../ui/tooltip";
 import { ActionButton } from "../ui/action-button";
 import {
@@ -14,15 +14,15 @@ import { handleEventAction } from "@/app/_lib/event-actions";
 import DeleteDialog from "../delete-dialog";
 import { useLoading } from "@/app/_contexts/LoadingContext";
 
-interface DataTableEventActionButtonsProps<TData> {
+interface DataTableEventFinishedActionButtonsProps<TData> {
     selectedRows: Row<TData>[];
     onActionCompleted: () => Promise<void>;
 }
 
-export const DataTableEventActionButtons = <TData,>({
+export const DataTableEventFinishedActionButtons = <TData,>({
     selectedRows,
     onActionCompleted,
-}: Readonly<DataTableEventActionButtonsProps<TData>>) => {
+}: Readonly<DataTableEventFinishedActionButtonsProps<TData>>) => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const { setIsLoading } = useLoading();
 
@@ -63,12 +63,12 @@ export const DataTableEventActionButtons = <TData,>({
                     }
                 />
                 <ActionButton
-                    icon={<BadgeMinus />}
-                    tooltipText="Finalizar"
+                    icon={<BadgePlus />}
+                    tooltipText="Reiniciar"
                     onClick={() =>
                         handleEventAction(
                             selectedRows,
-                            (id) => updateEventIsFinished(id, true),
+                            (id) => updateEventIsFinished(id, false),
                             onActionCompleted,
                             setIsLoading,
                         )

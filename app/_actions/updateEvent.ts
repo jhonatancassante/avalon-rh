@@ -32,7 +32,10 @@ export const updateEventAreInscriptionsOpen = async (
     });
 };
 
-export const updateEventIsFinished = async (id: string) => {
+export const updateEventIsFinished = async (
+    id: string,
+    isFinished: boolean,
+) => {
     const session = await getServerSession(authOptions);
 
     if (!session) {
@@ -46,29 +49,13 @@ export const updateEventIsFinished = async (id: string) => {
     }
 
     try {
-        const event = await db.event.findUnique({
-            where: {
-                id: id,
-                isDeleted: false,
-            },
-            select: {
-                isFinished: true,
-            },
-        });
-
-        if (!event) {
-            throw new Error("Event not found.");
-        }
-
-        const newIsFinished = !event.isFinished;
-
         await db.event.update({
             where: {
                 id: id,
                 isDeleted: false,
             },
             data: {
-                isFinished: newIsFinished,
+                isFinished: isFinished,
             },
         });
     } catch (error) {

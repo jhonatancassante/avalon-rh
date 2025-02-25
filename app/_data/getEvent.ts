@@ -20,7 +20,7 @@ export const getEventList = async () => {
     return eventList;
 };
 
-export const getEventListNonFinished = async () => {
+export const getEventListNotFinished = async () => {
     const session = await getServerSession(authOptions);
 
     if (!session || session.user.role !== Roles.Admin)
@@ -34,7 +34,25 @@ export const getEventListNonFinished = async () => {
         orderBy: {
             date: "asc",
         },
-        take: 5,
+    });
+
+    return eventList;
+};
+
+export const getEventListFinished = async () => {
+    const session = await getServerSession(authOptions);
+
+    if (!session || session.user.role !== Roles.Admin)
+        throw new Error("Unauthorized!");
+
+    const eventList = await db.event.findMany({
+        where: {
+            isDeleted: false,
+            isFinished: true,
+        },
+        orderBy: {
+            date: "asc",
+        },
     });
 
     return eventList;

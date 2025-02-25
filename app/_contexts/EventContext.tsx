@@ -9,13 +9,18 @@ import {
     useMemo,
 } from "react";
 import { Event } from "@prisma/client";
-import { getEventList } from "../_data/getEvent";
+import {
+    getEventListFinished,
+    getEventListNotFinished,
+} from "../_data/getEvent";
 
 interface EventContextType {
-    eventList: Event[];
+    eventListNotFinished: Event[];
+    eventListFinished: Event[];
     isLoading: boolean;
     eventError: string | null;
-    setEventList: (events: Event[]) => void;
+    setEventListNotFinished: (events: Event[]) => void;
+    setEventListFinished: (events: Event[]) => void;
     refreshEvents: () => Promise<void>;
 }
 
@@ -26,14 +31,19 @@ export const EventProvider = ({
 }: {
     readonly children: React.ReactNode;
 }) => {
-    const [eventList, setEventList] = useState<Event[]>([]);
+    const [eventListNotFinished, setEventListNotFinished] = useState<Event[]>(
+        [],
+    );
+    const [eventListFinished, setEventListFinished] = useState<Event[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [eventError, setEventError] = useState<string | null>(null);
 
     const fetchEvents = useCallback(async () => {
         try {
-            const events = await getEventList();
-            setEventList(events);
+            const eventsNotFinished = await getEventListNotFinished();
+            const eventsFinished = await getEventListFinished();
+            setEventListNotFinished(eventsNotFinished);
+            setEventListFinished(eventsFinished);
         } catch (error) {
             console.error("Erro ao buscar eventos:", error);
             setEventError("Erro ao carregar eventos.");
@@ -52,13 +62,21 @@ export const EventProvider = ({
 
     const contextValue = useMemo(
         () => ({
-            eventList,
+            eventListNotFinished,
+            eventListFinished,
             isLoading,
             eventError,
-            setEventList,
+            setEventListNotFinished,
+            setEventListFinished,
             refreshEvents,
         }),
-        [eventList, isLoading, eventError, refreshEvents], // Dependências
+        [
+            eventListNotFinished,
+            eventListFinished,
+            isLoading,
+            eventError,
+            refreshEvents,
+        ],
     );
 
     return (
