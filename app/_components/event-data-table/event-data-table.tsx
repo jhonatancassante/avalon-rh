@@ -31,7 +31,7 @@ const EventDataTable = () => {
                 </TabsList>
                 <TabsContent
                     value="notFinished"
-                    className="mx-auto w-full py-3"
+                    className="mx-auto w-[90%] py-3"
                 >
                     <DataTable
                         columns={eventColumns}
@@ -47,7 +47,7 @@ const EventDataTable = () => {
                         }
                     />
                 </TabsContent>
-                <TabsContent value="finished" className="mx-auto w-full py-3">
+                <TabsContent value="finished" className="mx-auto w-[90%] py-3">
                     <DataTable
                         columns={eventColumns}
                         itemList={eventListFinished}
