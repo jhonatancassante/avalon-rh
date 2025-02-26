@@ -1,6 +1,6 @@
 import { useEvents } from "@/app/_contexts/EventContext";
 import { DataTable } from "../data-table/data-table";
-import { eventColumns } from "./event-columns";
+import { columnsNames, eventColumns } from "./event-columns";
 import { DataTableEventActionButtons } from "./event-action-buttons";
 import { DataTableEventFinishedActionButtons } from "./event-finished-action-buttons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
@@ -12,15 +12,6 @@ const EventDataTable = () => {
         isLoading,
         refreshEvents,
     } = useEvents();
-
-    const columnsNames = [
-        { field: "name", label: "nome", filter: true },
-        { field: "edition", label: "edição", filter: false },
-        { field: "date", label: "data evento", filter: true },
-        { field: "dateToOpen", label: "data abertura", filter: true },
-        { field: "areInscriptionsOpen", label: "Abertas?", filter: false },
-        { field: "dateToClose", label: "data encerramento", filter: true },
-    ];
 
     return (
         <main className="flex flex-col items-center py-6">

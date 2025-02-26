@@ -10,6 +10,15 @@ import Link from "next/link";
 import { PATHS } from "@/app/_constants/paths";
 import EventRowActionMenu from "./event-row-action-menu";
 
+export const columnsNames = [
+    { field: "name", label: "nome", filter: true },
+    { field: "edition", label: "edição", filter: false },
+    { field: "date", label: "data evento", filter: true },
+    { field: "dateToOpen", label: "data abertura", filter: true },
+    { field: "areInscriptionsOpen", label: "Abertas?", filter: false },
+    { field: "dateToClose", label: "data encerramento", filter: true },
+];
+
 export const eventColumns: ColumnDef<Event>[] = [
     {
         id: "select",
