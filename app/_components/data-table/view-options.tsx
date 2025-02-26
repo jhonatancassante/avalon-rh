@@ -14,10 +14,12 @@ import { Button } from "../ui/button";
 
 interface DataTableViewOptionsProps<TData> {
     table: Table<TData>;
+    columnsNames: { field: string; label: string; filter: boolean }[];
 }
 
 export const DataTableViewOptions = <TData,>({
     table,
+    columnsNames,
 }: Readonly<DataTableViewOptionsProps<TData>>) => {
     return (
         <DropdownMenu>
@@ -42,6 +44,9 @@ export const DataTableViewOptions = <TData,>({
                             column.getCanHide(),
                     )
                     .map((column) => {
+                        const columnName = columnsNames.find(
+                            (item) => item.field === column.id,
+                        );
                         return (
                             <DropdownMenuCheckboxItem
                                 key={column.id}
@@ -51,7 +56,7 @@ export const DataTableViewOptions = <TData,>({
                                     column.toggleVisibility(!!value)
                                 }
                             >
-                                {column.id}
+                                {columnName?.label}
                             </DropdownMenuCheckboxItem>
                         );
                     })}

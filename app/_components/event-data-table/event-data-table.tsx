@@ -13,10 +13,13 @@ const EventDataTable = () => {
         refreshEvents,
     } = useEvents();
 
-    const columnsWithFilters = [
-        { field: "name", label: "nome" },
-        { field: "dateToOpen", label: "data de abertura" },
-        { field: "dateToClose", label: "data de encerramento" },
+    const columnsNames = [
+        { field: "name", label: "nome", filter: true },
+        { field: "edition", label: "edição", filter: false },
+        { field: "date", label: "data evento", filter: true },
+        { field: "dateToOpen", label: "data abertura", filter: true },
+        { field: "areInscriptionsOpen", label: "Abertas?", filter: false },
+        { field: "dateToClose", label: "data encerramento", filter: true },
     ];
 
     return (
@@ -37,7 +40,7 @@ const EventDataTable = () => {
                         columns={eventColumns}
                         itemList={eventListNotFinished}
                         isLoading={isLoading}
-                        columnsWithFilters={columnsWithFilters}
+                        columnsNames={columnsNames}
                         refreshList={refreshEvents}
                         actionButtons={
                             <DataTableEventActionButtons
@@ -52,7 +55,7 @@ const EventDataTable = () => {
                         columns={eventColumns}
                         itemList={eventListFinished}
                         isLoading={isLoading}
-                        columnsWithFilters={columnsWithFilters}
+                        columnsNames={columnsNames}
                         refreshList={refreshEvents}
                         actionButtons={
                             <DataTableEventFinishedActionButtons

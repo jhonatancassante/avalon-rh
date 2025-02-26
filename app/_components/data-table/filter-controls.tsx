@@ -18,15 +18,19 @@ import { X } from "lucide-react";
 
 interface FilterControlsProps<TData> {
     selectedFilter: { field: string; label: string };
-    setSelectedFilter: (filter: { field: string; label: string }) => void;
-    columnsWithFilters: { field: string; label: string }[];
+    setSelectedFilter: (filter: {
+        field: string;
+        label: string;
+        filter: boolean;
+    }) => void;
+    columnsNames: { field: string; label: string; filter: boolean }[];
     table: Table<TData>;
 }
 
 export const DataTableFilterControls = <TData,>({
     selectedFilter,
     setSelectedFilter,
-    columnsWithFilters,
+    columnsNames,
     table,
 }: Readonly<FilterControlsProps<TData>>) => {
     const handleCleanFilter = () => {
@@ -73,7 +77,7 @@ export const DataTableFilterControls = <TData,>({
             <Select
                 value={selectedFilter.field}
                 onValueChange={(value) => {
-                    const newFilter = columnsWithFilters.find(
+                    const newFilter = columnsNames.find(
                         (item) => item.field === value,
                     );
                     if (newFilter) setSelectedFilter(newFilter);
@@ -83,11 +87,14 @@ export const DataTableFilterControls = <TData,>({
                     <SelectValue placeholder="Filtros..." />
                 </SelectTrigger>
                 <SelectContent>
-                    {columnsWithFilters.map((item) => (
-                        <SelectItem value={item.field} key={item.field}>
-                            <span className="capitalize">{item.label}</span>
-                        </SelectItem>
-                    ))}
+                    {columnsNames.map((item) => {
+                        if (!item.filter) return;
+                        return (
+                            <SelectItem value={item.field} key={item.field}>
+                                <span className="capitalize">{item.label}</span>
+                            </SelectItem>
+                        );
+                    })}
                 </SelectContent>
             </Select>
         </div>

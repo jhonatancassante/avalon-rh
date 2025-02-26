@@ -28,7 +28,7 @@ interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     itemList: object[];
     isLoading: boolean;
-    columnsWithFilters: { field: string; label: string }[];
+    columnsNames: { field: string; label: string; filter: boolean }[];
     refreshList: () => Promise<void>;
     actionButtons?: React.ReactElement<DataTableActionButtonsProps<TData>>;
 }
@@ -37,7 +37,7 @@ export const DataTable = <TData, TValue>({
     columns,
     itemList,
     isLoading,
-    columnsWithFilters,
+    columnsNames,
     actionButtons,
 }: Readonly<DataTableProps<TData, TValue>>) => {
     const [sorting, setSorting] = useState<SortingState>([]);
@@ -46,7 +46,7 @@ export const DataTable = <TData, TValue>({
         {},
     );
     const [rowSelection, setRowSelection] = useState({});
-    const [selectedFilter, setSelectedFilter] = useState(columnsWithFilters[0]);
+    const [selectedFilter, setSelectedFilter] = useState(columnsNames[0]);
 
     const table = useReactTable({
         data: itemList as TData[],
@@ -68,14 +68,17 @@ export const DataTable = <TData, TValue>({
                 <DataTableFilterControls
                     selectedFilter={selectedFilter}
                     setSelectedFilter={setSelectedFilter}
-                    columnsWithFilters={columnsWithFilters}
+                    columnsNames={columnsNames}
                     table={table}
                 />
                 {actionButtons &&
                     cloneElement(actionButtons, {
                         selectedRows: table.getSelectedRowModel().rows,
                     })}
-                <DataTableViewOptions table={table} />
+                <DataTableViewOptions
+                    table={table}
+                    columnsNames={columnsNames}
+                />
             </div>
             <div className="rounded-md border">
                 <DataTableHeader table={table} />
