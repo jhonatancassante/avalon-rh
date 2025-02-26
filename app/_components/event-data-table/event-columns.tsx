@@ -36,7 +36,7 @@ export const eventColumns: ColumnDef<Event>[] = [
         enableHiding: false,
     },
     {
-        accessorKey: "edição",
+        accessorKey: "edition",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Edição" />
         ),
@@ -45,7 +45,7 @@ export const eventColumns: ColumnDef<Event>[] = [
         ),
     },
     {
-        accessorKey: "nome",
+        accessorKey: "name",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Nome" />
         ),
@@ -56,7 +56,7 @@ export const eventColumns: ColumnDef<Event>[] = [
         ),
     },
     {
-        accessorKey: "data evento",
+        accessorKey: "date",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Data Evento" />
         ),
@@ -85,7 +85,7 @@ export const eventColumns: ColumnDef<Event>[] = [
         },
     },
     {
-        accessorKey: "data abertura",
+        accessorKey: "dateToOpen",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Data Abertura" />
         ),
@@ -114,7 +114,7 @@ export const eventColumns: ColumnDef<Event>[] = [
         },
     },
     {
-        accessorKey: "abertas?",
+        accessorKey: "areInscriptionsOpen",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Abertas?" />
         ),
@@ -123,7 +123,7 @@ export const eventColumns: ColumnDef<Event>[] = [
         ),
     },
     {
-        accessorKey: "data fechamento",
+        accessorKey: "dateToClose",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Data Fechamento" />
         ),
