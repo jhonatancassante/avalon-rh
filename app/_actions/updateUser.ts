@@ -52,6 +52,10 @@ export const updateUser = async (id: string, data: UpdateUser) => {
         data.profile.cpf = encrypt(data.profile.cpf);
     }
 
+    if (data.profile.pixKey) {
+        data.profile.pixKey = encrypt(data.profile.pixKey);
+    }
+
     if (data.profile.phone) {
         data.profile.phone = encrypt(data.profile.phone);
     }
