@@ -12,8 +12,7 @@ export async function GET(request: Request) {
     try {
         console.log("Iniciando função de atualização das inscrições...");
 
-        const now = new Date();
-        const today = new Date(now.getTime());
+        const today = new Date();
         today.setHours(0, 0, 0, 0);
 
         const updatedOpenEvents = await db.event.updateMany({

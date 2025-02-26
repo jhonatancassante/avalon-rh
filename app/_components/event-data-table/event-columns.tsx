@@ -5,6 +5,7 @@ import { Checkbox } from "../ui/checkbox";
 import { DataTableColumnHeader } from "../data-table/column-header";
 import { Event } from "@prisma/client";
 import { format } from "date-fns";
+import { toZonedTime } from "date-fns-tz";
 import { ptBR } from "date-fns/locale";
 import Link from "next/link";
 import { PATHS } from "@/app/_constants/paths";
@@ -98,15 +99,25 @@ export const eventColumns: ColumnDef<Event>[] = [
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Data Abertura" />
         ),
-        cell: ({ row }) => (
-            <Link href={`${PATHS.EVENTS}/${row.original.id}`}>
-                <div className="capitalize">
-                    {format(row.getValue("dateToOpen"), "dd/MM/yyyy", {
-                        locale: ptBR,
-                    })}
-                </div>
-            </Link>
-        ),
+        cell: ({ row }) => {
+            const rawDate = row.getValue("dateToOpen");
+
+            if (!(rawDate instanceof Date)) {
+                throw new Error("dateToOpen não é uma instância de Date");
+            }
+
+            const utcDate = toZonedTime(rawDate, "UTC");
+
+            return (
+                <Link href={`${PATHS.EVENTS}/${row.original.id}`}>
+                    <div className="capitalize">
+                        {format(utcDate, "dd/MM/yyyy", {
+                            locale: ptBR,
+                        })}
+                    </div>
+                </Link>
+            );
+        },
         filterFn: (row, columnId, filterValue) => {
             const rowValue = row.getValue(columnId);
 
@@ -136,15 +147,24 @@ export const eventColumns: ColumnDef<Event>[] = [
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Data Fechamento" />
         ),
-        cell: ({ row }) => (
-            <Link href={`${PATHS.EVENTS}/${row.original.id}`}>
-                <div className="capitalize">
-                    {format(row.getValue("dateToClose"), "dd/MM/yyyy", {
-                        locale: ptBR,
-                    })}
-                </div>
-            </Link>
-        ),
+        cell: ({ row }) => {
+            const rawDate = row.getValue("dateToClose");
+
+            if (!(rawDate instanceof Date)) {
+                throw new Error("dateToClose não é uma instância de Date");
+            }
+
+            const utcDate = toZonedTime(rawDate, "UTC");
+            return (
+                <Link href={`${PATHS.EVENTS}/${row.original.id}`}>
+                    <div className="capitalize">
+                        {format(utcDate, "dd/MM/yyyy", {
+                            locale: ptBR,
+                        })}
+                    </div>
+                </Link>
+            );
+        },
         filterFn: (row, columnId, filterValue) => {
             const rowValue = row.getValue(columnId);
 
