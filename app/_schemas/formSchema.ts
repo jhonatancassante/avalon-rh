@@ -81,7 +81,7 @@ export const eventFormSchema = z.object({
         .string()
         .min(5, "Nome muito curto! Mínimo 5 caracteres!")
         .max(100, "Nome muito longo! Máximo 100 caracteres."),
-    edition: z.number(),
+    edition: z.coerce.number().min(1, "A edição deve ser maior que zero"),
     date: z.string().min(10, "Data inválida!"),
     state: z.string().min(1, "O campo estado não pode ser vazio!"),
     city: z.string().min(1, "O campo cidade não pode ser vazio!"),

@@ -25,7 +25,6 @@ const EventFormEdit = ({ event }: EventFormEditProps) => {
     const router = useRouter();
     const { setIsLoading } = useLoading();
     const form = useEventForm({ event });
-    const isActiveSaveButton = form.formState.isValid;
 
     const onSubmit = async (values: z.infer<typeof eventFormSchema>) => {
         setIsLoading(true);
@@ -84,7 +83,7 @@ const EventFormEdit = ({ event }: EventFormEditProps) => {
                 <LocationsFields<typeof eventFormSchema> form={form} />
 
                 <FormActions
-                    isActive={isActiveSaveButton}
+                    isActive={true}
                     isComplete={false}
                     onExit={handleExit}
                 />

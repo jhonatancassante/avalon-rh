@@ -44,7 +44,11 @@ export const FormFields = <T extends z.ZodObject<z.ZodRawShape>>({
                                     Path<z.infer<T>>
                                 >,
                             ) => {
-                                if (typeof field.value === "boolean") {
+                                if (formField.type === "number") {
+                                    return field.value !== undefined
+                                        ? Number(field.value)
+                                        : "";
+                                } else if (typeof field.value === "boolean") {
                                     return field.value.toString();
                                 } else if (
                                     typeof File !== "undefined" &&

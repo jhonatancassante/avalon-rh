@@ -16,7 +16,7 @@ export const useEventForm = ({ event }: UseEventFormProps) => {
         mode: "onChange",
         defaultValues: {
             name: event?.name ?? "",
-            edition: event?.edition ?? 1,
+            edition: event?.edition ?? 0,
             date: format(event?.date ?? new Date(), "yyyy-MM-dd", {
                 locale: ptBR,
             }),
