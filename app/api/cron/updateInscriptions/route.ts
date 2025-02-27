@@ -13,7 +13,7 @@ export async function GET(request: Request) {
         console.log("Iniciando função de atualização das inscrições...");
 
         const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        today.setHours(3, 0, 0, 0);
 
         const updatedOpenEvents = await db.event.updateMany({
             where: {
