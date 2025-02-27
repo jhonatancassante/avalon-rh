@@ -3,7 +3,7 @@ export const editEventFields = [
         name: "name",
         label: "Nome do Evento",
         tooltip: "Digite o nome do evento sem o número da edição.",
-        placeholder: "Dgite o nome do evento",
+        placeholder: "Digite o nome do evento",
         type: "text",
         disabled: false,
     },
