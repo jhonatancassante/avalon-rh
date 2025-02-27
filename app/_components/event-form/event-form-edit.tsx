@@ -43,16 +43,13 @@ const EventFormEdit = ({ event }: EventFormEditProps) => {
 
             console.log(updateData);
 
-            const newEvent = await updateOrCreateEvent(
-                event?.id ?? "",
-                updateData,
-            );
+            await updateOrCreateEvent(event?.id ?? "", updateData);
 
             toast.success("Sucesso!", {
                 description: `Evento ${event ? "atualizado" : "criado"} com sucesso!`,
             });
 
-            router.replace(`${PATHS.EVENTS}/${newEvent.id}`);
+            router.replace(PATHS.EVENTS);
         } catch (error) {
             console.error(
                 `Erro ao ${event ? "atualizar" : "criar"} evento: ${error}`,
@@ -68,8 +65,7 @@ const EventFormEdit = ({ event }: EventFormEditProps) => {
     const handleExit = async () => {
         try {
             setIsLoading(true);
-            if (event) router.replace(`${PATHS.EVENTS}/${event.id}`);
-            else router.replace(PATHS.EVENTS);
+            router.replace(PATHS.EVENTS);
         } catch (error) {
             console.error("Erro ao sair da página de edição de evento:", error);
         } finally {
