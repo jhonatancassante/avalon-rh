@@ -44,7 +44,7 @@ const EditUserPage = async ({ params }: EditUserPageProps) => {
         );
     } catch (error) {
         console.error(error);
-        redirect(`${PATHS.ERROR_500}`);
+        redirect(PATHS.ERROR_500);
     }
 };
 

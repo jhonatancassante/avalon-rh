@@ -7,7 +7,7 @@ interface UserFormActionsProps {
     onExit: () => void;
 }
 
-export const UserFormActions = ({
+export const FormActions = ({
     isActive,
     isComplete,
     onExit,

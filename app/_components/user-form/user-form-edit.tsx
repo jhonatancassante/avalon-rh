@@ -11,7 +11,7 @@ import { useUserForm } from "@/app/_hooks/useUserForm";
 import { useFileUpload } from "@/app/_hooks/useFileUpload";
 import { z } from "zod";
 import { FormFields } from "../form-fields/form-fields";
-import { UserFormActions } from "./user-form-actions";
+import { FormActions } from "../form-fields/form-actions";
 import CpfField from "../form-fields/cpf-field";
 import PronounField from "../form-fields/pronoun-field";
 import PhoneField from "../form-fields/phone-field";
@@ -22,6 +22,7 @@ import { PcdFields } from "../form-fields/pcd-fields";
 import { PATHS } from "@/app/_constants/paths";
 import { userFormSchema } from "@/app/_schemas/formSchema";
 import { editUserFields } from "@/app/_constants/editUserFields";
+import dateToIso from "@/app/_utils/dateToIso";
 
 interface UserEditFormProps {
     user: UserComplete;
@@ -33,18 +34,13 @@ const UserEditForm = ({ user }: UserEditFormProps) => {
     const { photoData, handleFileUpload } = useFileUpload();
     const { setIsLoading } = useLoading();
     const form = useUserForm({ user });
-    const isAtctiveSaveButton =
+    const isActiveSaveButton =
         form.formState.isValid && (photoData !== null || user.isComplete);
 
     const onSubmit = async (values: z.infer<typeof userFormSchema>) => {
         setIsLoading(true);
         try {
-            const [year, month, day] = values.birthdate.split("-");
-            const birthdateIso = new Date(
-                Number(year),
-                Number(month) - 1,
-                Number(day),
-            );
+            const birthdateIso = dateToIso(values.birthdate);
 
             const updateData: UpdateUser = {
                 isComplete: true,
@@ -115,8 +111,8 @@ const UserEditForm = ({ user }: UserEditFormProps) => {
                     isComplete={user.isComplete}
                 />
 
-                <UserFormActions
-                    isActive={isAtctiveSaveButton}
+                <FormActions
+                    isActive={isActiveSaveButton}
                     isComplete={user.isComplete}
                     onExit={handleExit}
                 />

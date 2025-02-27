@@ -5,28 +5,27 @@ import { authOptions } from "../_lib/auth";
 import { Roles } from "../_constants/roles";
 import { db } from "../_lib/prisma";
 
-export const getEventList = async () => {
+const _verifySession = async () => {
     const session = await getServerSession(authOptions);
 
     if (!session || session.user.role !== Roles.Admin)
         throw new Error("Unauthorized!");
+};
 
-    const eventList = await db.event.findMany({
+export const getEventList = async () => {
+    await _verifySession();
+
+    return await db.event.findMany({
         where: {
             isDeleted: false,
         },
     });
-
-    return eventList;
 };
 
 export const getEventListNotFinished = async () => {
-    const session = await getServerSession(authOptions);
+    await _verifySession();
 
-    if (!session || session.user.role !== Roles.Admin)
-        throw new Error("Unauthorized!");
-
-    const eventList = await db.event.findMany({
+    return await db.event.findMany({
         where: {
             isDeleted: false,
             isFinished: false,
@@ -35,17 +34,12 @@ export const getEventListNotFinished = async () => {
             date: "asc",
         },
     });
-
-    return eventList;
 };
 
 export const getEventListFinished = async () => {
-    const session = await getServerSession(authOptions);
+    await _verifySession();
 
-    if (!session || session.user.role !== Roles.Admin)
-        throw new Error("Unauthorized!");
-
-    const eventList = await db.event.findMany({
+    return await db.event.findMany({
         where: {
             isDeleted: false,
             isFinished: true,
@@ -54,6 +48,15 @@ export const getEventListFinished = async () => {
             date: "asc",
         },
     });
+};
 
-    return eventList;
+export const getEventById = async (id: string) => {
+    await _verifySession();
+
+    return await db.event.findUnique({
+        where: {
+            id,
+            isDeleted: false,
+        },
+    });
 };

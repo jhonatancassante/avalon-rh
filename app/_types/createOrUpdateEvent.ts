@@ -1,9 +1,9 @@
-export default interface CreateEvent {
+export default interface CreateOrUpdateEvent {
     name: string;
     edition: number;
     date: Date;
     state: string;
     city: string;
-    areInscriptionsOpen: boolean;
+    dateToOpen: Date;
     dateToClose: Date;
 }

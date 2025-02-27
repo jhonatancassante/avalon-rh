@@ -80,15 +80,11 @@ export const eventFormSchema = z.object({
     name: z
         .string()
         .min(5, "Nome muito curto! Mínimo 5 caracteres!")
-        .max(100, "Nome muito longo! Máximo 100 caracteres.")
-        .regex(
-            lettersAndNumbersRegex,
-            "Apenas letras e números são permitidos!",
-        ),
+        .max(100, "Nome muito longo! Máximo 100 caracteres."),
     edition: z.number(),
     date: z.string().min(10, "Data inválida!"),
-    city: z.string().min(1, "O campo cidade não pode ser vazio!"),
     state: z.string().min(1, "O campo estado não pode ser vazio!"),
-    areInscriptionsOpen: z.boolean(),
+    city: z.string().min(1, "O campo cidade não pode ser vazio!"),
+    dateToOpen: z.string().min(10, "Data inválida!"),
     dateToClose: z.string().min(10, "Data inválida!"),
 });

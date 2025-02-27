@@ -1,7 +1,7 @@
 "use server";
 
 import { getServerSession } from "next-auth";
-import CreateEvent from "../_types/createEvent";
+import CreateEvent from "../_types/createOrUpdateEvent";
 import { authOptions } from "../_lib/auth";
 import { Roles } from "../_constants/roles";
 import { db } from "../_lib/prisma";

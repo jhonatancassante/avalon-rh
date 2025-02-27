@@ -1,0 +1,42 @@
+export const editEventFields = [
+    {
+        name: "name",
+        label: "Nome do Evento",
+        tooltip: "Digite o nome do evento sem o número da edição.",
+        placeholder: "Dgite o nome do evento",
+        type: "text",
+        disabled: false,
+    },
+    {
+        name: "edition",
+        label: "Edição",
+        tooltip: "Digite o número da edição do evento.",
+        placeholder: "Digite o número da edição",
+        type: "number",
+        disabled: false,
+    },
+    {
+        name: "date",
+        label: "Data do Evento",
+        tooltip: "Selecione a data do evento.",
+        placeholder: "Selecione a data do evento",
+        type: "date",
+        disabled: false,
+    },
+    {
+        name: "dateToOpen",
+        label: "Data de Abertura das Inscrições",
+        tooltip: "Selecione a data de abertura das inscrições.",
+        placeholder: "Selecione a data de abertura das inscrições",
+        type: "date",
+        disabled: false,
+    },
+    {
+        name: "dateToClose",
+        label: "Data de Fechamento das Inscrições",
+        tooltip: "Selecione a data de fechamento das inscrições.",
+        placeholder: "Selecione a data de fechamento das inscrições",
+        type: "date",
+        disabled: false,
+    },
+];

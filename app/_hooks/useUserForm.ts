@@ -11,7 +11,7 @@ interface UseUserFormProps {
 }
 
 export const useUserForm = ({ user }: UseUserFormProps) => {
-    const form = useForm<z.infer<typeof userFormSchema>>({
+    return useForm<z.infer<typeof userFormSchema>>({
         resolver: zodResolver(userFormSchema),
         mode: "onChange",
         defaultValues: {
@@ -36,6 +36,4 @@ export const useUserForm = ({ user }: UseUserFormProps) => {
             photo: undefined,
         },
     });
-
-    return form;
 };
