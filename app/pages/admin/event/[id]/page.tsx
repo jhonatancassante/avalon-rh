@@ -28,10 +28,6 @@ const EventPage = async ({ params }: EventPageProps) => {
 
         const breadcrumbList = [
             {
-                label: "Home",
-                url: PATHS.HOME,
-            },
-            {
                 label: "Administração",
                 url: PATHS.ADMIN,
             },

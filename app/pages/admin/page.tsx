@@ -6,10 +6,6 @@ import { PATHS } from "@/app/_constants/paths";
 const AdminPage = () => {
     const breadcrumbList = [
         {
-            label: "Home",
-            url: PATHS.HOME,
-        },
-        {
             label: "Administração",
             url: PATHS.ADMIN,
         },

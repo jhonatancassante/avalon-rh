@@ -17,10 +17,6 @@ interface EditEventPageProps {
 const EventListPage = async ({ params }: EditEventPageProps) => {
     const breadcrumbList = [
         {
-            label: "Home",
-            url: PATHS.HOME,
-        },
-        {
             label: "Administração",
             url: PATHS.ADMIN,
         },

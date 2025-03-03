@@ -7,10 +7,6 @@ import EventDataTable from "@/app/_components/event-data-table/event-data-table"
 const EventListPage = () => {
     const breadcrumbList = [
         {
-            label: "Home",
-            url: PATHS.HOME,
-        },
-        {
             label: "Administração",
             url: PATHS.ADMIN,
         },
