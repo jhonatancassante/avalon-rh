@@ -68,7 +68,7 @@ const UserEditForm = ({ user }: UserEditFormProps) => {
                 description: "Usuário atualizado com sucesso!",
             });
 
-            router.replace(`${PATHS.USER}/${user.id}`);
+            router.push(`${PATHS.USER}/${user.id}`);
         } catch (error) {
             console.error("Erro ao atualizar usuário:", error);
             toast.error("Erro!", {
@@ -83,7 +83,7 @@ const UserEditForm = ({ user }: UserEditFormProps) => {
         try {
             setIsLoading(true);
             if (!user.isComplete) return await signOut();
-            router.replace(`${PATHS.USER}/${user.id}`);
+            router.push(`${PATHS.USER}/${user.id}`);
         } catch (error) {
             console.error(error);
         } finally {

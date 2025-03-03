@@ -1,7 +1,6 @@
 "use client";
 
 import { updateOrCreateEvent } from "@/app/_actions/updateEvent";
-import { PATHS } from "@/app/_constants/paths";
 import { useLoading } from "@/app/_contexts/LoadingContext";
 import { useEventForm } from "@/app/_hooks/useEventForm";
 import { eventFormSchema } from "@/app/_schemas/formSchema";
@@ -48,7 +47,7 @@ const EventFormEdit = ({ event }: EventFormEditProps) => {
                 description: `Evento ${event ? "atualizado" : "criado"} com sucesso!`,
             });
 
-            router.replace(PATHS.EVENTS);
+            router.back();
         } catch (error) {
             console.error(
                 `Erro ao ${event ? "atualizar" : "criar"} evento: ${error}`,
@@ -64,7 +63,7 @@ const EventFormEdit = ({ event }: EventFormEditProps) => {
     const handleExit = async () => {
         try {
             setIsLoading(true);
-            router.replace(PATHS.EVENTS);
+            router.back();
         } catch (error) {
             console.error("Erro ao sair da página de edição de evento:", error);
         } finally {

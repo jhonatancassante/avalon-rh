@@ -27,7 +27,7 @@ const Header = () => {
         try {
             setIsLoading(true);
             if (!session?.user.isComplete) return await signOut();
-            router.replace(`${PATHS.USER}/${session?.user.id}`);
+            router.push(`${PATHS.USER}/${session?.user.id}`);
         } catch (error) {
             console.error(error);
         }

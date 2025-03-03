@@ -1,6 +1,11 @@
 import EventFormEdit from "@/app/_components/event-form/event-form-edit";
 import PageLayoutSidebar from "@/app/_components/page-layout-sidebar";
-import { CardContent, CardHeader, CardTitle } from "@/app/_components/ui/card";
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+} from "@/app/_components/ui/card";
 import { PATHS } from "@/app/_constants/paths";
 
 const EventAddPage = () => {
@@ -26,7 +31,7 @@ const EventAddPage = () => {
     return (
         <PageLayoutSidebar breadcrumbList={breadcrumbList}>
             <div className="flex w-full justify-center">
-                <div className="grid w-full lg:max-w-2xl">
+                <Card className="grid w-full lg:max-w-2xl">
                     <CardHeader>
                         <CardTitle className="flex w-full justify-center text-2xl font-bold">
                             Adicionar Novo Evento
@@ -36,7 +41,7 @@ const EventAddPage = () => {
                     <CardContent>
                         <EventFormEdit />
                     </CardContent>
-                </div>
+                </Card>
             </div>
         </PageLayoutSidebar>
     );
