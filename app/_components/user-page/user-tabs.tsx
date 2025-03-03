@@ -13,7 +13,7 @@ import {
 import UserFields from "./user-fields";
 
 interface UserTabsProps {
-    userFields: { [key: string]: string | string[] };
+    userFields: { label: string; value: string | string[] }[];
 }
 
 const UserTabs = ({ userFields }: UserTabsProps) => {

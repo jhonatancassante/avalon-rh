@@ -10,23 +10,68 @@ interface FormatUserFieldsProps {
 }
 
 export const formatUserFields = ({ user }: FormatUserFieldsProps) => {
-    return {
-        cpf: user.profile?.cpf ? formatCPF(user.profile?.cpf) : "",
-        pronoun: user.profile?.pronoun ?? "",
-        completeName: user.profile?.completeName ?? "",
-        socialName: user.profile?.socialName ?? "",
-        nickname: user.profile?.nickname ?? "",
-        pixKey: user.profile?.pixKey ?? "",
-        birthdate: format(user.profile?.birthdate ?? new Date(), "dd/MM/yyyy", {
-            locale: ptBR,
-        }),
-        email: user.email ?? "",
-        contactEmail: user.profile?.contactEmail ?? "",
-        phone: user.profile?.phone ?? "",
-        state: user.profile?.state ?? "",
-        city: user.profile?.city ?? "",
-        isPcd: user.profile?.isPcd ? "Sim" : "Não",
-        deficiency: user.profile?.deficiency ?? [],
-        extraSupport: user.profile?.extraSupport ?? [],
-    };
+    return [
+        {
+            label: "CPF",
+            value: user.profile?.cpf ? formatCPF(user.profile?.cpf) : "",
+        },
+        {
+            label: "Pronome",
+            value: user.profile?.pronoun ?? "",
+        },
+        {
+            label: "Nome Completo",
+            value: user.profile?.completeName ?? "",
+        },
+        {
+            label: "Nome Social",
+            value: user.profile?.socialName ?? "",
+        },
+        {
+            label: "Apelido",
+            value: user.profile?.nickname ?? "",
+        },
+        {
+            label: "Chave Pix",
+            value: user.profile?.pixKey ?? "",
+        },
+        {
+            label: "Data de Nascimento",
+            value: format(user.profile?.birthdate ?? new Date(), "dd/MM/yyyy", {
+                locale: ptBR,
+            }),
+        },
+        {
+            label: "Email do Google Account",
+            value: user.email ?? "",
+        },
+        {
+            label: "Email de Contato",
+            value: user.profile?.contactEmail ?? "",
+        },
+        {
+            label: "Celular / Whatsapp",
+            value: user.profile?.phone ?? "",
+        },
+        {
+            label: "Cidade",
+            value: user.profile?.city ?? "",
+        },
+        {
+            label: "Estado",
+            value: user.profile?.state ?? "",
+        },
+        {
+            label: "É Portador de Deficiencia?",
+            value: user.profile?.isPcd ? "Sim" : "Não",
+        },
+        {
+            label: "Qual sua deficiência?",
+            value: user.profile?.deficiency ?? [],
+        },
+        {
+            label: "Precisa de algum auxílio específico?",
+            value: user.profile?.extraSupport ?? [],
+        },
+    ];
 };

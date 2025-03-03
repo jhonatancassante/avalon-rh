@@ -5,27 +5,13 @@ import { Checkbox } from "../ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
 interface UserFieldsProps {
-    userFields: { [key: string]: string | string[] };
+    userFields: { label: string; value: string | string[] }[];
 }
 
 const UserFields = ({ userFields }: UserFieldsProps) => {
-    const fields = [
-        "CPF:",
-        "Pronome",
-        "Nome Completo:",
-        "Nome Social:",
-        "Apelido:",
-        "Chave Pix",
-        "Data de Nascimento:",
-        "Email do Google Account",
-        "Email de Contato:",
-        "Celular / Whatsapp:",
-        "Estado",
-        "Cidade",
-        "É Portador de Deficiencia?",
-        "Qual sua deficiência?",
-        "Precisa de algum auxílio específico?",
-    ];
+    const isPcdIndex = userFields.findIndex(
+        (field) => field.label === "É Portador de Deficiencia?",
+    );
 
     return (
         <Card className="border-none shadow-none">
@@ -33,31 +19,33 @@ const UserFields = ({ userFields }: UserFieldsProps) => {
                 <CardTitle>Dados</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2 p-0 lg:px-6">
-                {Object.keys(userFields).map((field, index) => {
+                {userFields.map((field) => {
                     if (
-                        userFields["isPcd"] === "Não" &&
-                        (field === "deficiency" || field === "extraSupport")
+                        userFields[isPcdIndex].value === "Não" &&
+                        (field.label === "Qual sua deficiência?" ||
+                            field.label ===
+                                "Precisa de algum auxílio específico?")
                     ) {
                         return null;
                     }
 
-                    if (field === "isPcd") {
+                    if (field.label === "É Portador de Deficiencia?") {
                         return (
                             <div
-                                key={field}
+                                key={field.label}
                                 className="flex flex-col gap-2 py-2"
                             >
-                                <Label>{fields[index]}</Label>
+                                <Label>{field.label}</Label>
                                 <RadioGroup
-                                    key={field}
+                                    key={field.label}
                                     className="flex items-center gap-2 px-4"
                                 >
                                     <RadioGroupItem
-                                        value={fields[index]}
+                                        value={field.label}
                                         checked
                                     />{" "}
                                     <Label className="font-normal">
-                                        {userFields[field]}
+                                        {field.value}
                                     </Label>
                                 </RadioGroup>
                             </div>
@@ -65,19 +53,18 @@ const UserFields = ({ userFields }: UserFieldsProps) => {
                     }
 
                     if (
-                        userFields["isPcd"] === "Sim" &&
-                        (field === "deficiency" || field === "extraSupport")
+                        userFields[isPcdIndex].value === "Sim" &&
+                        (field.label === "Qual sua deficiência?" ||
+                            field.label ===
+                                "Precisa de algum auxílio específico?")
                     ) {
-                        const fieldValue = userFields[field];
+                        const fieldValue = field.value;
 
                         if (Array.isArray(fieldValue)) {
                             return (
-                                <div
-                                    className="space-y-1"
-                                    key={`${index} - ${fieldValue}`}
-                                >
-                                    <Label htmlFor={fields[index]}>
-                                        {fields[index]}
+                                <div className="space-y-1" key={field.label}>
+                                    <Label htmlFor={field.label}>
+                                        {field.label}
                                     </Label>
                                     <div className="flex flex-col items-start gap-3 px-5">
                                         {fieldValue.map((item: string) => (
@@ -103,16 +90,11 @@ const UserFields = ({ userFields }: UserFieldsProps) => {
                     }
 
                     return (
-                        <div
-                            className="space-y-1"
-                            key={`${index} - ${userFields[field]}`}
-                        >
-                            <Label htmlFor={fields[index]}>
-                                {fields[index]}
-                            </Label>
+                        <div className="space-y-1" key={field.label}>
+                            <Label htmlFor={field.label}>{field.label}</Label>
                             <Input
-                                id={fields[index]}
-                                defaultValue={userFields[field]}
+                                id={field.label}
+                                defaultValue={field.value}
                                 readOnly
                             />
                         </div>
