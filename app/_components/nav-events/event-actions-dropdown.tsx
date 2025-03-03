@@ -25,8 +25,6 @@ import {
     updateEventIsFinished,
 } from "@/app/_actions/updateEvent";
 import { Dispatch, SetStateAction } from "react";
-import { useRouter } from "next/navigation";
-import { useLoading } from "@/app/_contexts/LoadingContext";
 
 interface EventActionsDropdownProps {
     readonly event: Event;
@@ -40,31 +38,20 @@ export const EventActionsDropdown = ({
     setIsAlertOpen,
 }: Readonly<EventActionsDropdownProps>) => {
     const { isMobile } = useSidebar();
-    const router = useRouter();
-    const { setIsLoading } = useLoading();
 
     const handleCloseInscriptionsOpen = async () => {
-        setIsLoading(true);
         await updateEventAreInscriptionsOpen(event.id, true);
-        router.refresh();
         onEventUpdated();
-        setIsLoading(false);
     };
 
     const handleCloseInscriptionsClose = async () => {
-        setIsLoading(true);
         await updateEventAreInscriptionsOpen(event.id, false);
-        router.refresh();
         onEventUpdated();
-        setIsLoading(false);
     };
 
     const handleFinishEvent = async () => {
-        setIsLoading(true);
         await updateEventIsFinished(event.id, true);
-        router.refresh();
         onEventUpdated();
-        setIsLoading(false);
     };
 
     const handleOpenAlert = () => {
