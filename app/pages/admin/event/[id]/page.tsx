@@ -1,5 +1,5 @@
-import EventPageActions from "@/app/_components/event-pages/event-page-actions";
-import EventPageFields from "@/app/_components/event-pages/event-page-fields";
+import EventPageActions from "@/app/_components/event-page/event-page-actions";
+import EventPageFields from "@/app/_components/event-page/event-page-fields";
 import PageLayoutSidebar from "@/app/_components/page-layout-sidebar";
 import {
     Card,

@@ -40,8 +40,10 @@ export const EventProvider = ({
 
     const fetchEvents = useCallback(async () => {
         try {
-            const eventsNotFinished = await getEventListNotFinished();
-            const eventsFinished = await getEventListFinished();
+            const [eventsNotFinished, eventsFinished] = await Promise.all([
+                getEventListNotFinished(),
+                getEventListFinished(),
+            ]);
             setEventListNotFinished(eventsNotFinished);
             setEventListFinished(eventsFinished);
         } catch (error) {

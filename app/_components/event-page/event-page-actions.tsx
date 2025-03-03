@@ -22,6 +22,7 @@ import {
 import { PATHS } from "@/app/_constants/paths";
 import DeleteDialog from "../delete-dialog";
 import { deleteEvent } from "@/app/_actions/deleteEvent";
+import { useEvents } from "@/app/_contexts/EventContext";
 
 interface EventPageActionsProps {
     event: Event;
@@ -31,6 +32,7 @@ const EventPageActions = ({ event }: EventPageActionsProps) => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const { setIsLoading } = useLoading();
     const router = useRouter();
+    const { refreshEvents } = useEvents();
 
     const handleBack = () => {
         router.back();
@@ -39,6 +41,7 @@ const EventPageActions = ({ event }: EventPageActionsProps) => {
     const handleToggleInscriptions = async (isOpen: boolean) => {
         setIsLoading(true);
         await updateEventAreInscriptionsOpen(event.id, isOpen);
+        await refreshEvents();
         router.refresh();
         setIsLoading(false);
     };
@@ -51,6 +54,7 @@ const EventPageActions = ({ event }: EventPageActionsProps) => {
     const handleToggleIsFinish = async (isOpen: boolean) => {
         setIsLoading(true);
         await updateEventIsFinished(event.id, isOpen);
+        await refreshEvents();
         router.refresh();
         setIsLoading(false);
     };
@@ -62,6 +66,7 @@ const EventPageActions = ({ event }: EventPageActionsProps) => {
     const handleDelete = async () => {
         setIsLoading(true);
         await deleteEvent(event.id);
+        await refreshEvents();
         router.back();
         setIsLoading(false);
     };
