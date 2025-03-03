@@ -1,6 +1,6 @@
 "use client";
 
-import { cloneElement, useState } from "react";
+import { cloneElement, useEffect, useState } from "react";
 import { DataTablePagination } from "./pagination";
 import { DataTableViewOptions } from "./view-options";
 import {
@@ -18,6 +18,8 @@ import {
 import { DataTableFilterControls } from "./filter-controls";
 import { DataTableHeader } from "./header";
 import { DataTableBody } from "./body";
+import { useIsMobile } from "@/app/_hooks/use-mobile";
+import { Meta } from "../event-data-table/event-columns";
 
 export interface DataTableActionButtonsProps<TData> {
     selectedRows: Row<TData>[];
@@ -47,6 +49,23 @@ export const DataTable = <TData, TValue>({
     );
     const [rowSelection, setRowSelection] = useState({});
     const [selectedFilter, setSelectedFilter] = useState(columnsNames[0]);
+    const isMobile = useIsMobile();
+
+    useEffect(() => {
+        const newVisibility: VisibilityState = {};
+        columns.forEach((column) => {
+            const columnId = column.id;
+            if (columnId) {
+                newVisibility[columnId] = !(
+                    isMobile && (column.meta as Meta)?.hideOnMobile
+                );
+            }
+        });
+        setColumnVisibility((prev) => ({
+            ...prev,
+            ...newVisibility,
+        }));
+    }, [isMobile, columns]);
 
     const table = useReactTable({
         data: itemList as TData[],
@@ -72,6 +91,7 @@ export const DataTable = <TData, TValue>({
                     table={table}
                 />
                 {actionButtons &&
+                    !isMobile &&
                     cloneElement(actionButtons, {
                         selectedRows: table.getSelectedRowModel().rows,
                     })}

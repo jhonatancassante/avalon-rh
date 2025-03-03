@@ -20,6 +20,10 @@ export const columnsNames = [
     { field: "dateToClose", label: "data encerramento", filter: true },
 ];
 
+export interface Meta {
+    hideOnMobile: boolean;
+}
+
 export const eventColumns: ColumnDef<Event>[] = [
     {
         id: "select",
@@ -44,8 +48,12 @@ export const eventColumns: ColumnDef<Event>[] = [
         ),
         enableSorting: false,
         enableHiding: false,
+        meta: {
+            hideOnMobile: true,
+        },
     },
     {
+        id: "edition",
         accessorKey: "edition",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Edição" />
@@ -53,8 +61,12 @@ export const eventColumns: ColumnDef<Event>[] = [
         cell: ({ row }) => (
             <div className="capitalize">{row.getValue("edition")}</div>
         ),
+        meta: {
+            hideOnMobile: true,
+        },
     },
     {
+        id: "name",
         accessorKey: "name",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Nome" />
@@ -66,6 +78,7 @@ export const eventColumns: ColumnDef<Event>[] = [
         ),
     },
     {
+        id: "date",
         accessorKey: "date",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Data Evento" />
@@ -93,8 +106,12 @@ export const eventColumns: ColumnDef<Event>[] = [
 
             return false;
         },
+        meta: {
+            hideOnMobile: true,
+        },
     },
     {
+        id: "dateToOpen",
         accessorKey: "dateToOpen",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Data Abertura" />
@@ -132,8 +149,12 @@ export const eventColumns: ColumnDef<Event>[] = [
 
             return false;
         },
+        meta: {
+            hideOnMobile: true,
+        },
     },
     {
+        id: "areInscriptionsOpen",
         accessorKey: "areInscriptionsOpen",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Abertas?" />
@@ -148,6 +169,7 @@ export const eventColumns: ColumnDef<Event>[] = [
         ),
     },
     {
+        id: "dateToClose",
         accessorKey: "dateToClose",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Data Fechamento" />
@@ -183,6 +205,9 @@ export const eventColumns: ColumnDef<Event>[] = [
             }
 
             return false;
+        },
+        meta: {
+            hideOnMobile: false,
         },
     },
     {

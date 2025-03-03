@@ -1,3 +1,5 @@
+"use client";
+
 import { Table } from "@tanstack/react-table";
 import {
     ChevronLeft,
@@ -7,6 +9,7 @@ import {
 } from "lucide-react";
 import { PaginationButton } from "../ui/pagination-button";
 import { RowsPerPageSelect } from "../ui/rows-per-page-select";
+import { useIsMobile } from "@/app/_hooks/use-mobile";
 
 interface DataTablePaginationProps<TData> {
     table: Table<TData>;
@@ -15,24 +18,31 @@ interface DataTablePaginationProps<TData> {
 export const DataTablePagination = <TData,>({
     table,
 }: Readonly<DataTablePaginationProps<TData>>) => {
+    const isMobile = useIsMobile();
+    const selecionada = isMobile ? "sel" : "selecionada";
+    const linha = isMobile ? "ln" : "linha";
+    const pagina = isMobile ? "pg" : "página";
+
     return (
         <div className="flex items-center justify-between px-2">
             <div className="flex-1 text-sm text-muted-foreground">
                 {table.getFilteredSelectedRowModel().rows.length} de{" "}
-                {table.getFilteredRowModel().rows.length} linha(s)
-                selecionada(s).
+                {table.getFilteredRowModel().rows.length} {linha}(s){" "}
+                {selecionada}(s).
             </div>
             <div className="flex items-center space-x-6 lg:space-x-8">
                 <div className="flex items-center space-x-2">
-                    <p className="text-sm font-medium">Linhas por página</p>
+                    <p className="text-sm font-medium first-letter:capitalize">
+                        {linha}s por {pagina}
+                    </p>
                     <RowsPerPageSelect
                         value={`${table.getState().pagination.pageSize}`}
                         onChange={(value) => table.setPageSize(Number(value))}
                         options={[10, 20, 30, 40, 50]}
                     />
                 </div>
-                <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-                    Página {table.getState().pagination.pageIndex + 1} de{" "}
+                <div className="flex w-[100px] items-center justify-center text-sm font-medium first-letter:capitalize">
+                    {pagina} {table.getState().pagination.pageIndex + 1} de{" "}
                     {table.getPageCount()}
                 </div>
                 <div className="flex items-center space-x-2">
