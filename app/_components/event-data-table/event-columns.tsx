@@ -139,7 +139,18 @@ export const eventColumns: ColumnDef<Event>[] = [
             <DataTableColumnHeader column={column} title="Abertas?" />
         ),
         cell: ({ row }) => (
-            <Checkbox checked={row.getValue("areInscriptionsOpen")} />
+            <div className="flex items-center">
+                <Checkbox
+                    checked={row.getValue("areInscriptionsOpen")}
+                    id={`areInscriptionsOpen ${row.getValue("id")}`}
+                />
+                <label
+                    htmlFor={`areInscriptionsOpen ${row.getValue("id")}`}
+                    className="ml-2 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                    {row.getValue("areInscriptionsOpen") ? "Sim" : "Não"}
+                </label>
+            </div>
         ),
     },
     {
