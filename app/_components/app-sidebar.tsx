@@ -23,23 +23,24 @@ import {
     SidebarRail,
 } from "@/app/_components/ui/sidebar";
 import { ComponentProps } from "react";
+import { PATHS } from "../_constants/paths";
 
 const navMain = [
     {
         title: "Voltar ao Perfil",
-        url: "/",
+        url: PATHS.HOME,
         icon: ArrowBigLeftDash,
         plus: false,
     },
     {
         title: "Administração",
-        url: "/pages/admin",
+        url: PATHS.ADMIN,
         icon: House,
         plus: false,
     },
     {
         title: "Eventos",
-        url: "/pages/admin/event",
+        url: PATHS.EVENTS,
         icon: CalendarCog,
         plus: true,
     },
@@ -63,12 +64,12 @@ const navMain = [
             },
             {
                 title: "Níveis",
-                url: "#",
+                url: PATHS.LEVELS,
                 icon: TrendingUp,
             },
             {
                 title: "Setores",
-                url: "#",
+                url: PATHS.SECTIONS,
                 icon: Folder,
             },
         ],

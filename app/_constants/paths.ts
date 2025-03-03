@@ -1,5 +1,6 @@
 export const PATHS = {
     ADMIN: "/pages/admin",
+    CONFIGS: "#",
     ERROR_401: "/pages/errors/401",
     ERROR_403: "/pages/errors/403",
     ERROR_500: "/pages/errors/500",
@@ -8,6 +9,8 @@ export const PATHS = {
     EVENT_EDIT: "/pages/admin/event/edit",
     HOME: "/",
     LEADER: "/pages/leader",
+    LEVELS: "/pages/admin/configs/levels",
+    SECTIONS: "/pages/admin/configs/sections",
     USER: "/pages/user",
     USER_EDIT: "/pages/user/edit",
 };
