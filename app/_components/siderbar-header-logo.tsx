@@ -24,7 +24,7 @@ export const SidebarHeaderLogo = () => {
                     asChild
                 >
                     <Link href={PATHS.HOME}>
-                        <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                        <div className="flex aspect-square size-8 items-center justify-center rounded-lg text-sidebar-primary-foreground">
                             {isThemeLoaded ? (
                                 <Image
                                     height={16}
