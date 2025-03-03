@@ -39,6 +39,7 @@ export const NavMain = ({
             | {
                   title: string;
                   url: string;
+                  icon: LucideIcon;
               }[]
             | null;
     }[];
@@ -105,11 +106,14 @@ export const NavMain = ({
                                                     <SidebarMenuSubButton
                                                         asChild
                                                     >
-                                                        <a href={subItem.url}>
+                                                        <Link
+                                                            href={subItem.url}
+                                                        >
+                                                            <subItem.icon />
                                                             <span>
                                                                 {subItem.title}
                                                             </span>
-                                                        </a>
+                                                        </Link>
                                                     </SidebarMenuSubButton>
                                                 </SidebarMenuSubItem>
                                             ))}

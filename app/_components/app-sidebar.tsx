@@ -3,8 +3,11 @@
 import {
     ArrowBigLeftDash,
     CalendarCog,
+    CircleDollarSign,
+    Folder,
     House,
     Settings2,
+    TrendingUp,
     UserCog,
 } from "lucide-react";
 
@@ -56,14 +59,17 @@ const navMain = [
             {
                 title: "Financeiro",
                 url: "#",
+                icon: CircleDollarSign,
             },
             {
                 title: "Níveis",
                 url: "#",
+                icon: TrendingUp,
             },
             {
                 title: "Setores",
                 url: "#",
+                icon: Folder,
             },
         ],
     },
