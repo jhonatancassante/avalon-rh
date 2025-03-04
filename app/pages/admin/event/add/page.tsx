@@ -31,7 +31,7 @@ const EventAddPage = () => {
     return (
         <PageLayoutSidebar breadcrumbList={breadcrumbList}>
             <div className="flex w-full justify-center">
-                <Card className="grid w-full lg:max-w-2xl">
+                <Card className="mx-4 grid w-full lg:max-w-2xl">
                     <CardHeader>
                         <CardTitle className="flex w-full justify-center text-2xl font-bold">
                             Adicionar Novo Evento

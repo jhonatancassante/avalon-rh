@@ -46,7 +46,7 @@ const EventPage = async ({ params }: EventPageProps) => {
         return (
             <PageLayoutSidebar breadcrumbList={breadcrumbList}>
                 <div className="flex w-full justify-center">
-                    <Card className="mb-8 mt-4 grid w-full lg:max-w-2xl">
+                    <Card className="mx-4 mb-8 mt-4 grid w-full lg:max-w-2xl">
                         <CardHeader className="pb-0">
                             <CardTitle className="flex w-full justify-center text-2xl font-bold">
                                 {`${event.edition}º ${event.name}`}

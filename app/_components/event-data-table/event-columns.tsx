@@ -207,7 +207,7 @@ export const eventColumns: ColumnDef<Event>[] = [
             return false;
         },
         meta: {
-            hideOnMobile: false,
+            hideOnMobile: true,
         },
     },
     {
