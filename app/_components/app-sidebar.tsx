@@ -2,8 +2,8 @@
 
 import {
     ArrowBigLeftDash,
+    Award,
     CalendarCog,
-    CircleDollarSign,
     Folder,
     House,
     Settings2,
@@ -58,9 +58,9 @@ const navMain = [
         isActive: false,
         items: [
             {
-                title: "Financeiro",
+                title: "Cargos",
                 url: "#",
-                icon: CircleDollarSign,
+                icon: Award,
             },
             {
                 title: "Níveis",
@@ -69,7 +69,7 @@ const navMain = [
             },
             {
                 title: "Setores",
-                url: PATHS.SECTIONS,
+                url: PATHS.SECTORS,
                 icon: Folder,
             },
         ],

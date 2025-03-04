@@ -1,7 +1,7 @@
 import PageLayoutSidebar from "@/app/_components/page-layout-sidebar";
 import { PATHS } from "@/app/_constants/paths";
 
-const SectionsPage = () => {
+const SectorsPage = () => {
     const breadcrumbList = [
         {
             label: "Administração",
@@ -13,7 +13,7 @@ const SectionsPage = () => {
         },
         {
             label: "Setores",
-            url: PATHS.SECTIONS,
+            url: PATHS.SECTORS,
         },
     ] as const;
 
@@ -24,4 +24,4 @@ const SectionsPage = () => {
     );
 };
 
-export default SectionsPage;
+export default SectorsPage;

@@ -8,22 +8,22 @@ datasource db {
 }
 
 model User {
-  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
-  email         String?       @unique
-  role          String        @default("user")
+  email         String?      @unique
+  role          String       @default("user")
   image         String?
   emailVerified DateTime?
-  isComplete    Boolean       @default(false)
-  isDeleted     Boolean       @default(false)
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  isComplete    Boolean      @default(false)
+  isDeleted     Boolean      @default(false)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
   photo         Photo?
   profile       Profile?
   accounts      Account[]
   sessions      Session[]
   userEvents    UserEvent[]
-  userSections  UserSection[]
+  userSectors   UserSector[]
 
   @@map("users")
 }
@@ -133,15 +133,15 @@ model Event {
   @@map("events")
 }
 
-model Section {
-  id           String        @id @default(auto()) @map("_id") @db.ObjectId
-  name         String
-  isDeleted    Boolean       @default(false)
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  userSections UserSection[]
+model Sector {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  isDeleted   Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  userSectors UserSector[]
 
-  @@map("sections")
+  @@map("sectors")
 }
 
 model UserEvent {
@@ -156,14 +156,14 @@ model UserEvent {
   @@map("userEvents")
 }
 
-model UserSection {
+model UserSector {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String   @db.ObjectId
   user      User     @relation(fields: [userId], references: [id])
-  sectionId String   @db.ObjectId
-  section   Section  @relation(fields: [sectionId], references: [id])
+  sectorId  String   @db.ObjectId
+  sector    Sector   @relation(fields: [sectorId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("userSections")
+  @@map("userSectors")
 }
