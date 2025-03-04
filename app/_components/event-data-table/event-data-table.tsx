@@ -32,7 +32,6 @@ const EventDataTable = () => {
                         itemList={eventListNotFinished}
                         isLoading={isLoading}
                         columnsNames={columnsNames}
-                        refreshList={refreshEvents}
                         actionButtons={
                             <DataTableEventActionButtons
                                 selectedRows={[]}
@@ -47,7 +46,6 @@ const EventDataTable = () => {
                         itemList={eventListFinished}
                         isLoading={isLoading}
                         columnsNames={columnsNames}
-                        refreshList={refreshEvents}
                         actionButtons={
                             <DataTableEventFinishedActionButtons
                                 selectedRows={[]}
