@@ -37,11 +37,19 @@ const SectorRowActions = ({ sector }: SectorRowActionsProps) => {
 
     return (
         <div>
-            <div className="flex items-center justify-between">
-                <Button onClick={handleEditEvent}>
+            <div className="flex items-center justify-between gap-2">
+                <Button
+                    onClick={handleEditEvent}
+                    className="flex h-7 w-7 items-center justify-center rounded-full p-0"
+                    variant={"outline"}
+                >
                     <Edit />
                 </Button>
-                <Button onClick={() => setDeleteDialogOpen(true)}>
+                <Button
+                    onClick={() => setDeleteDialogOpen(true)}
+                    className="flex h-7 w-7 items-center justify-center rounded-full p-0"
+                    variant={"outline"}
+                >
                     <Trash2 />
                 </Button>
             </div>
