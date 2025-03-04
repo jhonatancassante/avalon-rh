@@ -7,6 +7,7 @@ import {
     useEffect,
     useState,
     useMemo,
+    ReactNode,
 } from "react";
 import { Event } from "@prisma/client";
 import {
@@ -29,7 +30,7 @@ const EventContext = createContext<EventContextType | undefined>(undefined);
 export const EventProvider = ({
     children,
 }: {
-    readonly children: React.ReactNode;
+    readonly children: ReactNode;
 }) => {
     const [eventListNotFinished, setEventListNotFinished] = useState<Event[]>(
         [],

@@ -17,20 +17,19 @@ import { Form } from "./ui/form";
 import { FormFields } from "./form-fields/form-fields";
 import { editSectorFields } from "../_constants/editSectorFields";
 import { FormActions } from "./form-fields/form-actions";
-import { getSectorList } from "../_data/getSector";
 
 interface SectorDialogFormProps {
-    sector?: Sector;
+    sector?: Sector | null;
     isOpen: boolean;
     setIsOpen: (isOpen: boolean) => void;
-    setSectorList: (sectors: Sector[]) => void;
+    refreshList: () => Promise<void>;
 }
 
 const SectorDialogForm = ({
     sector,
     isOpen,
     setIsOpen,
-    setSectorList,
+    refreshList,
 }: SectorDialogFormProps) => {
     const { setIsLoading } = useLoading();
     const form = useSectorForm({ sector });
@@ -45,9 +44,7 @@ const SectorDialogForm = ({
 
             await updateOrCreateSector(sector?.id ?? "", updateData);
 
-            const sectors = await getSectorList();
-
-            setSectorList(sectors);
+            await refreshList();
 
             toast.success("Sucesso!", {
                 description: `Setor ${sector ? "atualizado" : "criado"} com sucesso!`,

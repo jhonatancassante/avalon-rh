@@ -2,7 +2,6 @@
 
 import { deleteSector } from "@/app/_actions/deleteSector";
 import { useLoading } from "@/app/_contexts/LoadingContext";
-import { getSectorList } from "@/app/_data/getSector";
 import { Sector } from "@prisma/client";
 import { Row } from "@tanstack/react-table";
 import { useState } from "react";
@@ -10,20 +9,20 @@ import { TooltipProvider } from "../ui/tooltip";
 import { ActionButton } from "../ui/action-button";
 import { Plus, Trash2 } from "lucide-react";
 import DeleteDialog from "../delete-dialog";
-import SectorDialogForm from "../sector-dialog-form";
+import { useSectors } from "@/app/_contexts/SectorContext";
 
 interface DataTableSectorActionButtonsProps<TData> {
     selectedRows: Row<TData>[];
-    setSectorList: (sectors: Sector[]) => void;
+    onActionCompleted: () => Promise<void>;
 }
 
 export const DataTableSectorActionButtons = <TData,>({
     selectedRows,
-    setSectorList,
+    onActionCompleted,
 }: Readonly<DataTableSectorActionButtonsProps<TData>>) => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [formDialogOpen, setFormDialogOpen] = useState(false);
     const { setIsLoading } = useLoading();
+    const { setFormDialog } = useSectors();
 
     const handleDeleteDialogOpen = () => {
         if (selectedRows.length === 0) return;
@@ -42,8 +41,7 @@ export const DataTableSectorActionButtons = <TData,>({
                 }),
             );
 
-            const sectors = await getSectorList();
-            setSectorList(sectors);
+            await onActionCompleted();
         } finally {
             setIsLoading(false);
         }
@@ -55,7 +53,7 @@ export const DataTableSectorActionButtons = <TData,>({
                 <ActionButton
                     icon={<Plus />}
                     tooltipText="Criar Novo Setor"
-                    onClick={() => setFormDialogOpen(true)}
+                    onClick={() => setFormDialog(true)}
                 />
                 <ActionButton
                     icon={<Trash2 />}
@@ -68,11 +66,6 @@ export const DataTableSectorActionButtons = <TData,>({
                 isOpen={deleteDialogOpen}
                 setIsOpen={setDeleteDialogOpen}
                 onDelete={handleDelete}
-            />
-            <SectorDialogForm
-                isOpen={formDialogOpen}
-                setIsOpen={setFormDialogOpen}
-                setSectorList={setSectorList}
             />
         </div>
     );

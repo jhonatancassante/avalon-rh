@@ -1,6 +1,9 @@
+"use client";
+
 import PageLayoutSidebar from "@/app/_components/page-layout-sidebar";
 import SectorDataTable from "@/app/_components/sector-data-table/sector-data-table";
 import { PATHS } from "@/app/_constants/paths";
+import { SectorProvider } from "@/app/_contexts/SectorContext";
 
 const SectorsPage = () => {
     const breadcrumbList = [
@@ -20,7 +23,9 @@ const SectorsPage = () => {
 
     return (
         <PageLayoutSidebar breadcrumbList={breadcrumbList}>
-            <SectorDataTable />
+            <SectorProvider>
+                <SectorDataTable />
+            </SectorProvider>
         </PageLayoutSidebar>
     );
 };
