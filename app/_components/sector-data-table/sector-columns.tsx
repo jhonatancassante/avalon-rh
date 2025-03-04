@@ -4,9 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "../ui/checkbox";
 import { DataTableColumnHeader } from "../data-table/column-header";
 import { Sector } from "@prisma/client";
-import Link from "next/link";
-import { PATHS } from "@/app/_constants/paths";
-import { Button } from "../ui/button";
+import SectorRowActions from "./sector-row-actions";
 
 export const columnsNames = [{ field: "name", label: "nome", filter: true }];
 
@@ -42,9 +40,7 @@ export const sectorColumns: ColumnDef<Sector>[] = [
             <DataTableColumnHeader column={column} title="Nome" />
         ),
         cell: ({ row }) => (
-            <Link href={`${PATHS.EVENTS}/${row.original.id}`}>
-                <div className="capitalize">{row.getValue("name")}</div>
-            </Link>
+            <div className="capitalize">{row.getValue("name")}</div>
         ),
     },
     {
@@ -52,7 +48,7 @@ export const sectorColumns: ColumnDef<Sector>[] = [
         cell: ({ row }) => {
             const sector = row.original;
 
-            return <Button key={sector.id}>Teste</Button>;
+            return <SectorRowActions sector={sector} />;
         },
     },
 ];
