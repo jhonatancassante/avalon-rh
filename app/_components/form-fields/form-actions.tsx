@@ -2,20 +2,20 @@ import { Button } from "@/app/_components/ui/button";
 import { useLoading } from "@/app/_contexts/LoadingContext";
 
 interface UserFormActionsProps {
-    isActive: boolean;
-    isComplete: boolean;
+    isActive?: boolean;
+    isComplete?: boolean;
     onExit: () => void;
 }
 
 export const FormActions = ({
-    isActive,
-    isComplete,
+    isActive = true,
+    isComplete = false,
     onExit,
 }: UserFormActionsProps) => {
     const { isLoading } = useLoading();
     const isDisabled = isLoading || !isActive;
     return (
-        <div className="flex justify-around">
+        <div className="flex w-full justify-around">
             <Button
                 type="submit"
                 className="w-32 lg:w-40"

@@ -39,8 +39,6 @@ const EventFormEdit = ({ event }: EventFormEditProps) => {
                 dateToClose: dateToCloseIso,
             };
 
-            console.log(updateData);
-
             await updateOrCreateEvent(event?.id ?? "", updateData);
 
             toast.success("Sucesso!", {
@@ -60,7 +58,7 @@ const EventFormEdit = ({ event }: EventFormEditProps) => {
         }
     };
 
-    const handleExit = async () => {
+    const handleExit = () => {
         try {
             setIsLoading(true);
             router.back();
@@ -81,11 +79,7 @@ const EventFormEdit = ({ event }: EventFormEditProps) => {
                 />
                 <LocationsFields<typeof eventFormSchema> form={form} />
 
-                <FormActions
-                    isActive={true}
-                    isComplete={false}
-                    onExit={handleExit}
-                />
+                <FormActions onExit={handleExit} />
             </form>
         </Form>
     );
