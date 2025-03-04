@@ -8,7 +8,7 @@ const WaveText = ({ text }: WaveTextProps) => {
             {text.split("").map((letter, index) => (
                 <span
                     key={`${index} - ${letter}`}
-                    className="inline-block animate-wave"
+                    className="inline-block animate-bounce"
                     style={{ animationDelay: `${index * 0.1}s` }}
                 >
                     {letter}
