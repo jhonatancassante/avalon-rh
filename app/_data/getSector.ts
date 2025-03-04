@@ -12,3 +12,14 @@ export const getSectorList = async () => {
         },
     });
 };
+
+export const getSectorByName = async (name: string) => {
+    await verifySessionAndRoleAdmin();
+
+    return await db.sector.findUnique({
+        where: {
+            name: name,
+            isDeleted: false,
+        },
+    });
+};
