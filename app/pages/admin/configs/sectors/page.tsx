@@ -1,4 +1,5 @@
 import PageLayoutSidebar from "@/app/_components/page-layout-sidebar";
+import SectorDataTable from "@/app/_components/sector-data-table/sector-data-table";
 import { PATHS } from "@/app/_constants/paths";
 
 const SectorsPage = () => {
@@ -19,7 +20,7 @@ const SectorsPage = () => {
 
     return (
         <PageLayoutSidebar breadcrumbList={breadcrumbList}>
-            <h1>Página dos Setores</h1>
+            <SectorDataTable />
         </PageLayoutSidebar>
     );
 };
