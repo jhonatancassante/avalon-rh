@@ -20,10 +20,6 @@ export const columnsNames = [
     { field: "dateToClose", label: "data encerramento", filter: true },
 ];
 
-export interface Meta {
-    hideOnMobile: boolean;
-}
-
 export const eventColumns: ColumnDef<Event>[] = [
     {
         id: "select",

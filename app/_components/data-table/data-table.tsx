@@ -19,7 +19,7 @@ import { DataTableFilterControls } from "./filter-controls";
 import { DataTableHeader } from "./header";
 import { DataTableBody } from "./body";
 import { useIsMobile } from "@/app/_hooks/use-mobile";
-import { Meta } from "../event-data-table/event-columns";
+import { Meta } from "@/app/_types/meta";
 
 export interface DataTableActionButtonsProps<TData> {
     selectedRows: Row<TData>[];
@@ -31,7 +31,6 @@ interface DataTableProps<TData, TValue> {
     itemList: object[];
     isLoading: boolean;
     columnsNames: { field: string; label: string; filter: boolean }[];
-    refreshList: () => Promise<void>;
     actionButtons?: React.ReactElement<DataTableActionButtonsProps<TData>>;
 }
 
@@ -83,7 +82,7 @@ export const DataTable = <TData, TValue>({
 
     return (
         <div className="space-y-4">
-            <div className="flex items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr_1fr]">
                 <DataTableFilterControls
                     selectedFilter={selectedFilter}
                     setSelectedFilter={setSelectedFilter}

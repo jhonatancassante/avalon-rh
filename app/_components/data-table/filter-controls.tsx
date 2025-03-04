@@ -45,40 +45,42 @@ export const DataTableFilterControls = <TData,>({
     };
 
     return (
-        <div className="relative flex w-full gap-4">
-            <Input
-                placeholder={`Filtrar por ${selectedFilter.label}...`}
-                value={
-                    (table
-                        .getColumn(selectedFilter.field)
-                        ?.getFilterValue() as string) ?? ""
-                }
-                onChange={(event) =>
-                    table
-                        .getColumn(selectedFilter.field)
-                        ?.setFilterValue(event.target.value)
-                }
-                className="w-full max-w-full pr-10 lg:max-w-sm lg:pr-12"
-            />
-            <TooltipProvider>
-                <Tooltip>
-                    <TooltipTrigger
-                        className="absolute right-0 top-0 lg:right-[136px]"
-                        asChild
-                    >
-                        <Button
-                            size={"icon"}
-                            variant={"ghost"}
-                            onClick={handleCleanFilter}
+        <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-[3fr_1fr]">
+            <div className="relative w-full">
+                <Input
+                    placeholder={`Filtrar por ${selectedFilter.label}...`}
+                    value={
+                        (table
+                            .getColumn(selectedFilter.field)
+                            ?.getFilterValue() as string) ?? ""
+                    }
+                    onChange={(event) =>
+                        table
+                            .getColumn(selectedFilter.field)
+                            ?.setFilterValue(event.target.value)
+                    }
+                    className="w-full max-w-full pr-9 lg:max-w-sm"
+                />
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger
+                            className="absolute right-0 top-0"
+                            asChild
                         >
-                            <X />
-                        </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                        <p>Limpar filtro</p>
-                    </TooltipContent>
-                </Tooltip>
-            </TooltipProvider>
+                            <Button
+                                size={"icon"}
+                                variant={"ghost"}
+                                onClick={handleCleanFilter}
+                            >
+                                <X />
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>Limpar filtro</p>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+            </div>
             {!isMobile && (
                 <Select
                     value={selectedFilter.field}
@@ -89,7 +91,7 @@ export const DataTableFilterControls = <TData,>({
                         if (newFilter) setSelectedFilter(newFilter);
                     }}
                 >
-                    <SelectTrigger className="w-[180px] max-w-[180px] text-ellipsis text-wrap text-left">
+                    <SelectTrigger className="w-[120px] max-w-[120px] text-ellipsis text-wrap text-left">
                         <SelectValue placeholder="Filtros..." />
                     </SelectTrigger>
                     <SelectContent>
