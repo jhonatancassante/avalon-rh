@@ -26,9 +26,10 @@ import { useEvents } from "@/app/_contexts/EventContext";
 
 interface EventPageActionsProps {
     event: Event;
+    setEvent: (event: Event) => void;
 }
 
-const EventPageActions = ({ event }: EventPageActionsProps) => {
+const EventPageActions = ({ event, setEvent }: EventPageActionsProps) => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const { setIsLoading } = useLoading();
     const router = useRouter();
@@ -40,7 +41,11 @@ const EventPageActions = ({ event }: EventPageActionsProps) => {
 
     const handleToggleInscriptions = async (isOpen: boolean) => {
         setIsLoading(true);
-        await updateEventAreInscriptionsOpen(event.id, isOpen);
+        const eventUpdated = await updateEventAreInscriptionsOpen(
+            event.id,
+            isOpen,
+        );
+        setEvent(eventUpdated);
         await refreshEvents();
         router.refresh();
         setIsLoading(false);
@@ -53,7 +58,8 @@ const EventPageActions = ({ event }: EventPageActionsProps) => {
 
     const handleToggleIsFinish = async (isOpen: boolean) => {
         setIsLoading(true);
-        await updateEventIsFinished(event.id, isOpen);
+        const eventUpdated = await updateEventIsFinished(event.id, isOpen);
+        setEvent(eventUpdated);
         await refreshEvents();
         router.refresh();
         setIsLoading(false);

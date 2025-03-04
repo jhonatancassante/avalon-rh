@@ -22,15 +22,20 @@ export const updateEventAreInscriptionsOpen = async (
         );
     }
 
-    await db.event.update({
-        where: {
-            id: id,
-            isDeleted: false,
-        },
-        data: {
-            areInscriptionsOpen: value,
-        },
-    });
+    try {
+        return await db.event.update({
+            where: {
+                id: id,
+                isDeleted: false,
+            },
+            data: {
+                areInscriptionsOpen: value,
+            },
+        });
+    } catch (error) {
+        console.error("Error updating event status:", error);
+        throw error;
+    }
 };
 
 export const updateEventIsFinished = async (
@@ -50,7 +55,7 @@ export const updateEventIsFinished = async (
     }
 
     try {
-        await db.event.update({
+        return await db.event.update({
             where: {
                 id: id,
                 isDeleted: false,
@@ -80,6 +85,7 @@ export const updateOrCreateEvent = async (
             "Unauthorized: You do not have permission to update event.",
         );
     }
+
     try {
         const event = id
             ? await db.event.update({
