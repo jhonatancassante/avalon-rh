@@ -16,13 +16,17 @@ export const FormActions = ({
     const isDisabled = isLoading || !isActive;
     return (
         <div className="flex justify-around">
-            <Button type="submit" className="w-40" disabled={isDisabled}>
+            <Button
+                type="submit"
+                className="w-32 lg:w-40"
+                disabled={isDisabled}
+            >
                 {isLoading ? "Enviando..." : "Salvar"}
             </Button>
             <Button
                 type="button"
                 onClick={onExit}
-                className="hidden w-40 md:inline-flex"
+                className="w-32 lg:w-40"
                 disabled={isLoading}
             >
                 {isComplete ? "Voltar" : "Sair"}
