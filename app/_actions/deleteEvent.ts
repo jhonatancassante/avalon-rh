@@ -1,22 +1,10 @@
 "use server";
 
-import { getServerSession } from "next-auth";
-import { authOptions } from "../_lib/auth";
-import { Roles } from "../_constants/roles";
 import { db } from "../_lib/prisma";
+import verifySessionAndRoleAdmin from "./verifySessionAndRoleAdmin";
 
 export const deleteEvent = async (id: string) => {
-    const session = await getServerSession(authOptions);
-
-    if (!session) {
-        throw new Error("Unauthorized: No session found.");
-    }
-
-    if (session.user.role !== Roles.Admin) {
-        throw new Error(
-            "Unauthorized: You do not have permission to create an event.",
-        );
-    }
+    verifySessionAndRoleAdmin();
 
     await db.event.update({
         where: {
