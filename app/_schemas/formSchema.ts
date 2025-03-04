@@ -88,3 +88,10 @@ export const eventFormSchema = z.object({
     dateToOpen: z.string().min(10, "Data inválida!"),
     dateToClose: z.string().min(10, "Data inválida!"),
 });
+
+export const sectorFormSchema = z.object({
+    name: z
+        .string()
+        .min(5, "Nome muito curto! Mínimo 5 caracteres!")
+        .max(100, "Nome muito longo! Máximo 100 caracteres."),
+});
