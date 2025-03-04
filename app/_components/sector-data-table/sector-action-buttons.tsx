@@ -72,6 +72,7 @@ export const DataTableSectorActionButtons = <TData,>({
             <SectorDialogForm
                 isOpen={formDialogOpen}
                 setIsOpen={setFormDialogOpen}
+                setSectorList={setSectorList}
             />
         </div>
     );

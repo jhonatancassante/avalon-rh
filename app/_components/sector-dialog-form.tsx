@@ -1,28 +1,75 @@
-import { Button } from "./ui/button";
+import { Sector } from "@prisma/client";
 import {
     Dialog,
-    DialogClose,
     DialogContent,
     DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
 } from "./ui/dialog";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
+import { useLoading } from "../_contexts/LoadingContext";
+import { useSectorForm } from "../_hooks/useSectorForm";
+import { z } from "zod";
+import { sectorFormSchema } from "../_schemas/formSchema";
+import { updateOrCreateSector } from "../_actions/updateSector";
+import { toast } from "sonner";
+import { Form } from "./ui/form";
+import { FormFields } from "./form-fields/form-fields";
+import { editSectorFields } from "../_constants/editSectorFields";
+import { FormActions } from "./form-fields/form-actions";
+import { getSectorList } from "../_data/getSector";
 
 interface SectorDialogFormProps {
+    sector?: Sector;
     isOpen: boolean;
-    edit?: boolean;
     setIsOpen: (isOpen: boolean) => void;
+    setSectorList: (sectors: Sector[]) => void;
 }
 
 const SectorDialogForm = ({
+    sector,
     isOpen,
-    edit = false,
     setIsOpen,
+    setSectorList,
 }: SectorDialogFormProps) => {
-    const formType = edit ? "Editar" : "Adicionar Novo";
+    const { setIsLoading } = useLoading();
+    const form = useSectorForm({ sector });
+    const formType = sector ? "Editar" : "Adicionar Novo";
+
+    const onSubmit = async (values: z.infer<typeof sectorFormSchema>) => {
+        setIsLoading(true);
+        try {
+            const updateData = {
+                ...values,
+            };
+
+            await updateOrCreateSector(sector?.id ?? "", updateData);
+
+            const sectors = await getSectorList();
+
+            setSectorList(sectors);
+
+            toast.success("Sucesso!", {
+                description: `Setor ${sector ? "atualizado" : "criado"} com sucesso!`,
+            });
+
+            form.reset();
+        } catch (error) {
+            console.error(
+                `Erro ao ${sector ? "atualizar" : "criar"} setor: ${error}`,
+            );
+            toast.error("Erro!", {
+                description: `Erro ao ${sector ? "atualizar" : "criar"} setor.`,
+            });
+        } finally {
+            setIsOpen(false);
+            setIsLoading(false);
+        }
+    };
+
+    const handleExit = () => {
+        setIsOpen(false);
+    };
 
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -33,26 +80,22 @@ const SectorDialogForm = ({
                         {`Preencha o formulário para ${formType} setor`}
                     </DialogDescription>
                 </DialogHeader>
-                <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="name" className="text-right">
-                            Nome
-                        </Label>
-                        <Input
-                            id="name"
-                            className="col-span-3"
-                            placeholder="Digite o nome do setor."
+                <Form {...form}>
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-4"
+                    >
+                        <FormFields
+                            control={form.control}
+                            formSchema={sectorFormSchema}
+                            editFields={editSectorFields}
                         />
-                    </div>
-                </div>
-                <DialogFooter>
-                    <DialogClose>
-                        <Button variant={"outline"}>Fechar</Button>
-                    </DialogClose>
-                    <DialogClose>
-                        <Button type="submit">Salvar</Button>
-                    </DialogClose>
-                </DialogFooter>
+
+                        <DialogFooter>
+                            <FormActions onExit={handleExit} />
+                        </DialogFooter>
+                    </form>
+                </Form>
             </DialogContent>
         </Dialog>
     );
