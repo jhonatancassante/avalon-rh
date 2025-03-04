@@ -21,7 +21,8 @@ export const DataTablePagination = <TData,>({
     const isMobile = useIsMobile();
     const selecionada = isMobile ? "sel" : "selecionada";
     const linha = isMobile ? "ln" : "linha";
-    const pagina = isMobile ? "pg" : "página";
+    const pagina = isMobile ? "" : "página";
+    const por = isMobile ? "" : "por";
 
     return (
         <div className="flex items-center justify-between px-2">
@@ -35,7 +36,7 @@ export const DataTablePagination = <TData,>({
             <div className="flex items-center space-x-6 lg:space-x-8">
                 <div className="flex items-center space-x-2">
                     <p className="text-sm font-medium first-letter:capitalize">
-                        {linha}s por {pagina}
+                        {`${linha}s ${por} ${pagina}`}
                     </p>
                     <RowsPerPageSelect
                         value={`${table.getState().pagination.pageSize}`}
@@ -44,8 +45,7 @@ export const DataTablePagination = <TData,>({
                     />
                 </div>
                 <div className="flex w-[100px] items-center justify-center text-sm font-medium first-letter:capitalize">
-                    {pagina} {table.getState().pagination.pageIndex + 1} de{" "}
-                    {table.getPageCount()}
+                    {`${pagina} ${table.getState().pagination.pageIndex + 1} de ${table.getPageCount()}`}
                 </div>
                 <div className="flex items-center space-x-2">
                     <PaginationButton

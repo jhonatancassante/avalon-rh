@@ -1,3 +1,5 @@
+"use client";
+
 import { Table } from "@tanstack/react-table";
 import { Input } from "../ui/input";
 import {
@@ -15,6 +17,7 @@ import {
     TooltipTrigger,
 } from "../ui/tooltip";
 import { X } from "lucide-react";
+import { useIsMobile } from "@/app/_hooks/use-mobile";
 
 interface FilterControlsProps<TData> {
     selectedFilter: { field: string; label: string };
@@ -33,6 +36,8 @@ export const DataTableFilterControls = <TData,>({
     columnsNames,
     table,
 }: Readonly<FilterControlsProps<TData>>) => {
+    const isMobile = useIsMobile();
+
     const handleCleanFilter = () => {
         table.resetColumnFilters();
 
@@ -40,7 +45,7 @@ export const DataTableFilterControls = <TData,>({
     };
 
     return (
-        <div className="relative flex gap-4">
+        <div className="relative flex w-full gap-4">
             <Input
                 placeholder={`Filtrar por ${selectedFilter.label}...`}
                 value={
@@ -53,12 +58,12 @@ export const DataTableFilterControls = <TData,>({
                         .getColumn(selectedFilter.field)
                         ?.setFilterValue(event.target.value)
                 }
-                className="max-w-sm pr-12"
+                className="w-full max-w-full pr-10 lg:max-w-sm lg:pr-12"
             />
             <TooltipProvider>
                 <Tooltip>
                     <TooltipTrigger
-                        className="absolute right-[136px] top-0"
+                        className="absolute right-0 top-0 lg:right-[136px]"
                         asChild
                     >
                         <Button
@@ -74,29 +79,33 @@ export const DataTableFilterControls = <TData,>({
                     </TooltipContent>
                 </Tooltip>
             </TooltipProvider>
-            <Select
-                value={selectedFilter.field}
-                onValueChange={(value) => {
-                    const newFilter = columnsNames.find(
-                        (item) => item.field === value,
-                    );
-                    if (newFilter) setSelectedFilter(newFilter);
-                }}
-            >
-                <SelectTrigger className="w-[180px] max-w-[180px] text-ellipsis text-wrap text-left">
-                    <SelectValue placeholder="Filtros..." />
-                </SelectTrigger>
-                <SelectContent>
-                    {columnsNames.map((item) => {
-                        if (!item.filter) return;
-                        return (
-                            <SelectItem value={item.field} key={item.field}>
-                                <span className="capitalize">{item.label}</span>
-                            </SelectItem>
+            {!isMobile && (
+                <Select
+                    value={selectedFilter.field}
+                    onValueChange={(value) => {
+                        const newFilter = columnsNames.find(
+                            (item) => item.field === value,
                         );
-                    })}
-                </SelectContent>
-            </Select>
+                        if (newFilter) setSelectedFilter(newFilter);
+                    }}
+                >
+                    <SelectTrigger className="w-[180px] max-w-[180px] text-ellipsis text-wrap text-left">
+                        <SelectValue placeholder="Filtros..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {columnsNames.map((item) => {
+                            if (!item.filter) return;
+                            return (
+                                <SelectItem value={item.field} key={item.field}>
+                                    <span className="capitalize">
+                                        {item.label}
+                                    </span>
+                                </SelectItem>
+                            );
+                        })}
+                    </SelectContent>
+                </Select>
+            )}
         </div>
     );
 };

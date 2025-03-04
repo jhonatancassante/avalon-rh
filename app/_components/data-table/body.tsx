@@ -43,7 +43,7 @@ export const DataTableBody = <TData, TValue>({
                             <WaveText text="Carregando..." />
                         </span>
                     ) : (
-                        "No results."
+                        "Nenhum resultado."
                     )}
                 </TableCell>
             </TableRow>
