@@ -51,12 +51,13 @@ export const validateUserData = (data: UpdateUser) => {
                       ...data.profile,
                       birthdate: format(
                           data?.profile?.birthdate ?? new Date(),
-                          "yyyy/MM/dd",
+                          "dd/MM/yyyy",
                           {
                               locale: ptBR,
                           },
                       ),
                   };
+
         validadeUserFormSchema.parse(dataToValidade);
         return { isValid: true, errors: null };
     } catch (error) {
