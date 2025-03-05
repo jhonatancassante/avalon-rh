@@ -82,7 +82,7 @@ export const DataTable = <TData, TValue>({
 
     return (
         <div className="space-y-4">
-            <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr_1fr]">
+            <div className="grid grid-cols-1 grid-rows-2 gap-4 lg:grid-cols-[3fr_2fr_1fr] lg:grid-rows-1">
                 <DataTableFilterControls
                     selectedFilter={selectedFilter}
                     setSelectedFilter={setSelectedFilter}
@@ -90,7 +90,6 @@ export const DataTable = <TData, TValue>({
                     table={table}
                 />
                 {actionButtons &&
-                    !isMobile &&
                     cloneElement(actionButtons, {
                         selectedRows: table.getSelectedRowModel().rows,
                     })}

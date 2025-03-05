@@ -48,7 +48,7 @@ export const DataTableSectorActionButtons = <TData,>({
     };
 
     return (
-        <div className="ml-20 flex gap-2">
+        <div className="flex justify-center gap-2">
             <TooltipProvider>
                 <ActionButton
                     icon={<Plus />}
