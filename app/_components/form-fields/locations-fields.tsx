@@ -14,7 +14,8 @@ const LocationsFields = <T extends ZodTypeAny>({
     form,
 }: LocationsFieldsProps<T>) => {
     const isDesktop = useMediaQuery("(min-width: 768px)");
-    const { states, cities, fetchCities, fetchStates } = useLocations(form);
+    const { states, cities, fetchCities, fetchStates, loadingCities } =
+        useLocations(form);
 
     useEffect(() => {
         fetchStates();
@@ -28,7 +29,12 @@ const LocationsFields = <T extends ZodTypeAny>({
                 isDesktop={isDesktop}
                 fetchCities={fetchCities}
             />
-            <CityField form={form} cities={cities} isDesktop={isDesktop} />
+            <CityField
+                form={form}
+                cities={cities}
+                isDesktop={isDesktop}
+                loadingCities={loadingCities}
+            />
         </div>
     );
 };

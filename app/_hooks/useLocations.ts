@@ -18,12 +18,13 @@ export const useLocations = <T extends z.ZodObject<z.ZodRawShape>>(
     const [states, setStates] = useState<State[]>([]);
     const [cities, setCities] = useState<City[]>([]);
     const [selectedStateId, setSelectedStateId] = useState<number | null>(null);
+    const [loadingCities, setLoadingCities] = useState(false);
     const { setIsLoading } = useLoading();
 
     const fetchCities = useCallback(
         async (stateId: number) => {
             try {
-                setIsLoading(true);
+                setLoadingCities(true);
                 const response = await fetch(
                     `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateId}/municipios`,
                 );
@@ -31,6 +32,9 @@ export const useLocations = <T extends z.ZodObject<z.ZodRawShape>>(
                 const sortedCities = data.sort((a: City, b: City) =>
                     a.nome.localeCompare(b.nome),
                 );
+
+                await new Promise((resolve) => setTimeout(resolve, 300));
+
                 setCities(sortedCities);
                 setSelectedStateId(stateId);
 
@@ -44,11 +48,10 @@ export const useLocations = <T extends z.ZodObject<z.ZodRawShape>>(
             } catch (error) {
                 console.error("Erro ao buscar cidades:", error);
             } finally {
-                await new Promise((resolve) => setTimeout(resolve, 300));
-                setIsLoading(false);
+                setLoadingCities(false);
             }
         },
-        [form, setIsLoading],
+        [form],
     );
 
     const fetchStates = useCallback(async () => {
@@ -87,5 +90,6 @@ export const useLocations = <T extends z.ZodObject<z.ZodRawShape>>(
         fetchCities,
         fetchStates,
         selectedStateId,
+        loadingCities,
     };
 };
