@@ -4,7 +4,7 @@ import { ptBR } from "date-fns/locale";
 import isValidCPF from "./isValidCPF";
 import isValidPhone from "./isValidPhone";
 import isDateValidAndOver18 from "./isDateValidAndOver18";
-import UpdateUser from "../_types/UpdateUser";
+import UpdateUser from "../_types/newUpdateUser";
 
 const lettersAndNumbersRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9'\-\s]+$/;
 

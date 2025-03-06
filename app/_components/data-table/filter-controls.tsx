@@ -17,7 +17,7 @@ import {
     TooltipTrigger,
 } from "../ui/tooltip";
 import { X } from "lucide-react";
-import { useIsMobile } from "@/app/_hooks/use-mobile";
+import { useIsMobile } from "@/app/_hooks/useMobile";
 
 interface FilterControlsProps<TData> {
     selectedFilter: { field: string; label: string };

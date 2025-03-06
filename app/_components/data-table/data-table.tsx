@@ -18,7 +18,7 @@ import {
 import { DataTableFilterControls } from "./filter-controls";
 import { DataTableHeader } from "./header";
 import { DataTableBody } from "./body";
-import { useIsMobile } from "@/app/_hooks/use-mobile";
+import { useIsMobile } from "@/app/_hooks/useMobile";
 import { Meta } from "@/app/_types/meta";
 
 export interface DataTableActionButtonsProps<TData> {

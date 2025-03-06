@@ -7,7 +7,7 @@ import { authorizedRoles } from "../_constants/roles";
 import { revalidatePath } from "next/cache";
 import { validateUserData } from "../_utils/validateUserData";
 import { encrypt } from "../_utils/crypto";
-import UpdateUser from "../_types/UpdateUser";
+import UpdateUser from "../_types/newUpdateUser";
 import { PATHS } from "../_constants/paths";
 
 export const updateUser = async (id: string, data: UpdateUser) => {

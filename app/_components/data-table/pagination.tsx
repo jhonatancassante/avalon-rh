@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { PaginationButton } from "../ui/pagination-button";
 import { RowsPerPageSelect } from "../ui/rows-per-page-select";
-import { useIsMobile } from "@/app/_hooks/use-mobile";
+import { useIsMobile } from "@/app/_hooks/useMobile";
 
 interface DataTablePaginationProps<TData> {
     table: Table<TData>;
