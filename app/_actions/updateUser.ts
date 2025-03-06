@@ -7,7 +7,7 @@ import { authorizedRoles } from "../_constants/roles";
 import { revalidatePath } from "next/cache";
 import { validateUserData } from "../_utils/validateUserData";
 import { encrypt } from "../_utils/crypto";
-import UpdateUser from "../_types/newUpdateUser";
+import UpdateUser from "../_types/updateUser";
 import { PATHS } from "../_constants/paths";
 
 export const updateUser = async (id: string, data: UpdateUser) => {
@@ -45,7 +45,12 @@ export const updateUser = async (id: string, data: UpdateUser) => {
     const validation = validateUserData(data);
 
     if (!validation.isValid) {
-        throw new Error("Invalid data: " + JSON.stringify(validation.errors));
+        throw new Error(
+            JSON.stringify({
+                message: "Dados inválidos",
+                errors: validation.errors,
+            }),
+        );
     }
 
     if (data.profile.cpf) {
