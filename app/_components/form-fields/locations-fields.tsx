@@ -1,16 +1,16 @@
 import { useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { z } from "zod";
+import { z, ZodTypeAny } from "zod";
 import { useMediaQuery } from "@react-hook/media-query";
 import StateField from "./state-field";
 import CityField from "./city-field";
 import { useLocations } from "@/app/_hooks/useLocations";
 
-interface LocationsFieldsProps<T extends z.ZodObject<z.ZodRawShape>> {
+interface LocationsFieldsProps<T extends ZodTypeAny> {
     form: UseFormReturn<z.infer<T>>;
 }
 
-const LocationsFields = <T extends z.ZodObject<z.ZodRawShape>>({
+const LocationsFields = <T extends ZodTypeAny>({
     form,
 }: LocationsFieldsProps<T>) => {
     const isDesktop = useMediaQuery("(min-width: 768px)");

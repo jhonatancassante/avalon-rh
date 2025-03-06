@@ -6,19 +6,19 @@ import {
     FormLabel,
     FormMessage,
 } from "../ui/form";
-import { z } from "zod";
+import { z, ZodTypeAny } from "zod";
 import UpdatePhoto from "@/app/_types/updatePhoto";
 import FormTooltip from "./form-tooltip";
 import { Input } from "../ui/input";
 
-interface UserFormFieldsProps<T extends z.ZodObject<z.ZodRawShape>> {
+interface UserFormFieldsProps<T extends ZodTypeAny> {
     control: Control<z.infer<T>>;
     handleFileUpload: (file: File) => void;
     photoData: UpdatePhoto | null;
     isComplete: boolean;
 }
 
-const PhotoField = <T extends z.ZodObject<z.ZodRawShape>>({
+const PhotoField = <T extends ZodTypeAny>({
     control,
     handleFileUpload,
     photoData,

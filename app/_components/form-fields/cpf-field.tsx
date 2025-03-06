@@ -9,15 +9,13 @@ import {
 import { Input } from "../ui/input";
 import FormTooltip from "./form-tooltip";
 import { Control, Path } from "react-hook-form";
-import { z } from "zod";
+import { z, ZodTypeAny } from "zod";
 
-interface CpfFieldProps<T extends z.ZodObject<z.ZodRawShape>> {
+interface CpfFieldProps<T extends ZodTypeAny> {
     control: Control<z.infer<T>>;
 }
 
-const CpfField = <T extends z.ZodObject<z.ZodRawShape>>({
-    control,
-}: CpfFieldProps<T>) => {
+const CpfField = <T extends ZodTypeAny>({ control }: CpfFieldProps<T>) => {
     return (
         <FormField
             control={control}

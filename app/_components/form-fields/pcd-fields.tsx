@@ -1,15 +1,15 @@
 import { Control, Path, useWatch } from "react-hook-form";
 import { PcdRadioGroup } from "./pcd-radio-group";
-import { z } from "zod";
+import { z, ZodTypeAny } from "zod";
 import { CheckboxList } from "../ui/checkbox-list";
 import { deficiencysList } from "@/app/_constants/deficiencysList";
 import { extraSupportsList } from "@/app/_constants/extraSupportsList";
 
-interface PcdFieldsProps<T extends z.ZodObject<z.ZodRawShape>> {
+interface PcdFieldsProps<T extends ZodTypeAny> {
     control: Control<z.infer<T>>;
 }
 
-export const PcdFields = <T extends z.ZodObject<z.ZodRawShape>>({
+export const PcdFields = <T extends ZodTypeAny>({
     control,
 }: PcdFieldsProps<T>) => {
     const isPcd = useWatch({ control, name: "isPcd" as Path<z.infer<T>> });

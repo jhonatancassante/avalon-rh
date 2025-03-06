@@ -7,5 +7,6 @@ export const extraSupportsList = [
     },
     { label: "Elevador/Rampa" },
     { label: "Local silencioso e com baixa luminosidade" },
+    { label: "Outras acessibilidades" },
     { label: "Não necessito de nenhuma acessibilidade" },
 ];

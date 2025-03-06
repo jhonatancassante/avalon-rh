@@ -1,5 +1,5 @@
 import { Control, Path, ControllerRenderProps } from "react-hook-form";
-import { z } from "zod";
+import { z, ZodTypeAny } from "zod";
 import { Input } from "@/app/_components/ui/input";
 import FormTooltip from "@/app/_components/form-fields/form-tooltip";
 import {
@@ -10,22 +10,25 @@ import {
     FormMessage,
 } from "@/app/_components/ui/form";
 import { EditFields } from "@/app/_types/editFields";
+import getSchemaShape from "@/app/_helper/getSchemaShape";
 
-interface FormFieldsProps<T extends z.ZodObject<z.ZodRawShape>> {
+interface FormFieldsProps<T extends ZodTypeAny> {
     formSchema: T;
     control: Control<z.infer<T>>;
     editFields: EditFields[];
 }
 
-export const FormFields = <T extends z.ZodObject<z.ZodRawShape>>({
+export const FormFields = <T extends ZodTypeAny>({
     formSchema,
     control,
     editFields,
 }: FormFieldsProps<T>) => {
+    const schemaShape = getSchemaShape(formSchema);
+
     return (
         <>
             {editFields.map((formField, index) => {
-                if (!(formField.name in formSchema.shape)) {
+                if (!(formField.name in schemaShape)) {
                     console.warn(
                         `Campo "${formField.name}" não encontrado no schema.`,
                     );
@@ -49,7 +52,7 @@ export const FormFields = <T extends z.ZodObject<z.ZodRawShape>>({
                                         ? Number(field.value)
                                         : "";
                                 } else if (typeof field.value === "boolean") {
-                                    return field.value.toString();
+                                    return (field.value as boolean).toString();
                                 } else if (
                                     typeof File !== "undefined" &&
                                     (field.value as unknown) instanceof File

@@ -1,5 +1,5 @@
 import { Control, Path } from "react-hook-form";
-import { z } from "zod";
+import { z, ZodTypeAny } from "zod";
 import {
     FormControl,
     FormField,
@@ -11,13 +11,11 @@ import FormTooltip from "./form-tooltip";
 import { Input } from "../ui/input";
 import formatPhone from "@/app/_utils/formatPhone";
 
-interface PhoneFieldProps<T extends z.ZodObject<z.ZodRawShape>> {
+interface PhoneFieldProps<T extends ZodTypeAny> {
     control: Control<z.infer<T>>;
 }
 
-const PhoneField = <T extends z.ZodObject<z.ZodRawShape>>({
-    control,
-}: PhoneFieldProps<T>) => {
+const PhoneField = <T extends ZodTypeAny>({ control }: PhoneFieldProps<T>) => {
     return (
         <FormField
             control={control}

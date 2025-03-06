@@ -1,10 +1,10 @@
 import { Control, Path } from "react-hook-form";
-import { z } from "zod";
+import { z, ZodTypeAny } from "zod";
 import { FormControl, FormField, FormItem, FormLabel } from "./form";
 import FormTooltip from "../form-fields/form-tooltip";
 import { RadioGroup, RadioGroupItem } from "./radio-group";
 
-interface RadioGroupFieldProps<T extends z.ZodObject<z.ZodRawShape>> {
+interface RadioGroupFieldProps<T extends ZodTypeAny> {
     control: Control<z.infer<T>>;
     name: string;
     label: string;
@@ -12,7 +12,7 @@ interface RadioGroupFieldProps<T extends z.ZodObject<z.ZodRawShape>> {
     tooltipMsg?: string;
 }
 
-export const RadioGroupField = <T extends z.ZodObject<z.ZodRawShape>>({
+export const RadioGroupField = <T extends ZodTypeAny>({
     control,
     name,
     label,

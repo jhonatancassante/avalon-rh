@@ -1,12 +1,12 @@
 import { Control } from "react-hook-form";
-import { z } from "zod";
+import { z, ZodTypeAny } from "zod";
 import { RadioGroupField } from "../ui/radio-group-field";
 
-interface PcdRadioGroupProps<T extends z.ZodObject<z.ZodRawShape>> {
+interface PcdRadioGroupProps<T extends ZodTypeAny> {
     control: Control<z.infer<T>>;
 }
 
-export const PcdRadioGroup = <T extends z.ZodObject<z.ZodRawShape>>({
+export const PcdRadioGroup = <T extends ZodTypeAny>({
     control,
 }: PcdRadioGroupProps<T>) => (
     <RadioGroupField

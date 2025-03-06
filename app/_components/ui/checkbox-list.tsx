@@ -1,10 +1,10 @@
 import { Control, Path } from "react-hook-form";
-import { z } from "zod";
-import { FormField, FormItem, FormLabel } from "./form";
+import { z, ZodTypeAny } from "zod";
+import { FormField, FormItem, FormLabel, FormMessage } from "./form";
 import FormTooltip from "../form-fields/form-tooltip";
 import { CheckboxItem } from "./checkbox-item";
 
-interface CheckboxListProps<T extends z.ZodObject<z.ZodRawShape>> {
+interface CheckboxListProps<T extends ZodTypeAny> {
     control: Control<z.infer<T>>;
     name: string;
     label: string;
@@ -12,7 +12,7 @@ interface CheckboxListProps<T extends z.ZodObject<z.ZodRawShape>> {
     tooltipMsg?: string;
 }
 
-export const CheckboxList = <T extends z.ZodObject<z.ZodRawShape>>({
+export const CheckboxList = <T extends ZodTypeAny>({
     control,
     name,
     label,
@@ -49,6 +49,7 @@ export const CheckboxList = <T extends z.ZodObject<z.ZodRawShape>>({
                         }}
                     />
                 ))}
+                <FormMessage />
             </FormItem>
         )}
     />

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { toast } from "sonner";
 import { UserComplete } from "../../_types/userComplete";
-import UpdateUser from "../../_types/newUpdateUser";
+import UpdateUser from "../../_types/updateUser";
 import { updateUser } from "../../_actions/updateUser";
 import { useUserForm } from "@/app/_hooks/useUserForm";
 import { useFileUpload } from "@/app/_hooks/useFileUpload";

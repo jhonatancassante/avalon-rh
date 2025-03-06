@@ -1,5 +1,5 @@
 import { Control, Path } from "react-hook-form";
-import { z } from "zod";
+import { z, ZodTypeAny } from "zod";
 import {
     FormControl,
     FormField,
@@ -17,11 +17,11 @@ import {
 import { Pronouns } from "@/app/_constants/pronouns";
 import FormTooltip from "./form-tooltip";
 
-interface PronounFieldProps<T extends z.ZodObject<z.ZodRawShape>> {
+interface PronounFieldProps<T extends ZodTypeAny> {
     control: Control<z.infer<T>>;
 }
 
-const PronounField = <T extends z.ZodObject<z.ZodRawShape>>({
+const PronounField = <T extends ZodTypeAny>({
     control,
 }: PronounFieldProps<T>) => {
     return (
