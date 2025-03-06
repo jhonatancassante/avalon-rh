@@ -1,7 +1,7 @@
 import { Control, Path } from "react-hook-form";
 import { z } from "zod";
 import { FormField, FormItem, FormLabel } from "./form";
-import FormTooltip from "../user-form/user-form-tooltip";
+import FormTooltip from "../form-fields/form-tooltip";
 import { CheckboxItem } from "./checkbox-item";
 
 interface CheckboxListProps<T extends z.ZodObject<z.ZodRawShape>> {

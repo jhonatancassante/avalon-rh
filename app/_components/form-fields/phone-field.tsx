@@ -7,7 +7,7 @@ import {
     FormLabel,
     FormMessage,
 } from "../ui/form";
-import FormTooltip from "../user-form/user-form-tooltip";
+import FormTooltip from "./form-tooltip";
 import { Input } from "../ui/input";
 import formatPhone from "@/app/_utils/formatPhone";
 

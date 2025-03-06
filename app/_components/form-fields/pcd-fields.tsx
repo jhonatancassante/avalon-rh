@@ -2,7 +2,7 @@ import { Control, Path, useWatch } from "react-hook-form";
 import { PcdRadioGroup } from "./pcd-radio-group";
 import { z } from "zod";
 import { CheckboxList } from "../ui/checkbox-list";
-import { DeficiencysList } from "@/app/_constants/deficiencysList";
+import { deficiencysList } from "@/app/_constants/deficiencysList";
 import { extraSupportsList } from "@/app/_constants/extraSupportsList";
 
 interface PcdFieldsProps<T extends z.ZodObject<z.ZodRawShape>> {
@@ -24,7 +24,7 @@ export const PcdFields = <T extends z.ZodObject<z.ZodRawShape>>({
                         name="deficiency"
                         label="Conte-nos qual o tipo de deficiência você tem?"
                         tooltipMsg="Descreva aqui qual sua deficiência."
-                        items={DeficiencysList}
+                        items={deficiencysList}
                     />
                     <CheckboxList
                         control={control}

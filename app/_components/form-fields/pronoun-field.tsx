@@ -15,7 +15,7 @@ import {
     SelectValue,
 } from "../ui/select";
 import { Pronouns } from "@/app/_constants/pronouns";
-import FormTooltip from "../user-form/user-form-tooltip";
+import FormTooltip from "./form-tooltip";
 
 interface PronounFieldProps<T extends z.ZodObject<z.ZodRawShape>> {
     control: Control<z.infer<T>>;

@@ -1,7 +1,7 @@
 import { Control, Path } from "react-hook-form";
 import { z } from "zod";
 import { FormControl, FormField, FormItem, FormLabel } from "./form";
-import FormTooltip from "../user-form/user-form-tooltip";
+import FormTooltip from "../form-fields/form-tooltip";
 import { RadioGroup, RadioGroupItem } from "./radio-group";
 
 interface RadioGroupFieldProps<T extends z.ZodObject<z.ZodRawShape>> {

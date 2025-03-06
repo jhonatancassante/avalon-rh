@@ -7,7 +7,7 @@ import {
     FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import FormTooltip from "../user-form/user-form-tooltip";
+import FormTooltip from "./form-tooltip";
 import { Control, Path } from "react-hook-form";
 import { z } from "zod";
 

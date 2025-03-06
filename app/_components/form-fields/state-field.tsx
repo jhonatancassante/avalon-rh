@@ -20,7 +20,7 @@ import {
     FormMessage,
 } from "../ui/form";
 import { TypeOf, z } from "zod";
-import FormTooltip from "../user-form/user-form-tooltip";
+import FormTooltip from "./form-tooltip";
 
 interface StateFieldProps<T extends z.ZodObject<z.ZodRawShape>> {
     form: UseFormReturn<z.infer<T>>;

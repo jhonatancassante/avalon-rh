@@ -8,7 +8,7 @@ import {
 } from "../ui/form";
 import { z } from "zod";
 import UpdatePhoto from "@/app/_types/updatePhoto";
-import FormTooltip from "../user-form/user-form-tooltip";
+import FormTooltip from "./form-tooltip";
 import { Input } from "../ui/input";
 
 interface UserFormFieldsProps<T extends z.ZodObject<z.ZodRawShape>> {
