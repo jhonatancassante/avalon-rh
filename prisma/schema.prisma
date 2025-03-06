@@ -8,28 +8,27 @@ datasource db {
 }
 
 model User {
-  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
-  email         String?      @unique
-  role          String       @default("user")
+  email         String?     @unique
+  role          String      @default("user")
   image         String?
   emailVerified DateTime?
-  isComplete    Boolean      @default(false)
-  isDeleted     Boolean      @default(false)
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
+  isComplete    Boolean     @default(false)
+  isDeleted     Boolean     @default(false)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
   photo         Photo?
   profile       Profile?
   accounts      Account[]
   sessions      Session[]
   userEvents    UserEvent[]
-  userSectors   UserSector[]
 
   @@map("users")
 }
 
 model Profile {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  id           String       @id @default(auto()) @map("_id") @db.ObjectId
   cpf          String
   completeName String
   socialName   String
@@ -39,15 +38,16 @@ model Profile {
   contactEmail String
   phone        String
   birthdate    DateTime
-  isPcd        Boolean  @default(false)
+  isPcd        Boolean      @default(false)
   deficiency   String[]
   extraSupport String[]
   city         String
   state        String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  userId       String   @unique @db.ObjectId
-  user         User     @relation(fields: [userId], references: [id])
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  userId       String       @unique @db.ObjectId
+  user         User         @relation(fields: [userId], references: [id])
+  eventSector  EventSector?
 
   @@map("profiles")
 }
@@ -115,31 +115,32 @@ model VerificationToken {
 }
 
 model Event {
-  id                  String      @id @default(auto()) @map("_id") @db.ObjectId
+  id                  String        @id @default(auto()) @map("_id") @db.ObjectId
   name                String
   edition             Int
   date                DateTime
   state               String
   city                String
-  areInscriptionsOpen Boolean     @default(false)
-  dateToOpen          DateTime    @default(now())
+  areInscriptionsOpen Boolean       @default(false)
+  dateToOpen          DateTime      @default(now())
   dateToClose         DateTime
-  isFinished          Boolean     @default(false)
-  isDeleted           Boolean     @default(false)
-  createdAt           DateTime    @default(now())
-  updatedAt           DateTime    @updatedAt
+  isFinished          Boolean       @default(false)
+  isDeleted           Boolean       @default(false)
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
   userEvents          UserEvent[]
+  eventSectors        EventSector[]
 
   @@map("events")
 }
 
 model Sector {
-  id          String       @id @default(auto()) @map("_id") @db.ObjectId
-  name        String       @unique
-  isDeleted   Boolean      @default(false)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  userSectors UserSector[]
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  name         String        @unique
+  isDeleted    Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  eventSectors EventSector[]
 
   @@map("sectors")
 }
@@ -156,14 +157,16 @@ model UserEvent {
   @@map("userEvents")
 }
 
-model UserSector {
+model EventSector {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String   @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id])
+  eventId   String   @db.ObjectId
+  event     Event    @relation(fields: [eventId], references: [id])
   sectorId  String   @db.ObjectId
   sector    Sector   @relation(fields: [sectorId], references: [id])
+  profileId String   @unique @db.ObjectId
+  leader    Profile  @relation(fields: [profileId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("userSectors")
+  @@map("eventSectors")
 }
