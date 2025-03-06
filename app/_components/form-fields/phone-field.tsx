@@ -24,10 +24,10 @@ const PhoneField = <T extends z.ZodObject<z.ZodRawShape>>({
             name={"phone" as Path<z.infer<T>>}
             render={({ field }) => (
                 <FormItem>
-                    <FormLabel className="flex gap-2">
-                        Celular / Whatsapp
-                        <FormTooltip msg="Digite seu número de celular que utiliza Whatsapp. Somente os números!" />
-                    </FormLabel>
+                    <div className="flex items-center gap-2">
+                        <FormLabel>Celular / Whatsapp</FormLabel>
+                        <FormTooltip msg="Digite seu número de celular que utiliza Whatsapp com o DDD. Somente os números!" />
+                    </div>
                     <FormControl>
                         <Input
                             placeholder="Digite o celular"

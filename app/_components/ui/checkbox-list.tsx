@@ -24,10 +24,10 @@ export const CheckboxList = <T extends z.ZodObject<z.ZodRawShape>>({
         name={name as Path<z.infer<T>>}
         render={() => (
             <FormItem>
-                <FormLabel className="flex gap-2">
-                    {label}
+                <div className="flex items-center gap-2">
+                    <FormLabel>{label}</FormLabel>
                     {tooltipMsg && <FormTooltip msg={tooltipMsg} />}
-                </FormLabel>
+                </div>
                 {items.map((item) => (
                     <FormField
                         key={item.label}

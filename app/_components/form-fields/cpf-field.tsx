@@ -24,10 +24,10 @@ const CpfField = <T extends z.ZodObject<z.ZodRawShape>>({
             name={"cpf" as Path<z.infer<T>>}
             render={({ field }) => (
                 <FormItem>
-                    <FormLabel className="flex gap-2">
-                        CPF
+                    <div className="flex items-center gap-2">
+                        <FormLabel>CPF</FormLabel>
                         <FormTooltip msg="Digite somente os números." />
-                    </FormLabel>
+                    </div>
                     <FormControl>
                         <Input
                             placeholder="Digite o CPF"

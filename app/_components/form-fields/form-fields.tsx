@@ -62,10 +62,10 @@ export const FormFields = <T extends z.ZodObject<z.ZodRawShape>>({
 
                             return (
                                 <FormItem>
-                                    <FormLabel className="flex gap-2">
-                                        {formField.label}
+                                    <div className="flex items-center gap-2">
+                                        <FormLabel>{formField.label}</FormLabel>
                                         <FormTooltip msg={formField.tooltip} />
-                                    </FormLabel>
+                                    </div>
                                     <FormControl>
                                         <Input
                                             type={formField.type}

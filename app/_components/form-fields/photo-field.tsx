@@ -30,10 +30,10 @@ const PhotoField = <T extends z.ZodObject<z.ZodRawShape>>({
             name={"photo" as Path<z.infer<T>>}
             render={({ field }) => (
                 <FormItem>
-                    <FormLabel className="flex gap-2">
-                        Foto de Perfil
+                    <div className="flex items-center gap-2">
+                        <FormLabel>Foto de Perfil</FormLabel>
                         <FormTooltip msg="Selecione uma foto de perfil. O arquivo deve ter no máximo 1MB e as dimensões devem ser entre 500x500 e 3036x3036." />
-                    </FormLabel>
+                    </div>
                     <FormControl>
                         <Input
                             id="photo-field"

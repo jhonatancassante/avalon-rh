@@ -1,3 +1,5 @@
+"use client";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestion } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -6,36 +8,31 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/app/_components/ui/tooltip";
+import { useState } from "react";
+import { Button } from "../ui/button";
 
 interface FormTooltipProps {
     msg: string;
 }
 
 const FormTooltip = ({ msg }: FormTooltipProps) => {
+    const [openTooltip, setOpenTooltip] = useState(false);
+
     return (
         <TooltipProvider>
-            <Tooltip>
+            <Tooltip open={openTooltip} onOpenChange={setOpenTooltip}>
                 <TooltipTrigger asChild>
-                    <span
-                        style={{
-                            cursor: "pointer",
-                            border: "1px solid rgb(107 114 128 / var(--tw-text-opacity, 1))",
-                            borderRadius: "50%",
-                            width: "0.9rem",
-                            height: "0.9rem",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}
+                    <Button
+                        className="flex h-[18px] w-[18px] items-center justify-center rounded-full p-0"
+                        onClick={() => setOpenTooltip(true)}
+                        type="button"
+                        variant={"outline"}
                     >
                         <FontAwesomeIcon
                             icon={faQuestion}
-                            className="text-gray-500"
-                            style={{
-                                fontSize: "0.65rem",
-                            }}
+                            transform="shrink-5"
                         />
-                    </span>
+                    </Button>
                 </TooltipTrigger>
                 <TooltipContent>
                     <p>{msg}</p>

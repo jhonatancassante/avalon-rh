@@ -15,6 +15,7 @@ import {
     SelectValue,
 } from "../ui/select";
 import { Pronouns } from "@/app/_constants/pronouns";
+import FormTooltip from "../user-form/user-form-tooltip";
 
 interface PronounFieldProps<T extends z.ZodObject<z.ZodRawShape>> {
     control: Control<z.infer<T>>;
@@ -29,7 +30,10 @@ const PronounField = <T extends z.ZodObject<z.ZodRawShape>>({
             name={"pronoun" as Path<z.infer<T>>}
             render={({ field }) => (
                 <FormItem>
-                    <FormLabel>Pronome</FormLabel>
+                    <div className="flex items-center gap-2">
+                        <FormLabel>Pronome</FormLabel>
+                        <FormTooltip msg="Selecione seu pronome!" />
+                    </div>
                     <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}

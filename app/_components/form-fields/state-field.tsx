@@ -20,6 +20,7 @@ import {
     FormMessage,
 } from "../ui/form";
 import { TypeOf, z } from "zod";
+import FormTooltip from "../user-form/user-form-tooltip";
 
 interface StateFieldProps<T extends z.ZodObject<z.ZodRawShape>> {
     form: UseFormReturn<z.infer<T>>;
@@ -42,7 +43,10 @@ const StateField = <T extends z.ZodObject<z.ZodRawShape>>({
             name={"state" as Path<z.infer<T>>}
             render={({ field }) => (
                 <FormItem className="flex w-full flex-col">
-                    <FormLabel>Estado</FormLabel>
+                    <div className="flex items-center gap-2">
+                        <FormLabel>Estado</FormLabel>
+                        <FormTooltip msg="Selecione seu estado!" />
+                    </div>
                     {isDesktop ? (
                         <Popover open={isOpen} onOpenChange={setIsOpen}>
                             <PopoverTrigger asChild>

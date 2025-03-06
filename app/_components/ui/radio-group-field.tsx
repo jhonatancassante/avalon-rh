@@ -24,12 +24,12 @@ export const RadioGroupField = <T extends z.ZodObject<z.ZodRawShape>>({
         name={name as Path<z.infer<T>>}
         render={({ field }) => (
             <FormItem className="space-y-3">
-                <FormLabel>
-                    <div className="flex items-center gap-2 space-y-1 leading-none">
-                        {label}
-                        {tooltipMsg && <FormTooltip msg={tooltipMsg} />}
-                    </div>
-                </FormLabel>
+                <div className="flex items-center gap-2">
+                    <FormLabel>
+                        <div>{label}</div>
+                    </FormLabel>
+                    {tooltipMsg && <FormTooltip msg={tooltipMsg} />}
+                </div>
                 <FormControl>
                     <RadioGroup
                         onValueChange={(value) => {
