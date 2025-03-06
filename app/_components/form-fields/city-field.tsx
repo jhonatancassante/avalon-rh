@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Path, PathValue, UseFormReturn } from "react-hook-form";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Drawer, DrawerContent, DrawerTrigger } from "../ui/drawer";
@@ -34,6 +34,16 @@ const CityField = <T extends z.ZodObject<z.ZodRawShape>>({
     isDesktop,
 }: CityFieldProps<T>) => {
     const [isOpen, setIsOpen] = useState(false);
+    const currentCity = form.watch("city" as Path<z.infer<T>>);
+
+    useEffect(() => {
+        if (currentCity && cities.length > 0) {
+            const cityExists = cities.some((c) => c.nome === currentCity);
+            if (!cityExists) {
+                form.setValue("city" as Path<z.infer<T>>, "" as never);
+            }
+        }
+    }, [cities, currentCity, form]);
 
     return (
         <FormField
@@ -56,7 +66,10 @@ const CityField = <T extends z.ZodObject<z.ZodRawShape>>({
                                             "text-muted-foreground"
                                         }`}
                                     >
-                                        {field.value
+                                        {field.value &&
+                                        cities.some(
+                                            (c) => c.nome === field.value,
+                                        )
                                             ? cities.find(
                                                   (city) =>
                                                       city.nome === field.value,
@@ -121,7 +134,10 @@ const CityField = <T extends z.ZodObject<z.ZodRawShape>>({
                                             "text-muted-foreground"
                                         }`}
                                     >
-                                        {field.value
+                                        {field.value &&
+                                        cities.some(
+                                            (c) => c.nome === field.value,
+                                        )
                                             ? cities.find(
                                                   (city) =>
                                                       city.nome === field.value,

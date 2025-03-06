@@ -36,6 +36,7 @@ const StateField = <T extends z.ZodObject<z.ZodRawShape>>({
     fetchCities,
 }: StateFieldProps<T>) => {
     const [isOpen, setIsOpen] = useState(false);
+    const currentState = form.watch("state" as Path<z.infer<T>>);
 
     return (
         <FormField
@@ -85,6 +86,10 @@ const StateField = <T extends z.ZodObject<z.ZodRawShape>>({
                                                     value={state.nome}
                                                     key={state.nome}
                                                     onSelect={() => {
+                                                        const isNewState =
+                                                            state.nome !==
+                                                            currentState;
+
                                                         form.setValue(
                                                             "state" as Path<
                                                                 z.infer<T>
@@ -94,6 +99,21 @@ const StateField = <T extends z.ZodObject<z.ZodRawShape>>({
                                                                 Path<TypeOf<T>>
                                                             >,
                                                         );
+
+                                                        if (isNewState) {
+                                                            form.setValue(
+                                                                "city" as Path<
+                                                                    z.infer<T>
+                                                                >,
+                                                                "" as PathValue<
+                                                                    TypeOf<T>,
+                                                                    Path<
+                                                                        TypeOf<T>
+                                                                    >
+                                                                >,
+                                                            );
+                                                        }
+
                                                         fetchCities(state.id);
                                                         setIsOpen(false);
                                                     }}
@@ -152,6 +172,10 @@ const StateField = <T extends z.ZodObject<z.ZodRawShape>>({
                                                     value={state.nome}
                                                     key={state.nome}
                                                     onSelect={() => {
+                                                        const isNewState =
+                                                            state.nome !==
+                                                            currentState;
+
                                                         form.setValue(
                                                             "state" as Path<
                                                                 z.infer<T>
@@ -161,6 +185,21 @@ const StateField = <T extends z.ZodObject<z.ZodRawShape>>({
                                                                 Path<TypeOf<T>>
                                                             >,
                                                         );
+
+                                                        if (isNewState) {
+                                                            form.setValue(
+                                                                "city" as Path<
+                                                                    z.infer<T>
+                                                                >,
+                                                                "" as PathValue<
+                                                                    TypeOf<T>,
+                                                                    Path<
+                                                                        TypeOf<T>
+                                                                    >
+                                                                >,
+                                                            );
+                                                        }
+
                                                         fetchCities(state.id);
                                                         setIsOpen(false);
                                                     }}

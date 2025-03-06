@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { Path, UseFormReturn } from "react-hook-form";
 import { useLoading } from "@/app/_contexts/LoadingContext";
 import { z } from "zod";
@@ -17,6 +17,7 @@ export const useLocations = <T extends z.ZodObject<z.ZodRawShape>>(
 ) => {
     const [states, setStates] = useState<State[]>([]);
     const [cities, setCities] = useState<City[]>([]);
+    const [selectedStateId, setSelectedStateId] = useState<number | null>(null);
     const { setIsLoading } = useLoading();
 
     const fetchCities = useCallback(
@@ -31,13 +32,23 @@ export const useLocations = <T extends z.ZodObject<z.ZodRawShape>>(
                     a.nome.localeCompare(b.nome),
                 );
                 setCities(sortedCities);
+                setSelectedStateId(stateId);
+
+                const currentCity = form.getValues("city" as Path<z.infer<T>>);
+                if (
+                    currentCity &&
+                    !sortedCities.some((c: City) => c.nome === currentCity)
+                ) {
+                    form.setValue("city" as Path<z.infer<T>>, "" as never);
+                }
             } catch (error) {
                 console.error("Erro ao buscar cidades:", error);
             } finally {
+                await new Promise((resolve) => setTimeout(resolve, 300));
                 setIsLoading(false);
             }
         },
-        [setIsLoading],
+        [form, setIsLoading],
     );
 
     const fetchStates = useCallback(async () => {
@@ -52,12 +63,13 @@ export const useLocations = <T extends z.ZodObject<z.ZodRawShape>>(
             );
             setStates(sortedStates);
 
-            const selectedState = sortedStates.find(
-                (state: State) =>
-                    state.nome === form.getValues("state" as Path<z.infer<T>>),
+            const currentState = form.getValues("state" as Path<z.infer<T>>);
+            const initialState = sortedStates.find(
+                (state: State) => state.nome === currentState,
             );
-            if (selectedState) {
-                fetchCities(selectedState.id);
+
+            if (initialState) {
+                await fetchCities(initialState.id);
             }
         } catch (error) {
             console.error("Erro ao buscar estados:", error);
@@ -66,10 +78,14 @@ export const useLocations = <T extends z.ZodObject<z.ZodRawShape>>(
         }
     }, [form, fetchCities, setIsLoading]);
 
+    const memoizedStates = useMemo(() => states, [states]);
+    const memoizedCities = useMemo(() => cities, [cities]);
+
     return {
-        states,
-        cities,
+        states: memoizedStates,
+        cities: memoizedCities,
         fetchCities,
         fetchStates,
+        selectedStateId,
     };
 };
