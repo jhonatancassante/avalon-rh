@@ -46,7 +46,7 @@ export const NavMain = ({
 }) => {
     return (
         <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-            <SidebarGroupLabel>Eventos</SidebarGroupLabel>
+            <SidebarGroupLabel>Menu de Navegação</SidebarGroupLabel>
             <SidebarMenu>
                 {items.map((item) => (
                     <Collapsible
