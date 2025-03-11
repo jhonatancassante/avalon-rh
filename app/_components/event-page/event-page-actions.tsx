@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import { ActionButton } from "../ui/action-button";
 import { TooltipProvider } from "../ui/tooltip";
-import { Event } from "@prisma/client";
 import { useState } from "react";
 import { useLoading } from "@/app/_contexts/LoadingContext";
 import { useRouter } from "next/navigation";
@@ -23,10 +22,11 @@ import { PATHS } from "@/app/_constants/paths";
 import DeleteDialog from "../delete-dialog";
 import { deleteEvent } from "@/app/_actions/deleteEvent";
 import { useEvents } from "@/app/_contexts/EventContext";
+import { EventComplete } from "../event-form/types";
 
 interface EventPageActionsProps {
-    event: Event;
-    setEvent: (event: Event) => void;
+    event: EventComplete;
+    setEvent: (event: EventComplete) => void;
 }
 
 const EventPageActions = ({ event, setEvent }: EventPageActionsProps) => {

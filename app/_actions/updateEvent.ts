@@ -20,6 +20,21 @@ export const updateEventAreInscriptionsOpen = async (
             data: {
                 areInscriptionsOpen: value,
             },
+            include: {
+                eventSectors: {
+                    include: {
+                        sector: {
+                            include: {
+                                leader: {
+                                    include: {
+                                        profile: true,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
         });
     } catch (error) {
         console.error(ERRORSMSG.UPDATING.EVENT, error);
@@ -41,6 +56,21 @@ export const updateEventIsFinished = async (
             },
             data: {
                 isFinished: isFinished,
+            },
+            include: {
+                eventSectors: {
+                    include: {
+                        sector: {
+                            include: {
+                                leader: {
+                                    include: {
+                                        profile: true,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
             },
         });
     } catch (error) {

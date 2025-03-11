@@ -15,11 +15,12 @@ import { getEventById } from "@/app/_data/getEvent";
 import { formatEventFields } from "@/app/_utils/formatEventFields";
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { Event } from "@prisma/client";
 import { useLoading } from "@/app/_contexts/LoadingContext";
+import { EventComplete } from "@/app/_components/event-form/types";
+import EventPageSectors from "@/app/_components/event-page/event-page-sectors";
 
 const EventPage = () => {
-    const [event, setEvent] = useState<Event | null>(null);
+    const [event, setEvent] = useState<EventComplete | null>(null);
     const { setIsLoading } = useLoading();
     const router = useRouter();
     const { id } = useParams<{ id: string }>();
@@ -97,6 +98,7 @@ const EventPage = () => {
                     </div>
                     <CardContent>
                         <EventPageFields eventFields={eventFields} />
+                        <EventPageSectors event={event} />
                     </CardContent>
                 </Card>
             </div>
