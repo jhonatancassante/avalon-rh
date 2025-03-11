@@ -115,6 +115,14 @@ export const eventFormSchema = z.object({
     city: z.string().min(1, "O campo cidade não pode ser vazio!"),
     dateToOpen: z.string().min(10, "Data inválida!"),
     dateToClose: z.string().min(10, "Data inválida!"),
+    eventSectors: z
+        .array(
+            z.object({
+                sectorId: z.string().optional(),
+                profileId: z.string().optional(),
+            }),
+        )
+        .min(1, "Selecione pelo menos um setor"),
 });
 
 export const sectorFormSchema = z.object({
@@ -122,4 +130,5 @@ export const sectorFormSchema = z.object({
         .string()
         .min(5, "Nome muito curto! Mínimo 5 caracteres!")
         .max(100, "Nome muito longo! Máximo 100 caracteres."),
+    leaderId: z.string().min(1, "Selecione um líder"),
 });

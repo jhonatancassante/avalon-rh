@@ -4,6 +4,38 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../_lib/auth";
 import { db } from "../_lib/prisma";
 import { decrypt } from "../_utils/crypto";
+import { Prisma } from "@prisma/client";
+import verifySessionAndRoleAdmin from "../_actions/verifySessionAndRoleAdmin";
+import { Roles } from "../_constants/roles";
+
+const decryptUserData = (
+    user?: Prisma.UserGetPayload<{
+        include: {
+            photo: true;
+            profile: true;
+        };
+    }> | null,
+) => {
+    if (!user) {
+        throw new Error("User not found!");
+    }
+
+    const decryptedUser = { ...user };
+
+    if (decryptedUser.profile?.cpf) {
+        decryptedUser.profile.cpf = decrypt(decryptedUser.profile?.cpf);
+    }
+
+    if (decryptedUser.profile?.pixKey) {
+        decryptedUser.profile.pixKey = decrypt(decryptedUser.profile?.pixKey);
+    }
+
+    if (decryptedUser.profile?.phone) {
+        decryptedUser.profile.phone = decrypt(decryptedUser.profile.phone);
+    }
+
+    return decryptedUser;
+};
 
 export const getUser = async (id: string) => {
     const session = await getServerSession(authOptions);
@@ -21,21 +53,26 @@ export const getUser = async (id: string) => {
         },
     });
 
-    if (!user) {
-        throw new Error("User not found!");
-    }
+    return decryptUserData(user);
+};
 
-    if (user.profile?.cpf) {
-        user.profile.cpf = decrypt(user.profile?.cpf);
-    }
+export const getUserLeaderList = async () => {
+    await verifySessionAndRoleAdmin();
 
-    if (user.profile?.pixKey) {
-        user.profile.pixKey = decrypt(user.profile?.pixKey);
-    }
-
-    if (user.profile?.phone) {
-        user.profile.phone = decrypt(user.profile.phone);
-    }
-
-    return user;
+    return await db.user.findMany({
+        where: {
+            OR: [
+                {
+                    role: Roles.Leader,
+                },
+                {
+                    role: Roles.Admin,
+                },
+            ],
+            isDeleted: false,
+        },
+        include: {
+            profile: true,
+        },
+    });
 };

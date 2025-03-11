@@ -1,4 +1,3 @@
-import { Sector } from "@prisma/client";
 import {
     Dialog,
     DialogContent,
@@ -6,21 +5,24 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-} from "./ui/dialog";
-import { useLoading } from "../_contexts/LoadingContext";
-import { useSectorForm } from "../_hooks/useSectorForm";
+} from "../ui/dialog";
+import { useLoading } from "../../_contexts/LoadingContext";
+import { useSectorForm } from "../../_hooks/useSectorForm";
 import { z } from "zod";
-import { sectorFormSchema } from "../_schemas/formSchema";
-import { updateOrCreateSector } from "../_actions/updateSector";
+import { sectorFormSchema } from "../../_schemas/formSchema";
+import { updateOrCreateSector } from "../../_actions/updateSector";
 import { toast } from "sonner";
-import { Form } from "./ui/form";
-import { FormFields } from "./form-fields/form-fields";
-import { editSectorFields } from "../_constants/editSectorFields";
-import { FormActions } from "./form-fields/form-actions";
+import { Form } from "../ui/form";
+import { FormFields } from "../form-fields/form-fields";
+import { editSectorFields } from "../../_constants/editSectorFields";
+import { FormActions } from "../form-fields/form-actions";
+import SectorLeaderField from "./sector-leader-field";
+import { SectorComplete } from "@/app/_types/sectorComplete";
 
 interface SectorDialogFormProps {
-    sector?: Sector | null;
+    sector?: SectorComplete | null;
     isOpen: boolean;
+    setSector: (sector: SectorComplete | null) => void;
     setIsOpen: (isOpen: boolean) => void;
     refreshList: () => Promise<void>;
 }
@@ -28,6 +30,7 @@ interface SectorDialogFormProps {
 const SectorDialogForm = ({
     sector,
     isOpen,
+    setSector,
     setIsOpen,
     refreshList,
 }: SectorDialogFormProps) => {
@@ -51,6 +54,7 @@ const SectorDialogForm = ({
             });
 
             form.reset();
+            setSector(null);
         } catch (error) {
             console.error(
                 `Erro ao ${sector ? "atualizar" : "criar"} setor: ${error}`,
@@ -65,6 +69,8 @@ const SectorDialogForm = ({
     };
 
     const handleExit = () => {
+        form.reset();
+        setSector(null);
         setIsOpen(false);
     };
 
@@ -87,6 +93,8 @@ const SectorDialogForm = ({
                             formSchema={sectorFormSchema}
                             editFields={editSectorFields}
                         />
+
+                        <SectorLeaderField form={form} />
 
                         <DialogFooter>
                             <FormActions onExit={handleExit} />

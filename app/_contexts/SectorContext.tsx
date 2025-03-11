@@ -1,4 +1,3 @@
-import { Sector } from "@prisma/client";
 import {
     createContext,
     ReactNode,
@@ -9,15 +8,16 @@ import {
     useState,
 } from "react";
 import { getSectorList } from "../_data/getSector";
+import { SectorComplete } from "../_types/sectorComplete";
 
 interface SectorContextType {
-    sectorList: Sector[];
-    sector: Sector | null;
+    sectorList: SectorComplete[];
+    sector: SectorComplete | null;
     isLoading: boolean;
     sectorError: string | null;
     formDialog: boolean;
-    setSectorList: (sectors: Sector[]) => void;
-    setSector: (sector: Sector) => void;
+    setSectorList: (sectors: SectorComplete[]) => void;
+    setSector: (sector: SectorComplete | null) => void;
     setFormDialog: (isOpen: boolean) => void;
     refreshSectors: () => Promise<void>;
 }
@@ -29,8 +29,8 @@ export const SectorProvider = ({
 }: {
     readonly children: ReactNode;
 }) => {
-    const [sectorList, setSectorList] = useState<Sector[]>([]);
-    const [sector, setSector] = useState<Sector | null>(null);
+    const [sectorList, setSectorList] = useState<SectorComplete[]>([]);
+    const [sector, setSector] = useState<SectorComplete | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [sectorError, setSectorError] = useState<string | null>(null);
     const [formDialog, setFormDialog] = useState(false);

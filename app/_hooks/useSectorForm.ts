@@ -15,6 +15,7 @@ export const useSectorForm = ({ sector }: UseSectorFormProps) => {
         mode: "onChange",
         defaultValues: {
             name: sector?.name ?? "",
+            leaderId: sector?.leaderId ?? "",
         },
     });
 
@@ -22,6 +23,7 @@ export const useSectorForm = ({ sector }: UseSectorFormProps) => {
         if (sector) {
             form.reset({
                 name: sector.name,
+                leaderId: sector.leaderId,
             });
         } else {
             form.reset();

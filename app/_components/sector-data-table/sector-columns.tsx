@@ -3,12 +3,15 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "../ui/checkbox";
 import { DataTableColumnHeader } from "../data-table/column-header";
-import { Sector } from "@prisma/client";
 import SectorRowActions from "./sector-row-actions";
+import { SectorComplete } from "@/app/_types/sectorComplete";
 
-export const columnsNames = [{ field: "name", label: "nome", filter: true }];
+export const columnsNames = [
+    { field: "name", label: "nome", filter: true },
+    { field: "leader", label: "líder", filter: true },
+];
 
-export const sectorColumns: ColumnDef<Sector>[] = [
+export const sectorColumns: ColumnDef<SectorComplete>[] = [
     {
         id: "select",
         header: ({ table }) => (
@@ -41,6 +44,16 @@ export const sectorColumns: ColumnDef<Sector>[] = [
         ),
         cell: ({ row }) => (
             <div className="capitalize">{row.getValue("name")}</div>
+        ),
+    },
+    {
+        id: "leader",
+        accessorFn: (row) => row?.leader?.profile?.socialName ?? "Não definido",
+        header: ({ column }) => (
+            <DataTableColumnHeader column={column} title="Líder" />
+        ),
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("leader")}</div>
         ),
     },
     {

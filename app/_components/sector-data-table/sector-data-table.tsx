@@ -3,7 +3,7 @@
 import { DataTable } from "../data-table/data-table";
 import { DataTableSectorActionButtons } from "./sector-action-buttons";
 import { columnsNames, sectorColumns } from "./sector-columns";
-import SectorDialogForm from "../sector-dialog-form";
+import SectorDialogForm from "./sector-dialog-form";
 import { useSectors } from "@/app/_contexts/SectorContext";
 
 const SectorDataTable = () => {
@@ -12,6 +12,7 @@ const SectorDataTable = () => {
         sector,
         isLoading,
         formDialog,
+        setSector,
         setFormDialog,
         refreshSectors,
     } = useSectors();
@@ -35,6 +36,7 @@ const SectorDataTable = () => {
                 <SectorDialogForm
                     key={sector?.id ?? "new-sector"}
                     sector={sector}
+                    setSector={setSector}
                     isOpen={formDialog}
                     setIsOpen={setFormDialog}
                     refreshList={refreshSectors}

@@ -10,16 +10,12 @@ export const getSectorList = async () => {
         where: {
             isDeleted: false,
         },
-    });
-};
-
-export const getSectorByName = async (name: string) => {
-    await verifySessionAndRoleAdmin();
-
-    return await db.sector.findUnique({
-        where: {
-            name: name,
-            isDeleted: false,
+        include: {
+            leader: {
+                include: {
+                    profile: true,
+                },
+            },
         },
     });
 };
