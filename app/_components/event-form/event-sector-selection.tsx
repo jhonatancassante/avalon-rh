@@ -78,7 +78,7 @@ const EventSectorSelection = <T extends ZodTypeAny>({
                         name="eventSectors"
                         label="Setores selecionados"
                         items={sectorList.map((sector) => ({
-                            label: `${sector.name} - ${getLeaderName(sector)}`,
+                            label: `${sector.name} - Líder: ${getLeaderName(sector)}`,
                             value: sector.id,
                         }))}
                         tooltipMsg="Selecione os setores que participarão do evento"
