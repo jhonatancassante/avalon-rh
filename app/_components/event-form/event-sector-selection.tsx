@@ -59,11 +59,14 @@ const EventSectorSelection = <T extends ZodTypeAny>({
         <Card>
             <CardHeader>
                 <CardTitle>Setores do Evento</CardTitle>
-                <CardDescription>
+                <CardDescription className="text-justify">
                     Selecione quais setores estarão disponíveis no evento e os
                     seus respectivos líderes. Caso precise alterar os líderes
-                    dos setores, clique <Link href={PATHS.SECTORS}>aqui</Link> e
-                    depois retorne para cadastrar o evento.
+                    dos setores, clique{" "}
+                    <Link href={PATHS.SECTORS}>
+                        <strong>aqui</strong>
+                    </Link>{" "}
+                    e depois retorne para cadastrar o evento.
                 </CardDescription>
             </CardHeader>
             <CardContent>

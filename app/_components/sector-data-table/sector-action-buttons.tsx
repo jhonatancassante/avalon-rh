@@ -7,9 +7,10 @@ import { Row } from "@tanstack/react-table";
 import { useState } from "react";
 import { TooltipProvider } from "../ui/tooltip";
 import { ActionButton } from "../ui/action-button";
-import { Plus, Trash2 } from "lucide-react";
+import { ArrowBigLeft, Plus, Trash2 } from "lucide-react";
 import DeleteDialog from "../delete-dialog";
 import { useSectors } from "@/app/_contexts/SectorContext";
+import { useRouter } from "next/navigation";
 
 interface DataTableSectorActionButtonsProps<TData> {
     selectedRows: Row<TData>[];
@@ -23,6 +24,11 @@ export const DataTableSectorActionButtons = <TData,>({
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const { setIsLoading } = useLoading();
     const { setFormDialog } = useSectors();
+    const router = useRouter();
+
+    const handleReturn = () => {
+        router.back();
+    };
 
     const handleDeleteDialogOpen = () => {
         if (selectedRows.length === 0) return;
@@ -50,6 +56,11 @@ export const DataTableSectorActionButtons = <TData,>({
     return (
         <div className="flex justify-center gap-2">
             <TooltipProvider>
+                <ActionButton
+                    icon={<ArrowBigLeft />}
+                    tooltipText="Voltar a Página Anterior"
+                    onClick={handleReturn}
+                />
                 <ActionButton
                     icon={<Plus />}
                     tooltipText="Criar Novo Setor"
