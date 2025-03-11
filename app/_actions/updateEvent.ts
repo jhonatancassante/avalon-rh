@@ -58,14 +58,28 @@ export const updateOrCreateEvent = async (
     try {
         const event = id
             ? await db.event.update({
-                  where: {
-                      id: id,
-                      isDeleted: false,
+                  where: { id: id, isDeleted: false },
+                  data: {
+                      ...data,
+                      eventSectors: {
+                          deleteMany: {},
+                          create: data.eventSectors.map((sectorId) => ({
+                              sectorId,
+                          })),
+                      },
                   },
-                  data: data,
+                  include: { eventSectors: true },
               })
             : await db.event.create({
-                  data: data,
+                  data: {
+                      ...data,
+                      eventSectors: {
+                          create: data.eventSectors.map((sectorId) => ({
+                              sectorId,
+                          })),
+                      },
+                  },
+                  include: { eventSectors: true },
               });
 
         return event;

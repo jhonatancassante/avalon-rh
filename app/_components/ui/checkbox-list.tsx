@@ -8,7 +8,7 @@ interface CheckboxListProps<T extends ZodTypeAny> {
     control: Control<z.infer<T>>;
     name: string;
     label: string;
-    items: { label: string }[];
+    items: { label: string; value: string }[];
     tooltipMsg?: string;
 }
 
@@ -30,7 +30,7 @@ export const CheckboxList = <T extends ZodTypeAny>({
                 </div>
                 {items.map((item) => (
                     <FormField
-                        key={item.label}
+                        key={item.value}
                         control={control}
                         name={name as Path<z.infer<T>>}
                         render={({ field: checkboxField }) => {
@@ -42,6 +42,7 @@ export const CheckboxList = <T extends ZodTypeAny>({
                                 <CheckboxItem
                                     key={item.label}
                                     value={value}
+                                    itemValue={item.value}
                                     itemLabel={item.label}
                                     onChange={checkboxField.onChange}
                                 />

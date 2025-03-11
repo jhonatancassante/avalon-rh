@@ -49,5 +49,20 @@ export const getEventById = async (id: string) => {
             id,
             isDeleted: false,
         },
+        include: {
+            eventSectors: {
+                include: {
+                    sector: {
+                        include: {
+                            leader: {
+                                include: {
+                                    profile: true,
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
     });
 };

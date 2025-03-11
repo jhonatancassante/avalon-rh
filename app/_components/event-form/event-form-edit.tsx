@@ -6,7 +6,6 @@ import { useEventForm } from "@/app/_hooks/useEventForm";
 import { eventFormSchema } from "@/app/_schemas/formSchema";
 import CreateOrUpdateEvent from "@/app/_types/createOrUpdateEvent";
 import dateToIso from "@/app/_utils/dateToIso";
-import { Event } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -15,15 +14,53 @@ import { FormFields } from "../form-fields/form-fields";
 import { editEventFields } from "@/app/_constants/editEventFields";
 import LocationsFields from "../form-fields/locations-fields";
 import { FormActions } from "../form-fields/form-actions";
+import EventSectorSelection from "./event-sector-selection";
+import { useCallback, useEffect, useState } from "react";
+import { getEventSectorsLastUpdated } from "@/app/_data/getEventSector";
+import { EventComplete, EventSectorComplete } from "./types";
 
 interface EventFormEditProps {
-    event?: Event;
+    event?: EventComplete;
 }
 
 const EventFormEdit = ({ event }: EventFormEditProps) => {
     const router = useRouter();
     const { setIsLoading } = useLoading();
+    const [lastSectorsList, setLastSectorsList] = useState<
+        EventSectorComplete[]
+    >([]);
+    const [isReady, setIsReady] = useState(false);
+
+    const fetchLastSectorsConfig = useCallback(async () => {
+        try {
+            setIsLoading(true);
+            const lastEventSectors = await getEventSectorsLastUpdated();
+            setLastSectorsList(lastEventSectors);
+        } catch (error) {
+            console.error("Erro ao buscar ultimos registros:", error);
+        } finally {
+            setIsReady(true);
+            setIsLoading(false);
+        }
+    }, [setIsLoading]);
+
+    useEffect(() => {
+        fetchLastSectorsConfig();
+    }, [fetchLastSectorsConfig]);
+
     const form = useEventForm({ event });
+
+    useEffect(() => {
+        if (isReady) {
+            const defaultEventSectors = event?.eventSectors ?? lastSectorsList;
+            form.reset({
+                ...form.getValues(),
+                eventSectors: defaultEventSectors.map(
+                    (sector) => sector.sectorId,
+                ),
+            });
+        }
+    }, [isReady, lastSectorsList, form, event]);
 
     const onSubmit = async (values: z.infer<typeof eventFormSchema>) => {
         setIsLoading(true);
@@ -78,6 +115,7 @@ const EventFormEdit = ({ event }: EventFormEditProps) => {
                     editFields={editEventFields}
                 />
                 <LocationsFields<typeof eventFormSchema> form={form} />
+                <EventSectorSelection control={form.control} />
 
                 <FormActions onExit={handleExit} />
             </form>

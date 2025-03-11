@@ -1,13 +1,13 @@
-import { Event } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { eventFormSchema } from "../_schemas/formSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { EventComplete } from "../_components/event-form/types";
 
 interface UseEventFormProps {
-    event?: Event;
+    event?: EventComplete;
 }
 
 export const useEventForm = ({ event }: UseEventFormProps) => {
@@ -32,6 +32,7 @@ export const useEventForm = ({ event }: UseEventFormProps) => {
                     locale: ptBR,
                 },
             ),
+            eventSectors: [],
         },
     });
 };

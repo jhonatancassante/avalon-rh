@@ -6,4 +6,5 @@ export default interface CreateOrUpdateEvent {
     city: string;
     dateToOpen: Date;
     dateToClose: Date;
+    eventSectors: string[];
 }
