@@ -2,15 +2,15 @@
 
 import { deleteSector } from "@/app/_actions/deleteSector";
 import { useLoading } from "@/app/_contexts/LoadingContext";
-import { Sector } from "@prisma/client";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { Edit, Trash2 } from "lucide-react";
 import DeleteDialog from "../delete-dialog";
 import { useSectors } from "@/app/_contexts/SectorContext";
+import { SectorComplete } from "@/app/_types/sectorComplete";
 
 interface SectorRowActionsProps {
-    sector: Sector;
+    sector: SectorComplete;
 }
 
 const SectorRowActions = ({ sector }: SectorRowActionsProps) => {

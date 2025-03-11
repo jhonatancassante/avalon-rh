@@ -8,7 +8,7 @@ interface CheckboxListProps<T extends ZodTypeAny> {
     control: Control<z.infer<T>>;
     name: string;
     label: string;
-    items: { label: string; value: string }[];
+    items: { label: string; value?: string }[];
     tooltipMsg?: string;
 }
 
