@@ -8,22 +8,27 @@ datasource db {
 }
 
 model User {
-  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
-  email         String?     @unique
-  role          String      @default("user")
+  email         String?   @unique
+  role          String    @default("user")
   image         String?
   emailVerified DateTime?
-  isComplete    Boolean     @default(false)
-  isDeleted     Boolean     @default(false)
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-  photo         Photo?
-  profile       Profile?
-  accounts      Account[]
-  sessions      Session[]
-  userEvents    UserEvent[]
-  sectors       Sector[]
+  isComplete    Boolean   @default(false)
+  paymentBonus  Float     @default(0.0)
+
+  positionId String      @db.ObjectId
+  photo      Photo?
+  profile    Profile?
+  position   Position    @relation(fields: [positionId], references: [id])
+  accounts   Account[]
+  sessions   Session[]
+  userEvents UserEvent[]
+  sectors    Sector[]
+
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("users")
 }
@@ -44,26 +49,30 @@ model Profile {
   extraSupport String[]
   city         String
   state        String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  userId       String   @unique @db.ObjectId
-  user         User     @relation(fields: [userId], references: [id])
+
+  userId String @unique @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("profiles")
 }
 
 model Photo {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
   asset_id     String
   display_name String
   height       Int
   public_id    String
   url          String
   width        Int
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  userId       String   @unique @db.ObjectId
-  user         User     @relation(fields: [userId], references: [id])
+
+  userId String @unique @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("photos")
 }
@@ -82,10 +91,10 @@ model Account {
   id_token          String? @db.String
   session_state     String?
 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@map("accounts")
@@ -96,7 +105,8 @@ model Session {
   sessionToken String   @unique
   userId       String   @db.ObjectId
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -115,36 +125,69 @@ model VerificationToken {
 }
 
 model Event {
-  id                  String        @id @default(auto()) @map("_id") @db.ObjectId
+  id                  String   @id @default(auto()) @map("_id") @db.ObjectId
   name                String
   edition             Int
   date                DateTime
   state               String
   city                String
-  areInscriptionsOpen Boolean       @default(false)
-  dateToOpen          DateTime      @default(now())
+  areInscriptionsOpen Boolean  @default(false)
+  dateToOpen          DateTime @default(now())
   dateToClose         DateTime
-  isFinished          Boolean       @default(false)
-  isDeleted           Boolean       @default(false)
-  createdAt           DateTime      @default(now())
-  updatedAt           DateTime      @updatedAt
-  userEvents          UserEvent[]
-  eventSectors        EventSector[]
+  isFinished          Boolean  @default(false)
+
+  userEvents   UserEvent[]
+  eventSectors EventSector[]
+
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("events")
 }
 
 model Sector {
-  id           String        @id @default(auto()) @map("_id") @db.ObjectId
-  name         String        @unique
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String @unique
+
   leaderId     String        @db.ObjectId
   leader       User          @relation(fields: [leaderId], references: [id])
-  isDeleted    Boolean       @default(false)
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
   eventSectors EventSector[]
 
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@map("sectors")
+}
+
+model Level {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String @unique
+
+  positions Position[]
+
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("levels")
+}
+
+model Position {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  name    String @unique
+  payment Float  @default(0.0)
+
+  levelId String @db.ObjectId
+  level   Level  @relation(fields: [levelId], references: [id])
+  users   User[]
+
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("positions")
 }
 
 model UserEvent {
@@ -160,11 +203,13 @@ model UserEvent {
 }
 
 model EventSector {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  eventId   String   @db.ObjectId
-  event     Event    @relation(fields: [eventId], references: [id])
-  sectorId  String   @db.ObjectId
-  sector    Sector   @relation(fields: [sectorId], references: [id])
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  eventId  String @db.ObjectId
+  sectorId String @db.ObjectId
+  event    Event  @relation(fields: [eventId], references: [id])
+  sector   Sector @relation(fields: [sectorId], references: [id])
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
