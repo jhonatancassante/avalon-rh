@@ -125,3 +125,10 @@ export const sectorFormSchema = z.object({
         .max(100, "Nome muito longo! Máximo 100 caracteres."),
     leaderId: z.string().min(1, "Selecione um líder"),
 });
+
+export const levelFormSchema = z.object({
+    name: z
+        .string()
+        .min(5, "Nome muito curto! Mínimo 5 caracteres!")
+        .max(100, "Nome muito longo! Máximo 100 caracteres."),
+});

@@ -1,5 +1,9 @@
+"use client";
+
+import LevelDataTable from "@/app/_components/level-data-table/level-data-table";
 import PageLayoutSidebar from "@/app/_components/page-layout-sidebar";
 import { PATHS } from "@/app/_constants/paths";
+import { LevelProvider } from "@/app/_contexts/LevelContext";
 
 const LevelsPage = () => {
     const breadcrumbList = [
@@ -19,7 +23,9 @@ const LevelsPage = () => {
 
     return (
         <PageLayoutSidebar breadcrumbList={breadcrumbList}>
-            <h1>Página dos Níveis</h1>
+            <LevelProvider>
+                <LevelDataTable />
+            </LevelProvider>
         </PageLayoutSidebar>
     );
 };
