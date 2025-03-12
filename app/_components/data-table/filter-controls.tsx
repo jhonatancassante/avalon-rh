@@ -59,7 +59,7 @@ export const DataTableFilterControls = <TData,>({
                             .getColumn(selectedFilter.field)
                             ?.setFilterValue(event.target.value)
                     }
-                    className="w-full max-w-full pr-9 lg:max-w-sm"
+                    className="w-full max-w-full pr-9"
                 />
                 <TooltipProvider>
                     <Tooltip>
