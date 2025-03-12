@@ -17,10 +17,10 @@ model User {
   isComplete    Boolean   @default(false)
   paymentBonus  Float     @default(0.0)
 
-  positionId String      @db.ObjectId
+  positionId String?     @db.ObjectId
   photo      Photo?
   profile    Profile?
-  position   Position    @relation(fields: [positionId], references: [id])
+  position   Position?   @relation(fields: [positionId], references: [id])
   accounts   Account[]
   sessions   Session[]
   userEvents UserEvent[]
