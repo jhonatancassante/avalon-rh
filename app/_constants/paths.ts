@@ -11,6 +11,7 @@ export const PATHS = {
     HOME: "/",
     LEADER: "/pages/leader",
     LEVELS: "/pages/admin/configs/levels",
+    POSITIONS: "/pages/admin/configs/positions",
     SECTORS: "/pages/admin/configs/sectors",
     USER: "/pages/user",
     USER_EDIT: "/pages/user/edit",

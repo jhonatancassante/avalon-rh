@@ -24,6 +24,7 @@ import {
 } from "@/app/_components/ui/sidebar";
 import { ComponentProps } from "react";
 import { PATHS } from "../_constants/paths";
+import { usePathname } from "next/navigation";
 
 const navMain = [
     {
@@ -45,7 +46,7 @@ const navMain = [
         plus: true,
     },
     {
-        title: "Usuários",
+        title: "Staffs",
         url: "#",
         icon: UserCog,
         plus: false,
@@ -59,7 +60,7 @@ const navMain = [
         items: [
             {
                 title: "Cargos",
-                url: "#",
+                url: PATHS.POSITIONS,
                 icon: Award,
             },
             {
@@ -77,13 +78,25 @@ const navMain = [
 ];
 
 export const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
+    const pathname = usePathname();
+
+    const processedNavMain = navMain.map((item) => {
+        if (item.title === "Configurações") {
+            const hasActiveSubitem = item.items?.some(
+                (subItem) => subItem.url === pathname,
+            );
+            return { ...item, isActive: hasActiveSubitem };
+        }
+        return item;
+    });
+
     return (
         <Sidebar collapsible="icon" {...props}>
             <SidebarHeader>
                 <SidebarHeaderLogo />
             </SidebarHeader>
             <SidebarContent>
-                <NavMain items={navMain} />
+                <NavMain items={processedNavMain} />
                 <NavEvents />
             </SidebarContent>
             <SidebarFooter>
