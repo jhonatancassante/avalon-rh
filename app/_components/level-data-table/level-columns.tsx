@@ -6,7 +6,10 @@ import { Checkbox } from "../ui/checkbox";
 import { DataTableColumnHeader } from "../data-table/column-header";
 import LevelRowActions from "./level-row-actions";
 
-export const columnsNames = [{ field: "name", label: "nome", filter: true }];
+export const columnsNames = [
+    { field: "name", label: "nome", filter: true },
+    { field: "isLcaApply", label: "aplicar ACL?", filter: false },
+];
 
 export const levelColumns: ColumnDef<Level>[] = [
     {
@@ -41,6 +44,21 @@ export const levelColumns: ColumnDef<Level>[] = [
         ),
         cell: ({ row }) => (
             <div className="capitalize">{row.getValue("name")}</div>
+        ),
+    },
+    {
+        id: "isLcaApply",
+        accessorKey: "isLcaApply",
+        header: ({ column }) => (
+            <DataTableColumnHeader column={column} title="Aplicar ACL?" />
+        ),
+        cell: ({ row }) => (
+            <div className="flex items-center">
+                <Checkbox checked={row.getValue("isLcaApply")} />
+                <label className="ml-2 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    {row.getValue("isLcaApply") ? "Sim" : "Não"}
+                </label>
+            </div>
         ),
     },
     {

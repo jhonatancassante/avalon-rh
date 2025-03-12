@@ -131,4 +131,5 @@ export const levelFormSchema = z.object({
         .string()
         .min(5, "Nome muito curto! Mínimo 5 caracteres!")
         .max(100, "Nome muito longo! Máximo 100 caracteres."),
+    isLcaApply: z.boolean(),
 });

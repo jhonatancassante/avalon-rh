@@ -13,24 +13,32 @@ import {
     DialogHeader,
     DialogTitle,
 } from "../ui/dialog";
-import { Form } from "../ui/form";
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+} from "../ui/form";
 import { FormFields } from "../form-fields/form-fields";
 import { FormActions } from "../form-fields/form-actions";
 import { editLevelFields } from "@/app/_constants/editLevelFields";
+import { Checkbox } from "../ui/checkbox";
 
 interface LevelDialogFormProps {
     level?: Level | null;
-    isOpen: boolean;
+    isOpenDialogForm: boolean;
     setLevel: (level: Level | null) => void;
-    setIsOpen: (isOpen: boolean) => void;
+    setIsOpenDialogForm: (isOpen: boolean) => void;
     refreshList: () => Promise<void>;
 }
 
 const LevelDialogForm = ({
     level,
-    isOpen,
+    isOpenDialogForm,
     setLevel,
-    setIsOpen,
+    setIsOpenDialogForm,
     refreshList,
 }: LevelDialogFormProps) => {
     const { setIsLoading } = useLoading();
@@ -62,7 +70,7 @@ const LevelDialogForm = ({
                 description: `Erro ao ${level ? "atualizar" : "criar"} setor.`,
             });
         } finally {
-            setIsOpen(false);
+            setIsOpenDialogForm(false);
             setIsLoading(false);
         }
     };
@@ -70,11 +78,11 @@ const LevelDialogForm = ({
     const handleExit = () => {
         form.reset();
         setLevel(null);
-        setIsOpen(false);
+        setIsOpenDialogForm(false);
     };
 
     return (
-        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <Dialog open={isOpenDialogForm} onOpenChange={setIsOpenDialogForm}>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
                     <DialogTitle>{`${formType} Setor`}</DialogTitle>
@@ -91,6 +99,30 @@ const LevelDialogForm = ({
                             control={form.control}
                             formSchema={levelFormSchema}
                             editFields={editLevelFields}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="isLcaApply"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
+                                    <FormControl>
+                                        <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <div className="space-y-1 leading-none">
+                                        <FormLabel>
+                                            Aplicar Avaliação de Capacidade de
+                                            Liderança (ACL)?
+                                        </FormLabel>
+                                        <FormDescription>
+                                            Selecione este campo caso o nível
+                                            deve ser aplicado a ACL
+                                        </FormDescription>
+                                    </div>
+                                </FormItem>
+                            )}
                         />
                         <DialogFooter>
                             <FormActions onExit={handleExit} />

@@ -6,8 +6,9 @@ import { useLoading } from "@/app/_contexts/LoadingContext";
 import { Level } from "@prisma/client";
 import { useState } from "react";
 import { Button } from "../ui/button";
-import { Edit, Trash2 } from "lucide-react";
+import { Edit, ToggleLeft, ToggleRight, Trash2 } from "lucide-react";
 import DeleteDialog from "../delete-dialog";
+import { updateIsLcaApplyLevel } from "@/app/_actions/updateLevel";
 
 interface LevelRowActionsProps {
     level: Level;
@@ -28,6 +29,13 @@ const LevelRowActions = ({ level }: LevelRowActionsProps) => {
         setIsLoading(false);
     };
 
+    const handleIsLcaApplyToggle = async () => {
+        setIsLoading(true);
+        await updateIsLcaApplyLevel(level.id, !level.isLcaApply);
+        await refreshLevels();
+        setIsLoading(false);
+    };
+
     const handleDelete = async () => {
         setIsLoading(true);
         await deleteLevel(level.id);
@@ -38,6 +46,13 @@ const LevelRowActions = ({ level }: LevelRowActionsProps) => {
     return (
         <div>
             <div className="flex items-center justify-between gap-2">
+                <Button
+                    onClick={handleIsLcaApplyToggle}
+                    className="flex h-7 w-7 items-center justify-center rounded-full p-0"
+                    variant={level.isLcaApply ? "default" : "outline"}
+                >
+                    {level.isLcaApply ? <ToggleLeft /> : <ToggleRight />}
+                </Button>
                 <Button
                     onClick={handleEditEvent}
                     className="flex h-7 w-7 items-center justify-center rounded-full p-0"

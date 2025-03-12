@@ -37,8 +37,8 @@ const LevelDataTable = () => {
                     key={level?.id ?? "new-level"}
                     level={level}
                     setLevel={setLevel}
-                    isOpen={formDialog}
-                    setIsOpen={setFormDialog}
+                    isOpenDialogForm={formDialog}
+                    setIsOpenDialogForm={setFormDialog}
                     refreshList={refreshLevels}
                 />
             </div>

@@ -162,8 +162,9 @@ model Sector {
 }
 
 model Level {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String @unique
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  name       String  @unique
+  isLcaApply Boolean @default(false)
 
   positions Position[]
 

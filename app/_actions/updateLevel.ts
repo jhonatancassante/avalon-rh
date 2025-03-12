@@ -24,3 +24,24 @@ export const updateOrCreateLevel = async (
         throw error;
     }
 };
+
+export const updateIsLcaApplyLevel = async (
+    id: string,
+    isLcaApply: boolean,
+) => {
+    verifySessionAndRoleAdmin();
+
+    try {
+        const level = await db.level.update({
+            where: { id: id, isDeleted: false },
+            data: {
+                isLcaApply: isLcaApply,
+            },
+        });
+
+        return level;
+    } catch (error) {
+        console.error(ERRORSMSG.UPDATING.LEVEL, error);
+        throw error;
+    }
+};

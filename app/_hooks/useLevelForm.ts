@@ -15,6 +15,7 @@ export const useLevelForm = ({ level }: UseLevelFormProps) => {
         mode: "onChange",
         defaultValues: {
             name: level?.name ?? "",
+            isLcaApply: level?.isLcaApply ?? false,
         },
     });
 
@@ -22,6 +23,7 @@ export const useLevelForm = ({ level }: UseLevelFormProps) => {
         if (level) {
             form.reset({
                 name: level.name,
+                isLcaApply: level.isLcaApply,
             });
         } else {
             form.reset();
