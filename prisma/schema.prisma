@@ -176,9 +176,10 @@ model Level {
 }
 
 model Position {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  name    String @unique
-  payment Float  @default(0.0)
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  payment  Float   @default(0.0)
+  isLeader Boolean @default(false)
 
   levelId String @db.ObjectId
   level   Level  @relation(fields: [levelId], references: [id])
