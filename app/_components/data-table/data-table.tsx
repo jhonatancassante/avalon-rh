@@ -32,6 +32,7 @@ interface DataTableProps<TData, TValue> {
     isLoading: boolean;
     columnsNames: { field: string; label: string; filter: boolean }[];
     actionButtons?: React.ReactElement<DataTableActionButtonsProps<TData>>;
+    smallTable?: boolean;
 }
 
 export const DataTable = <TData, TValue>({
@@ -40,6 +41,7 @@ export const DataTable = <TData, TValue>({
     isLoading,
     columnsNames,
     actionButtons,
+    smallTable = false,
 }: Readonly<DataTableProps<TData, TValue>>) => {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -81,24 +83,33 @@ export const DataTable = <TData, TValue>({
     });
 
     return (
-        <div className="space-y-4">
-            <div className="grid grid-cols-1 grid-rows-2 gap-4 lg:grid-cols-[3fr_2fr_1fr] lg:grid-rows-1">
-                <DataTableFilterControls
-                    selectedFilter={selectedFilter}
-                    setSelectedFilter={setSelectedFilter}
-                    columnsNames={columnsNames}
-                    table={table}
-                />
+        <div className="flex w-full flex-col items-center space-y-4">
+            <div
+                className={`grid grid-cols-1 grid-rows-2 gap-4 lg:grid-cols-[3fr_2fr_1fr] lg:grid-rows-1 ${
+                    smallTable &&
+                    "w-full grid-cols-1 grid-rows-1 justify-items-center lg:grid-cols-1"
+                }`}
+            >
+                {!smallTable && (
+                    <DataTableFilterControls
+                        selectedFilter={selectedFilter}
+                        setSelectedFilter={setSelectedFilter}
+                        columnsNames={columnsNames}
+                        table={table}
+                    />
+                )}
                 {actionButtons &&
                     cloneElement(actionButtons, {
                         selectedRows: table.getSelectedRowModel().rows,
                     })}
-                <DataTableViewOptions
-                    table={table}
-                    columnsNames={columnsNames}
-                />
+                {!smallTable && (
+                    <DataTableViewOptions
+                        table={table}
+                        columnsNames={columnsNames}
+                    />
+                )}
             </div>
-            <div className="rounded-md border">
+            <div className="w-fit rounded-md border">
                 <DataTableHeader table={table} />
                 <DataTableBody
                     table={table}
@@ -106,7 +117,7 @@ export const DataTable = <TData, TValue>({
                     isLoading={isLoading}
                 />
             </div>
-            <DataTablePagination table={table} />
+            <DataTablePagination table={table} smallTable={smallTable} />
         </div>
     );
 };

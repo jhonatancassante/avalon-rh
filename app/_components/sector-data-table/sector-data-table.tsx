@@ -32,6 +32,7 @@ const SectorDataTable = () => {
                             onActionCompleted={refreshSectors}
                         />
                     }
+                    smallTable
                 />
                 <SectorDialogForm
                     key={sector?.id ?? "new-sector"}

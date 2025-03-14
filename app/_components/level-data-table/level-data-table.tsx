@@ -32,6 +32,7 @@ const LevelDataTable = () => {
                             onActionCompleted={refreshLevels}
                         />
                     }
+                    smallTable
                 />
                 <LevelDialogForm
                     key={level?.id ?? "new-level"}
