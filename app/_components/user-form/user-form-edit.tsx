@@ -34,8 +34,7 @@ const UserEditForm = ({ user }: UserEditFormProps) => {
     const { photoData, handleFileUpload } = useFileUpload();
     const { setIsLoading } = useLoading();
     const form = useUserForm({ user });
-    const isActiveSaveButton =
-        form.formState.isValid && (photoData !== null || user.isComplete);
+    const isActiveSaveButton = photoData !== null || user.isComplete;
 
     const onSubmit = async (values: z.infer<typeof userFormSchema>) => {
         setIsLoading(true);
