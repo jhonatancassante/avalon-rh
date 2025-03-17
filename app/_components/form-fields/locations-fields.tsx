@@ -22,7 +22,7 @@ const LocationsFields = <T extends ZodTypeAny>({
     }, [fetchStates]);
 
     return (
-        <div className="flex w-full flex-col items-center justify-between gap-4 lg:flex-row">
+        <div className="flex w-full flex-col items-center justify-between gap-4">
             <StateField
                 form={form}
                 states={states}
