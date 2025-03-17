@@ -12,7 +12,10 @@ const lettersAndNumbersRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9'\-\s]+$/;
 
 export const userFormSchema = z
     .object({
-        cpf: z.string().refine((value) => isValidCPF(value), "CPF inválido!"),
+        cpf: z
+            .string()
+            .min(1, "CPF não pode estar vazio!")
+            .refine((value) => isValidCPF(value), "CPF inválido!"),
         completeName: z
             .string()
             .trim()
@@ -40,7 +43,7 @@ export const userFormSchema = z
                 lettersAndNumbersRegex,
                 "Apenas letras e números são permitidos!",
             ),
-        pronoun: z.string().min(1),
+        pronoun: z.string().min(1, "Selecione um pronome."),
         pixKey: z
             .string()
             .trim()
