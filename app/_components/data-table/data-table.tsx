@@ -85,10 +85,11 @@ export const DataTable = <TData, TValue>({
     return (
         <div className="flex w-full flex-col items-center space-y-4">
             <div
-                className={`grid grid-cols-1 grid-rows-2 gap-4 lg:grid-cols-[3fr_2fr_1fr] lg:grid-rows-1 ${
-                    smallTable &&
-                    "w-full grid-cols-1 grid-rows-1 justify-items-center lg:grid-cols-1"
-                }`}
+                className={
+                    smallTable
+                        ? "flex w-full justify-center"
+                        : "grid grid-cols-1 grid-rows-2 gap-4 lg:grid-cols-[3fr_2fr_1fr] lg:grid-rows-1"
+                }
             >
                 {!smallTable && (
                     <DataTableFilterControls
