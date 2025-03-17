@@ -11,5 +11,6 @@ export const ERRORSMSG = {
         EVENT: "Erro ao atulizar evento:",
         SECTOR: "Erro ao atualizar setor:",
         LEVEL: "Erro ao atualizar nível:",
+        CONFIG: "Erro ao atualizar configuração:",
     },
 };
