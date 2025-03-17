@@ -11,6 +11,7 @@ import {
     CardTitle,
 } from "@/app/_components/ui/card";
 import UserFields from "./user-fields";
+import ApplyTab from "./apply-tab";
 
 interface UserTabsProps {
     userFields: { label: string; value: string | string[] }[];
@@ -28,14 +29,7 @@ const UserTabs = ({ userFields }: UserTabsProps) => {
                 <UserFields userFields={userFields} />
             </TabsContent>
             <TabsContent value="apply">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Vazio</CardTitle>
-                        <CardDescription>
-                            Ainda não temos nada por aqui!
-                        </CardDescription>
-                    </CardHeader>
-                </Card>
+                <ApplyTab />
             </TabsContent>
             <TabsContent value="notes">
                 <Card>
