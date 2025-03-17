@@ -21,6 +21,7 @@ export const useSelection = <T extends z.ZodTypeAny>({
             fieldName as Path<z.infer<T>>,
             value as PathValue<TypeOf<T>, Path<TypeOf<T>>>,
         );
+        form.clearErrors(fieldName as Path<TypeOf<T>>);
         onSelect?.(value);
         setIsOpen(false);
     };
