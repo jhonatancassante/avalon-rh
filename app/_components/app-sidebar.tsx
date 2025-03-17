@@ -6,6 +6,7 @@ import {
     CalendarCog,
     Folder,
     House,
+    ServerCog,
     Settings2,
     TrendingUp,
     UserCog,
@@ -25,6 +26,10 @@ import {
 import { ComponentProps } from "react";
 import { PATHS } from "../_constants/paths";
 import { usePathname } from "next/navigation";
+
+export type SubitemActions = {
+    otherConfig: () => void;
+};
 
 const navMain = [
     {
@@ -72,6 +77,12 @@ const navMain = [
                 title: "Setores",
                 url: PATHS.SECTORS,
                 icon: Folder,
+            },
+            {
+                title: "Server Configs",
+                url: "#",
+                icon: ServerCog,
+                action: "otherConfig" as keyof SubitemActions,
             },
         ],
     },

@@ -25,6 +25,9 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from "./ui/collapsible";
+import { SubitemActions } from "./app-sidebar";
+import { useState } from "react";
+import ConfigSheet from "./config-sheet";
 
 export const NavMain = ({
     items,
@@ -40,91 +43,121 @@ export const NavMain = ({
                   title: string;
                   url: string;
                   icon: LucideIcon;
+                  action?: keyof SubitemActions;
               }[]
             | null;
     }[];
 }) => {
+    const [openSheet, setOpenSheet] = useState(false);
+
+    const subitemActions: SubitemActions = {
+        otherConfig: () => {
+            setOpenSheet(true);
+        },
+    };
+
     return (
-        <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-            <SidebarGroupLabel>Menu de Navegação</SidebarGroupLabel>
-            <SidebarMenu>
-                {items.map((item) => (
-                    <Collapsible
-                        key={item.title}
-                        asChild
-                        defaultOpen={item.isActive}
-                    >
-                        <SidebarMenuItem>
-                            <SidebarMenuButton asChild tooltip={item.title}>
-                                {item.items?.length ? (
-                                    <CollapsibleTrigger>
-                                        <item.icon />
-                                        <span>{item.title}</span>
-                                    </CollapsibleTrigger>
-                                ) : (
-                                    <Link href={item.url}>
-                                        <item.icon />
-                                        <span>{item.title}</span>
-                                    </Link>
-                                )}
-                            </SidebarMenuButton>
-                            {item.plus && (
-                                <div className="absolute right-2 top-0 z-10 flex h-full items-center">
-                                    <TooltipProvider>
-                                        <Tooltip>
-                                            <TooltipTrigger asChild>
-                                                <Link
-                                                    href={`${item.url}/add`}
-                                                    className="flex h-4 w-4 items-center justify-center rounded-full bg-foreground"
-                                                >
-                                                    <Plus className="h-4 w-4 stroke-background text-muted-foreground" />
-                                                </Link>
-                                            </TooltipTrigger>
-                                            <TooltipContent>
-                                                <p>Criar Novo</p>
-                                            </TooltipContent>
-                                        </Tooltip>
-                                    </TooltipProvider>
-                                </div>
-                            )}
-                            {item.items?.length && (
-                                <>
-                                    <CollapsibleTrigger asChild>
-                                        <SidebarMenuAction className="data-[state=open]:rotate-90">
-                                            <ChevronRight />
-                                            <span className="sr-only">
-                                                Alternar
-                                            </span>
-                                        </SidebarMenuAction>
-                                    </CollapsibleTrigger>
-                                    <CollapsibleContent>
-                                        <SidebarMenuSub>
-                                            {item.items?.map((subItem) => (
-                                                <SidebarMenuSubItem
-                                                    key={subItem.title}
-                                                >
-                                                    <SidebarMenuSubButton
-                                                        asChild
+        <>
+            <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+                <SidebarGroupLabel>Menu de Navegação</SidebarGroupLabel>
+                <SidebarMenu>
+                    {items.map((item) => (
+                        <Collapsible
+                            key={item.title}
+                            asChild
+                            defaultOpen={item.isActive}
+                        >
+                            <SidebarMenuItem>
+                                <SidebarMenuButton asChild tooltip={item.title}>
+                                    {item.items?.length ? (
+                                        <CollapsibleTrigger>
+                                            <item.icon />
+                                            <span>{item.title}</span>
+                                        </CollapsibleTrigger>
+                                    ) : (
+                                        <Link href={item.url}>
+                                            <item.icon />
+                                            <span>{item.title}</span>
+                                        </Link>
+                                    )}
+                                </SidebarMenuButton>
+                                {item.plus && (
+                                    <div className="absolute right-2 top-0 z-10 flex h-full items-center">
+                                        <TooltipProvider>
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <Link
+                                                        href={`${item.url}/add`}
+                                                        className="flex h-4 w-4 items-center justify-center rounded-full bg-foreground"
                                                     >
-                                                        <Link
-                                                            href={subItem.url}
+                                                        <Plus className="h-4 w-4 stroke-background text-muted-foreground" />
+                                                    </Link>
+                                                </TooltipTrigger>
+                                                <TooltipContent>
+                                                    <p>Criar Novo</p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </TooltipProvider>
+                                    </div>
+                                )}
+                                {item.items?.length && (
+                                    <>
+                                        <CollapsibleTrigger asChild>
+                                            <SidebarMenuAction className="data-[state=open]:rotate-90">
+                                                <ChevronRight />
+                                                <span className="sr-only">
+                                                    Alternar
+                                                </span>
+                                            </SidebarMenuAction>
+                                        </CollapsibleTrigger>
+                                        <CollapsibleContent>
+                                            <SidebarMenuSub>
+                                                {item.items?.map((subItem) => (
+                                                    <SidebarMenuSubItem
+                                                        key={subItem.title}
+                                                    >
+                                                        <SidebarMenuSubButton
+                                                            asChild
                                                         >
-                                                            <subItem.icon />
-                                                            <span>
-                                                                {subItem.title}
-                                                            </span>
-                                                        </Link>
-                                                    </SidebarMenuSubButton>
-                                                </SidebarMenuSubItem>
-                                            ))}
-                                        </SidebarMenuSub>
-                                    </CollapsibleContent>
-                                </>
-                            )}
-                        </SidebarMenuItem>
-                    </Collapsible>
-                ))}
-            </SidebarMenu>
-        </SidebarGroup>
+                                                            <Link
+                                                                href={
+                                                                    subItem.url
+                                                                }
+                                                                onClick={() => {
+                                                                    if (
+                                                                        subItem.action
+                                                                    ) {
+                                                                        const action =
+                                                                            subItem.action;
+                                                                        subitemActions[
+                                                                            action
+                                                                        ]?.();
+                                                                    }
+                                                                    console.warn(
+                                                                        "Clicked",
+                                                                    );
+                                                                }}
+                                                            >
+                                                                <subItem.icon />
+                                                                <span>
+                                                                    {
+                                                                        subItem.title
+                                                                    }
+                                                                </span>
+                                                            </Link>
+                                                        </SidebarMenuSubButton>
+                                                    </SidebarMenuSubItem>
+                                                ))}
+                                            </SidebarMenuSub>
+                                        </CollapsibleContent>
+                                    </>
+                                )}
+                            </SidebarMenuItem>
+                        </Collapsible>
+                    ))}
+                </SidebarMenu>
+            </SidebarGroup>
+            <ConfigSheet open={openSheet} setOpen={setOpenSheet} />
+        </>
     );
 };
