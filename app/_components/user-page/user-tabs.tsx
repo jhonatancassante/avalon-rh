@@ -21,13 +21,13 @@ const UserTabs = ({ userFields }: UserTabsProps) => {
         <Tabs defaultValue="profile" className="sm:w-[100%] sm:p-0 lg:w-[80%]">
             <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="profile">Perfil</TabsTrigger>
-                <TabsTrigger value="notes">Notas</TabsTrigger>
                 <TabsTrigger value="apply">Candidatar-se</TabsTrigger>
+                <TabsTrigger value="notes">Notas</TabsTrigger>
             </TabsList>
             <TabsContent value="profile">
                 <UserFields userFields={userFields} />
             </TabsContent>
-            <TabsContent value="notes">
+            <TabsContent value="apply">
                 <Card>
                     <CardHeader>
                         <CardTitle>Vazio</CardTitle>
@@ -37,7 +37,7 @@ const UserTabs = ({ userFields }: UserTabsProps) => {
                     </CardHeader>
                 </Card>
             </TabsContent>
-            <TabsContent value="apply">
+            <TabsContent value="notes">
                 <Card>
                     <CardHeader>
                         <CardTitle>Vazio</CardTitle>
