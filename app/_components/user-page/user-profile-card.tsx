@@ -15,7 +15,7 @@ const UserProfileCard = ({ user }: UserPrismaComplete) => {
             <UserAvatarDialog user={user} />
             <CardTitle className="flex max-w-96 items-center justify-center pb-2">
                 <p className="line-clamp-2 text-ellipsis text-wrap text-center text-2xl font-bold">
-                    {user.profile?.completeName}
+                    {user.profile?.socialName}
                 </p>
             </CardTitle>
             <div className="flex h-10 w-full items-center justify-between gap-1 px-2 py-1">
