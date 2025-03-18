@@ -39,11 +39,18 @@ const PhotoField = <T extends ZodTypeAny>({
                             id="photo-field"
                             type="file"
                             accept="image/jpeg, image/jpg"
-                            onChange={(e) => {
+                            onChange={async (e) => {
                                 const file = e.target.files?.[0];
+                                const inputElement = e.target;
                                 if (file) {
-                                    handleFileUpload(file);
-                                    field.onChange(file);
+                                    try {
+                                        await handleFileUpload(file);
+                                        field.onChange(file);
+                                    } catch (error) {
+                                        console.error(error);
+                                        field.onChange(null);
+                                        inputElement.value = "";
+                                    }
                                 }
                             }}
                             required={!photoData && !isComplete}

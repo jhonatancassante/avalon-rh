@@ -72,6 +72,10 @@ export const userFormSchema = z
         state: z.string().min(1, "O campo estado não pode ser vazio!"),
         photo: z
             .instanceof(File)
+            .nullable()
+            .refine((file) => file instanceof File, {
+                message: "É necessário colocar uma imagem",
+            })
             .refine(
                 (file) => !file || file.size <= MAX_FILE_SIZE,
                 "O arquivo deve ter no máximo 1MB!",
