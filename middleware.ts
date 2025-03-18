@@ -1,7 +1,7 @@
 import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { Roles } from "./app/_constants/roles";
+import { ROLES } from "./app/_constants/roles";
 import { PATHS } from "./app/_constants/paths";
 
 interface Token {
@@ -47,14 +47,14 @@ export async function middleware(request: NextRequest) {
     }
 
     if (request.nextUrl.pathname.startsWith(PATHS.ADMIN)) {
-        if (!hasRequiredRole(token, [Roles.Admin])) {
+        if (!hasRequiredRole(token, [ROLES.ADMIN, ROLES.OWNER])) {
             console.error("Redirecting to unauthorized page");
             return NextResponse.redirect(new URL(PATHS.ERROR_401, request.url));
         }
     }
 
     if (request.nextUrl.pathname.startsWith(PATHS.LEADER)) {
-        if (!hasRequiredRole(token, [Roles.Leader, Roles.Admin])) {
+        if (!hasRequiredRole(token, [ROLES.LEADER, ROLES.ADMIN, ROLES.OWNER])) {
             console.error("Redirecting to unauthorized page");
             return NextResponse.redirect(new URL(PATHS.ERROR_401, request.url));
         }

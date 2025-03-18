@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useMediaQuery } from "@react-hook/media-query";
-import { Roles } from "@/app/_constants/roles";
+import { ROLES } from "@/app/_constants/roles";
 import DesktopMenu from "./desktop-menu";
 import MobileMenu from "./mobile-menu";
 import { useLoading } from "@/app/_contexts/LoadingContext";
@@ -20,8 +20,11 @@ const UserMenuButtons = ({ userId, userRole }: UserMenuButtonsProps) => {
     const router = useRouter();
     const { setIsLoading } = useLoading();
 
-    const isAdmin = userRole === Roles.Admin;
-    const isLeader = userRole === Roles.Admin || userRole === Roles.Leader;
+    const isAdmin = userRole === ROLES.ADMIN || userRole === ROLES.OWNER;
+    const isLeader =
+        userRole === ROLES.ADMIN ||
+        userRole === ROLES.OWNER ||
+        userRole === ROLES.LEADER;
 
     const handleMenuButtons = (userId: string, functionType: FunctionType) => {
         const buttonsFunctions = {

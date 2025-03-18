@@ -1,7 +1,8 @@
-export const Roles = {
-    Admin: "admin",
-    Leader: "leader",
-    User: "user",
+export const ROLES = {
+    OWNER: "owner",
+    ADMIN: "admin",
+    LEADER: "leader",
+    USER: "user",
 };
 
-export const authorizedRoles = [Roles.Admin];
+export const AUTHORIZEDROLES = [ROLES.ADMIN, ROLES.OWNER];

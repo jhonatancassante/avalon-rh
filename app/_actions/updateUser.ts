@@ -3,7 +3,7 @@
 import { db } from "../_lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../_lib/auth";
-import { authorizedRoles } from "../_constants/roles";
+import { AUTHORIZEDROLES } from "../_constants/roles";
 import { revalidatePath } from "next/cache";
 import { validateUserData } from "../_utils/validateUserData";
 import { encrypt } from "../_utils/crypto";
@@ -18,7 +18,7 @@ export const updateUser = async (id: string, data: UpdateUser) => {
     }
 
     const isUserOwner = session.user.id === id;
-    const isUserAdmin = authorizedRoles.includes(session.user.role);
+    const isUserAdmin = AUTHORIZEDROLES.includes(session.user.role);
 
     if (!isUserOwner && !isUserAdmin) {
         throw new Error(

@@ -6,7 +6,7 @@ import { db } from "../_lib/prisma";
 import { decrypt } from "../_utils/crypto";
 import { Prisma } from "@prisma/client";
 import verifySessionAndRoleAdmin from "../_actions/verifySessionAndRoleAdmin";
-import { Roles } from "../_constants/roles";
+import { ROLES } from "../_constants/roles";
 
 const decryptUserData = (
     user?: Prisma.UserGetPayload<{
@@ -63,10 +63,13 @@ export const getUserLeaderList = async () => {
         where: {
             OR: [
                 {
-                    role: Roles.Leader,
+                    role: ROLES.LEADER,
                 },
                 {
-                    role: Roles.Admin,
+                    role: ROLES.ADMIN,
+                },
+                {
+                    role: ROLES.OWNER,
                 },
             ],
             isDeleted: false,

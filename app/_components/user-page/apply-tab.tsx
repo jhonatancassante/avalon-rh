@@ -17,7 +17,7 @@ const ApplyTab = () => {
         3: "grid-cols-3",
     };
 
-    const fetchConfigs = useCallback(async () => {
+    const fetchData = useCallback(async () => {
         setIsLoading(true);
         const configs = await getConfigList();
         setConfigList(configs);
@@ -32,8 +32,8 @@ const ApplyTab = () => {
     }, [setIsLoading]);
 
     useEffect(() => {
-        fetchConfigs();
-    }, [fetchConfigs]);
+        fetchData();
+    }, [fetchData]);
 
     return (
         <div className="flex w-full flex-col items-center p-0 pb-4">
