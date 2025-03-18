@@ -9,7 +9,8 @@
     "lint": "next lint",
     "prepare": "husky",
     "postinstall": "prisma generate",
-    "fix:pix-keys": "ts-node --project ./scripts/tsconfig.json ./scripts/encryptPixKey.ts"
+    "fix:pix-keys": "ts-node --project ./scripts/tsconfig.json ./scripts/encryptPixKey.ts",
+    "fix:exclude-me": "ts-node --project ./scripts/tsconfig.json ./scripts/excludeMe.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.4",
