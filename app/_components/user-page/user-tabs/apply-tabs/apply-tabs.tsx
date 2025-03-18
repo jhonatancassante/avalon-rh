@@ -1,12 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../ui/tabs";
 import { Configs } from "@prisma/client";
 import { getConfigList } from "@/app/_data/getConfigs";
 import { useLoading } from "@/app/_contexts/LoadingContext";
+import StaffApply from "./staff-apply";
 
-const ApplyTab = () => {
+const ApplyTabs = () => {
     const [configList, setConfigList] = useState<Configs[]>([]);
     const [activeTabsCount, setActiveTabsCount] = useState<number>(1);
     const { setIsLoading } = useLoading();
@@ -56,7 +57,9 @@ const ApplyTab = () => {
                     )}
                 </TabsList>
 
-                <TabsContent value="staff">Staff</TabsContent>
+                <TabsContent value="staff">
+                    <StaffApply />
+                </TabsContent>
                 {configList.find((c) => c.key === "presenterApply")?.value && (
                     <TabsContent value="presenter">Apresentador</TabsContent>
                 )}
@@ -69,4 +72,4 @@ const ApplyTab = () => {
     );
 };
 
-export default ApplyTab;
+export default ApplyTabs;

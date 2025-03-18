@@ -2,7 +2,7 @@ import PageLayout from "@/app/_components/page-layout";
 import { CardContent } from "@/app/_components/ui/card";
 import { Separator } from "@/app/_components/ui/separator";
 import UserProfileCard from "@/app/_components/user-page/user-profile-card";
-import UserTabs from "@/app/_components/user-page/user-tabs";
+import UserTabs from "@/app/_components/user-page/user-tabs/user-tabs";
 import { PATHS } from "@/app/_constants/paths";
 import { getUser } from "@/app/_data/getUser";
 import { formatUserFields } from "@/app/_utils/formatUserFields";

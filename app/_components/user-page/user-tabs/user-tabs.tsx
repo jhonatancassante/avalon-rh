@@ -10,8 +10,8 @@ import {
     CardHeader,
     CardTitle,
 } from "@/app/_components/ui/card";
-import UserFields from "./user-fields";
-import ApplyTab from "./apply-tab";
+import UserFields from "../user-fields";
+import ApplyTabs from "./apply-tabs/apply-tabs";
 
 interface UserTabsProps {
     userFields: { label: string; value: string | string[] }[];
@@ -29,7 +29,7 @@ const UserTabs = ({ userFields }: UserTabsProps) => {
                 <UserFields userFields={userFields} />
             </TabsContent>
             <TabsContent value="apply">
-                <ApplyTab />
+                <ApplyTabs />
             </TabsContent>
             <TabsContent value="notes">
                 <Card>
