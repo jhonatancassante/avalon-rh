@@ -21,7 +21,7 @@ import { useLoading } from "@/app/_contexts/LoadingContext";
 import { PcdFields } from "../form-fields/pcd-fields";
 import { PATHS } from "@/app/_constants/paths";
 import { userFormSchema } from "@/app/_schemas/formSchema";
-import { editUserFields } from "@/app/_constants/editUserFields";
+import { EDITUSERFIELDS } from "@/app/_constants/editUserFields";
 import dateToIso from "@/app/_utils/dateToIso";
 
 interface UserEditFormProps {
@@ -98,7 +98,7 @@ const UserEditForm = ({ user }: UserEditFormProps) => {
                 <FormFields
                     control={form.control}
                     formSchema={userFormSchema}
-                    editFields={editUserFields}
+                    editFields={EDITUSERFIELDS}
                 />
                 <PhoneField<typeof userFormSchema> control={form.control} />
                 <LocationsFields<typeof userFormSchema> form={form} />

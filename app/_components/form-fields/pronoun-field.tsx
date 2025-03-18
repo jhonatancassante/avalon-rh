@@ -14,7 +14,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "../ui/select";
-import { Pronouns } from "@/app/_constants/pronouns";
+import { PRONOUNS } from "@/app/_constants/pronouns";
 import FormTooltip from "./form-tooltip";
 
 interface PronounFieldProps<T extends ZodTypeAny> {
@@ -44,7 +44,7 @@ const PronounField = <T extends ZodTypeAny>({
                             </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                            {Pronouns.map((pronoun) => {
+                            {PRONOUNS.map((pronoun) => {
                                 return (
                                     <SelectItem key={pronoun} value={pronoun}>
                                         {pronoun}

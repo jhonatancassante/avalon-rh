@@ -14,7 +14,7 @@ import { updateOrCreateSector } from "../../_actions/updateSector";
 import { toast } from "sonner";
 import { Form } from "../ui/form";
 import { FormFields } from "../form-fields/form-fields";
-import { editSectorFields } from "../../_constants/editSectorFields";
+import { EDITSECTORFIELDS } from "../../_constants/editSectorFields";
 import { FormActions } from "../form-fields/form-actions";
 import SectorLeaderField from "./sector-leader-field";
 import { SectorComplete } from "@/app/_types/sectorComplete";
@@ -91,7 +91,7 @@ const SectorDialogForm = ({
                         <FormFields
                             control={form.control}
                             formSchema={sectorFormSchema}
-                            editFields={editSectorFields}
+                            editFields={EDITSECTORFIELDS}
                         />
 
                         <SectorLeaderField form={form} />

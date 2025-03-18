@@ -1,4 +1,4 @@
-export const deficiencysList = [
+export const DEFICIENCYLIST = [
     { label: "Visual" },
     { label: "Física" },
     { label: "Auditiva" },

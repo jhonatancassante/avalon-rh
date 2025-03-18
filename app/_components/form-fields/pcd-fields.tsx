@@ -2,8 +2,8 @@ import { Control, Path, useWatch } from "react-hook-form";
 import { PcdRadioGroup } from "./pcd-radio-group";
 import { z, ZodTypeAny } from "zod";
 import { CheckboxList } from "../ui/checkbox-list";
-import { deficiencysList } from "@/app/_constants/deficiencysList";
-import { extraSupportsList } from "@/app/_constants/extraSupportsList";
+import { DEFICIENCYLIST } from "@/app/_constants/deficiencysList";
+import { EXTRASUPPORTLIST } from "@/app/_constants/extraSupportsList";
 
 interface PcdFieldsProps<T extends ZodTypeAny> {
     control: Control<z.infer<T>>;
@@ -24,14 +24,14 @@ export const PcdFields = <T extends ZodTypeAny>({
                         name="deficiency"
                         label="Conte-nos qual o tipo de deficiência você tem?"
                         tooltipMsg="Descreva aqui qual sua deficiência."
-                        items={deficiencysList}
+                        items={DEFICIENCYLIST}
                     />
                     <CheckboxList
                         control={control}
                         name="extraSupport"
                         label="Você precisa de algum tipo de acessibilidade para participar como staff?"
                         tooltipMsg="Descreva aqui qual sua deficiência."
-                        items={extraSupportsList}
+                        items={EXTRASUPPORTLIST}
                     />
                 </>
             )}

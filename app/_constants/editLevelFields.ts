@@ -1,4 +1,4 @@
-export const editLevelFields = [
+export const EDITLEVELFIELDS = [
     {
         name: "name",
         label: "Nome do Nível",

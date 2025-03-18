@@ -1,4 +1,4 @@
-export const editUserFields = [
+export const EDITUSERFIELDS = [
     {
         name: "completeName",
         label: "Nome Completo",

@@ -1,4 +1,4 @@
-export const editEventFields = [
+export const EDITEVENTFIELDS = [
     {
         name: "name",
         label: "Nome do Evento",

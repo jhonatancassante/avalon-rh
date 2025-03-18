@@ -1,4 +1,4 @@
-export const editSectorFields = [
+export const EDITSECTORFIELDS = [
     {
         name: "name",
         label: "Nome do Setor",

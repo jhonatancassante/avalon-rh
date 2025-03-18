@@ -1,4 +1,4 @@
-export const extraSupportsList = [
+export const EXTRASUPPORTLIST = [
     { label: "Descrição de imagens e audiodescrição de vídeos" },
     { label: "Intérprete de Libras ou Legenda" },
     { label: "Dificuldade na fala (exemplo: gagueira, disartria.)" },

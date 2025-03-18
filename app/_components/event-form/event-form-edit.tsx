@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { Form } from "../ui/form";
 import { FormFields } from "../form-fields/form-fields";
-import { editEventFields } from "@/app/_constants/editEventFields";
+import { EDITEVENTFIELDS } from "@/app/_constants/editEventFields";
 import LocationsFields from "../form-fields/locations-fields";
 import { FormActions } from "../form-fields/form-actions";
 import EventSectorSelection from "./event-sector-selection";
@@ -112,7 +112,7 @@ const EventFormEdit = ({ event }: EventFormEditProps) => {
                 <FormFields
                     control={form.control}
                     formSchema={eventFormSchema}
-                    editFields={editEventFields}
+                    editFields={EDITEVENTFIELDS}
                 />
                 <LocationsFields<typeof eventFormSchema> form={form} />
                 <EventSectorSelection control={form.control} />

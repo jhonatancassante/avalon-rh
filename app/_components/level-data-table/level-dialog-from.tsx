@@ -23,7 +23,7 @@ import {
 } from "../ui/form";
 import { FormFields } from "../form-fields/form-fields";
 import { FormActions } from "../form-fields/form-actions";
-import { editLevelFields } from "@/app/_constants/editLevelFields";
+import { EDITLEVELFIELDS } from "@/app/_constants/editLevelFields";
 import { Checkbox } from "../ui/checkbox";
 
 interface LevelDialogFormProps {
@@ -98,7 +98,7 @@ const LevelDialogForm = ({
                         <FormFields
                             control={form.control}
                             formSchema={levelFormSchema}
-                            editFields={editLevelFields}
+                            editFields={EDITLEVELFIELDS}
                         />
                         <FormField
                             control={form.control}
