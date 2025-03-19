@@ -31,3 +31,13 @@ export type EventComplete = Prisma.EventGetPayload<{
         };
     };
 }>;
+
+export type EventWithSectors = Prisma.EventGetPayload<{
+    include: {
+        eventSectors: {
+            include: {
+                sector: true;
+            };
+        };
+    };
+}>;

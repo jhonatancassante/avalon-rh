@@ -41,6 +41,26 @@ export const getEventListFinished = async () => {
     });
 };
 
+export const getEventAreInscriptionsOpen = async () => {
+    return await db.event.findMany({
+        where: {
+            isDeleted: false,
+            isFinished: false,
+            areInscriptionsOpen: true,
+        },
+        include: {
+            eventSectors: {
+                include: {
+                    sector: true,
+                },
+            },
+        },
+        orderBy: {
+            date: "asc",
+        },
+    });
+};
+
 export const getEventById = async (id: string) => {
     await verifySessionAndRoleAdmin();
 

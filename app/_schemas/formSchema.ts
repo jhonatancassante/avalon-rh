@@ -140,3 +140,9 @@ export const levelFormSchema = z.object({
         .max(100, "Nome muito longo! Máximo 100 caracteres."),
     isLcaApply: z.boolean(),
 });
+
+export const userEventApplyFormSchema = z.object({
+    userId: z.string().min(1, "Selecione um usuário"),
+    eventId: z.string().min(1, "Selecione um evento"),
+    eventSectors: z.array(z.string().min(1, "Selecione pelo menos um setor")),
+});
