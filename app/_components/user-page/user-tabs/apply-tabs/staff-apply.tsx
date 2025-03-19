@@ -57,6 +57,14 @@ const StaffApply = () => {
                         selectedEvent={selectedEvent}
                         setSelectedEvent={setSelectedEvent}
                     />
+                    {selectedEvent &&
+                        selectedEvent.eventSectors.map((eventSector) => {
+                            return (
+                                <p key={eventSector.id}>
+                                    {eventSector.sector.name}
+                                </p>
+                            );
+                        })}
                 </form>
             </Form>
         </div>
