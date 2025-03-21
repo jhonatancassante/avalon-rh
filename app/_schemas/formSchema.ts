@@ -141,8 +141,44 @@ export const levelFormSchema = z.object({
     isLcaApply: z.boolean(),
 });
 
-export const userEventApplyFormSchema = z.object({
-    userId: z.string().min(1, "Selecione um usuário"),
-    eventId: z.string().min(1, "Selecione um evento"),
-    eventSectors: z.array(z.string().min(1, "Selecione pelo menos um setor")),
-});
+export const userEventApplyFormSchema = z
+    .object({
+        eventId: z.string().min(1, "Selecione um evento"),
+        sector0: z.string().min(1, "Selecione pelo menos um setor"),
+        sector1: z.string().min(1, "Selecione pelo menos um setor"),
+        sector2: z.string().min(1, "Selecione pelo menos um setor"),
+        sector3: z.string().min(1, "Selecione pelo menos um setor"),
+    })
+    .refine((data) => {
+        const sectors = [
+            data.sector0,
+            data.sector1,
+            data.sector2,
+            data.sector3,
+        ];
+
+        const duplicates: Record<string, string[]> = {};
+
+        sectors.forEach((value, index) => {
+            if (value.trim() === "") return;
+            if (!duplicates[value]) duplicates[value] = [];
+            duplicates[value].push(`sector${index}`);
+        });
+
+        const duplicatedEntries = Object.entries(duplicates).filter(
+            ([, fields]) => fields.length > 1,
+        );
+
+        if (duplicatedEntries.length === 0) return true;
+
+        throw new z.ZodError(
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            duplicatedEntries.flatMap(([value, fields]) =>
+                fields.map((path) => ({
+                    code: z.ZodIssueCode.custom,
+                    message: `O setor está repetido`,
+                    path: [path],
+                })),
+            ),
+        );
+    });
