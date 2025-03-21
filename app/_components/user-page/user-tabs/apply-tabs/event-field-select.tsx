@@ -10,21 +10,27 @@ import {
 import { Selector } from "@/app/_components/ui/location-selector/selector";
 import { useIsMobile } from "@/app/_hooks/useMobile";
 import { useSelection } from "@/app/_hooks/useSelection";
+import { Sector } from "@prisma/client";
 import { Path, UseFormReturn } from "react-hook-form";
 import { TypeOf, z, ZodTypeAny } from "zod";
+import { UserStaffApply } from "./types";
 
 interface EventFieldSelectProps<T extends ZodTypeAny> {
     form: UseFormReturn<z.infer<T>>;
     eventList: EventWithSectors[];
+    applyList: UserStaffApply[] | null;
     selectedEvent?: EventWithSectors | null;
     setSelectedEvent: (event: EventWithSectors) => void;
+    setSectorList: (sectors: Sector[]) => void;
 }
 
 const EventFieldSelect = <T extends ZodTypeAny>({
     form,
     eventList,
+    applyList,
     selectedEvent,
     setSelectedEvent,
+    setSectorList,
 }: EventFieldSelectProps<T>) => {
     const isMobile = useIsMobile();
     const { isOpen, setIsOpen, selectedValue, handleSelect } = useSelection({
@@ -34,12 +40,21 @@ const EventFieldSelect = <T extends ZodTypeAny>({
             const event = eventList.find((event) => event.id === value);
             if (event) {
                 setSelectedEvent(event);
+                const sectors = event.eventSectors.map(
+                    (eventSector) => eventSector.sector,
+                );
+                sectors.sort((a, b) => {
+                    return a.name.localeCompare(b.name);
+                });
+                setSectorList(sectors);
             }
         },
     });
     const buttonLabel = selectedEvent
         ? `${selectedEvent.edition}º ${selectedEvent.name}`
         : "Selecione o Evento";
+
+    const eventApplyList = applyList?.map((apply) => apply.eventId);
 
     return (
         <FormField
@@ -57,6 +72,8 @@ const EventFieldSelect = <T extends ZodTypeAny>({
                             isDesktop={!isMobile}
                             buttonLabel={buttonLabel}
                             items={eventList}
+                            badgeList={eventApplyList}
+                            badgeLabel={"Aplicado"}
                             selectedValue={selectedValue}
                             onSelect={handleSelect}
                             placeholder="Procure o evento..."
