@@ -48,7 +48,7 @@ export const Selector = <T,>({
                 </Button>
             </Trigger>
 
-            <Content className="p-0">
+            <Content className="w-auto bg-red-600 p-0">
                 <SelectorList
                     items={items}
                     badgeList={badgeList}

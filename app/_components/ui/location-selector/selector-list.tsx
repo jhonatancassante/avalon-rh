@@ -45,26 +45,30 @@ export const SelectorList = <T,>({
                                 key={value}
                                 value={value}
                                 onSelect={() => onSelect(value)}
+                                className="flex w-full items-center justify-between gap-4"
                             >
                                 {getItemLabel(item)}
-                                <Badge
-                                    className={`ml-auto text-[10px] ${
-                                        badgeList?.some(
-                                            (badgeItem) => badgeItem === value,
-                                        )
-                                            ? "opacity-100"
-                                            : "opacity-0"
-                                    }`}
-                                >
-                                    {badgeLabel}
-                                </Badge>
-                                <Check
-                                    className={`ml-auto ${
-                                        value === selectedValue
-                                            ? "opacity-100"
-                                            : "opacity-0"
-                                    }`}
-                                />
+                                <div className="flex items-center justify-between gap-4">
+                                    <Badge
+                                        className={`ml-auto text-[10px] ${
+                                            badgeList?.some(
+                                                (badgeItem) =>
+                                                    badgeItem === value,
+                                            )
+                                                ? "opacity-100"
+                                                : "opacity-0"
+                                        }`}
+                                    >
+                                        {badgeLabel}
+                                    </Badge>
+                                    <Check
+                                        className={`ml-auto ${
+                                            value === selectedValue
+                                                ? "opacity-100"
+                                                : "opacity-0"
+                                        }`}
+                                    />
+                                </div>
                             </CommandItem>
                         );
                     })}
