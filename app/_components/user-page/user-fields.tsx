@@ -3,12 +3,15 @@ import { Label } from "@/app/_components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Checkbox } from "../ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { UserComplete } from "@/app/_types/userComplete";
+import { UpdateStatus } from "../update-status";
 
 interface UserFieldsProps {
+    user: UserComplete;
     userFields: { label: string; value: string | string[] }[];
 }
 
-const UserFields = ({ userFields }: UserFieldsProps) => {
+const UserFields = ({ user, userFields }: UserFieldsProps) => {
     const isPcdIndex = userFields.findIndex(
         (field) => field.label === "É Portador de Deficiencia?",
     );
@@ -100,6 +103,10 @@ const UserFields = ({ userFields }: UserFieldsProps) => {
                         </div>
                     );
                 })}
+                <UpdateStatus
+                    lastUpdate={user.updatedAt}
+                    className="flex w-full justify-end"
+                />
             </CardContent>
         </Card>
     );

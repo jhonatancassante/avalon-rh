@@ -45,6 +45,7 @@ const UserPage = async ({ params, searchParams }: UserPageProps) => {
                 </div>
                 <CardContent className="flex w-full flex-col items-center p-0 py-6 lg:px-6">
                     <UserTabs
+                        user={user}
                         userFields={userFields}
                         initialTab={initialTab}
                         eventId={resolvedSearchParams.eventId}

@@ -16,14 +16,16 @@ import UserFields from "../user-fields";
 import ApplyTabs from "./apply-tabs/apply-tabs";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { UserComplete } from "@/app/_types/userComplete";
 
 interface UserTabsProps {
+    user: UserComplete;
     userFields: { label: string; value: string | string[] }[];
     initialTab?: string;
     eventId?: string;
 }
 
-const UserTabs = ({ userFields, initialTab, eventId }: UserTabsProps) => {
+const UserTabs = ({ user, userFields, initialTab, eventId }: UserTabsProps) => {
     const router = useRouter();
     const [currentTab, setCurrentTab] = useState(initialTab ?? "profile");
 
@@ -51,7 +53,7 @@ const UserTabs = ({ userFields, initialTab, eventId }: UserTabsProps) => {
                 <TabsTrigger value="notes">Notas</TabsTrigger>
             </TabsList>
             <TabsContent value="profile">
-                <UserFields userFields={userFields} />
+                <UserFields user={user} userFields={userFields} />
             </TabsContent>
             <TabsContent value="apply">
                 <ApplyTabs eventId={eventId} />
