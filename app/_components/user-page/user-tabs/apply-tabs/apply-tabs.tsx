@@ -7,7 +7,11 @@ import { getConfigList } from "@/app/_data/getConfigs";
 import { useLoading } from "@/app/_contexts/LoadingContext";
 import StaffApply from "./staff-apply";
 
-const ApplyTabs = () => {
+interface ApplyTabsProps {
+    eventId?: string;
+}
+
+const ApplyTabs = ({ eventId }: ApplyTabsProps) => {
     const [configList, setConfigList] = useState<Configs[]>([]);
     const [activeTabsCount, setActiveTabsCount] = useState<number>(1);
     const { setIsLoading } = useLoading();
@@ -58,7 +62,7 @@ const ApplyTabs = () => {
                 </TabsList>
 
                 <TabsContent value="staff">
-                    <StaffApply />
+                    <StaffApply eventId={eventId} />
                 </TabsContent>
                 {configList.find((c) => c.key === "presenterApply")?.value && (
                     <TabsContent value="presenter">Apresentador</TabsContent>

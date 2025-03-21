@@ -20,9 +20,10 @@ import { useRouter } from "next/navigation";
 interface UserTabsProps {
     userFields: { label: string; value: string | string[] }[];
     initialTab?: string;
+    eventId?: string;
 }
 
-const UserTabs = ({ userFields, initialTab }: UserTabsProps) => {
+const UserTabs = ({ userFields, initialTab, eventId }: UserTabsProps) => {
     const router = useRouter();
     const [currentTab, setCurrentTab] = useState(initialTab ?? "profile");
 
@@ -53,7 +54,7 @@ const UserTabs = ({ userFields, initialTab }: UserTabsProps) => {
                 <UserFields userFields={userFields} />
             </TabsContent>
             <TabsContent value="apply">
-                <ApplyTabs />
+                <ApplyTabs eventId={eventId} />
             </TabsContent>
             <TabsContent value="notes">
                 <Card>

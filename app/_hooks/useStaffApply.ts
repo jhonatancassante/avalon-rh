@@ -11,7 +11,7 @@ import {
     UserStaffApply,
 } from "../_components/user-page/user-tabs/apply-tabs/types";
 
-export const useStaffApply = (userId?: string) => {
+export const useStaffApply = (userId?: string, eventId?: string) => {
     const { setIsLoading } = useLoading();
     const [state, setState] = useState({
         eventList: [] as EventWithSectors[],
@@ -25,6 +25,19 @@ export const useStaffApply = (userId?: string) => {
         } as SelectedSectors,
         staffApplyList: [] as UserStaffApply[],
     });
+
+    useEffect(() => {
+        if (eventId && state.eventList.length > 0) {
+            const event = state.eventList.find((e) => e.id === eventId);
+            if (event) {
+                setState((prev) => ({
+                    ...prev,
+                    selectedEvent: event,
+                    sectorList: event.eventSectors.map((es) => es.sector),
+                }));
+            }
+        }
+    }, [eventId, state.eventList]);
 
     useEffect(() => {
         if (state.selectedEvent && state.staffApplyList) {

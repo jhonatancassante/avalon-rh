@@ -18,7 +18,11 @@ import { ApplyStatus } from "./apply-status";
 
 const sectorLabels = ["Primeira", "Segunda", "Terceira", "Quarta"];
 
-const StaffApply = () => {
+interface StaffApplyProps {
+    eventId?: string; // Adiciona o eventId
+}
+
+const StaffApply = ({ eventId }: StaffApplyProps) => {
     const { isLoading } = useLoading();
     const { data: session } = useSession();
     const {
@@ -31,7 +35,7 @@ const StaffApply = () => {
         staffApply,
         setState,
         onSubmit,
-    } = useStaffApply(session?.user?.id);
+    } = useStaffApply(session?.user?.id, eventId);
 
     const shouldShowSectors = useMemo(
         () => sectorList && sectorList.length > 0,

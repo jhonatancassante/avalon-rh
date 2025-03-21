@@ -10,7 +10,11 @@ import { redirect } from "next/navigation";
 
 interface UserPageProps {
     params: Promise<{ id: string }>;
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+    searchParams: Promise<{
+        tab?: string;
+        eventId?: string;
+        [key: string]: string | string[] | undefined;
+    }>;
 }
 
 const UserPage = async ({ params, searchParams }: UserPageProps) => {
@@ -40,7 +44,11 @@ const UserPage = async ({ params, searchParams }: UserPageProps) => {
                     <Separator className="w-[90%]" />
                 </div>
                 <CardContent className="flex w-full flex-col items-center p-0 py-6 lg:px-6">
-                    <UserTabs userFields={userFields} initialTab={initialTab} />
+                    <UserTabs
+                        userFields={userFields}
+                        initialTab={initialTab}
+                        eventId={resolvedSearchParams.eventId}
+                    />
                 </CardContent>
             </PageLayout>
         );
