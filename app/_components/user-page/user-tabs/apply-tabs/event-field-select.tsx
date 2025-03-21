@@ -10,18 +10,16 @@ import {
 import { Selector } from "@/app/_components/ui/location-selector/selector";
 import { useIsMobile } from "@/app/_hooks/useMobile";
 import { useSelection } from "@/app/_hooks/useSelection";
-import { Sector } from "@prisma/client";
 import { Path, UseFormReturn } from "react-hook-form";
 import { TypeOf, z, ZodTypeAny } from "zod";
-import { UserStaffApply } from "./types";
+import { StaffApplySetState, UserStaffApply } from "./types";
 
 interface EventFieldSelectProps<T extends ZodTypeAny> {
     form: UseFormReturn<z.infer<T>>;
     eventList: EventWithSectors[];
     applyList: UserStaffApply[] | null;
     selectedEvent?: EventWithSectors | null;
-    setSelectedEvent: (event: EventWithSectors) => void;
-    setSectorList: (sectors: Sector[]) => void;
+    setState: StaffApplySetState;
 }
 
 const EventFieldSelect = <T extends ZodTypeAny>({
@@ -29,8 +27,7 @@ const EventFieldSelect = <T extends ZodTypeAny>({
     eventList,
     applyList,
     selectedEvent,
-    setSelectedEvent,
-    setSectorList,
+    setState,
 }: EventFieldSelectProps<T>) => {
     const isMobile = useIsMobile();
     const { isOpen, setIsOpen, selectedValue, handleSelect } = useSelection({
@@ -39,14 +36,23 @@ const EventFieldSelect = <T extends ZodTypeAny>({
         onSelect: (value) => {
             const event = eventList.find((event) => event.id === value);
             if (event) {
-                setSelectedEvent(event);
                 const sectors = event.eventSectors.map(
                     (eventSector) => eventSector.sector,
                 );
                 sectors.sort((a, b) => {
                     return a.name.localeCompare(b.name);
                 });
-                setSectorList(sectors);
+                setState((prev) => ({
+                    ...prev,
+                    selectedEvent: event,
+                    sectorList: sectors,
+                    selectedSectors: {
+                        0: null,
+                        1: null,
+                        2: null,
+                        3: null,
+                    },
+                }));
             }
         },
     });

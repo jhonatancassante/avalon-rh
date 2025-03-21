@@ -1,14 +1,9 @@
 "use client";
 
-import { EventWithSectors } from "@/app/_components/event-form/types";
 import { Form } from "@/app/_components/ui/form";
 import { useLoading } from "@/app/_contexts/LoadingContext";
-import { getEventAreInscriptionsOpen } from "@/app/_data/getEvent";
-import { useStaffApplyForm } from "@/app/_hooks/useStaffApplyForm";
-import { Sector } from "@prisma/client";
-import { useCallback, useEffect, useState } from "react";
+import { useMemo } from "react";
 import EventFieldSelect from "./event-field-select";
-import { SelectedSectors, UserStaffApply } from "./types";
 import SectorFieldSelect from "./sector-field-select";
 import {
     Card,
@@ -18,88 +13,40 @@ import {
 } from "@/app/_components/ui/card";
 import { Button } from "@/app/_components/ui/button";
 import { useSession } from "next-auth/react";
-import { getStaffApplyList } from "@/app/_data/getStaffApply";
-import { updateOrCreateUserEventApply } from "@/app/_actions/updateUserEventApply";
+import { useStaffApply } from "@/app/_hooks/useStaffApply";
+import { ApplyStatus } from "./apply-status";
+
+const sectorLabels = ["Primeira", "Segunda", "Terceira", "Quarta"];
 
 const StaffApply = () => {
-    const { setIsLoading } = useLoading();
-    const [eventList, setEventList] = useState<EventWithSectors[]>([]);
-    const [selectedEvent, setSelectedEvent] = useState<EventWithSectors | null>(
-        null,
+    const { isLoading } = useLoading();
+    const { data: session } = useSession();
+    const {
+        form,
+        eventList,
+        selectedEvent,
+        sectorList,
+        selectedSectors,
+        staffApplyList,
+        staffApply,
+        setState,
+        onSubmit,
+    } = useStaffApply(session?.user?.id);
+
+    const shouldShowSectors = useMemo(
+        () => sectorList && sectorList.length > 0,
+        [sectorList],
     );
 
-    const [sectorList, setSectorList] = useState<Sector[] | null>(null);
-    const [selectedSectors, setSelectedSectors] = useState<SelectedSectors>({
-        0: null,
-        1: null,
-        2: null,
-        3: null,
-    });
-    const [staffApplyList, setStaffApplyList] = useState<
-        UserStaffApply[] | null
-    >(null);
-    const [staffApply, setStaffApply] = useState<UserStaffApply | null>(null);
-    const { data } = useSession();
-    const form = useStaffApplyForm({});
-    const sectorLabels = ["Primeira", "Segunda", "Terceira", "Quarta"];
-
-    const fetchEvents = useCallback(async () => {
-        try {
-            setIsLoading(true);
-            const events = await getEventAreInscriptionsOpen();
-            setEventList(events);
-            const staffApplys = await getStaffApplyList(data?.user?.id ?? "");
-            setStaffApplyList(staffApplys ?? []);
-        } catch (error) {
-            console.error("Erro ao buscar eventos:", error);
-        } finally {
-            setIsLoading(false);
-        }
-    }, [data, setIsLoading]);
-
-    useEffect(() => {
-        fetchEvents();
-    }, [fetchEvents]);
-
-    useEffect(() => {
-        if (staffApplyList) {
-            setStaffApply(
-                staffApplyList.find(
-                    (apply) => apply.eventId === selectedEvent?.id,
-                ) ?? null,
-            );
-        }
-    }, [selectedEvent, staffApplyList]);
-
-    const onSubmit = async (
-        values: Record<`sector${number}` | "eventId", string>,
-    ) => {
-        if (!data?.user?.id) {
-            console.error("Usuário não autenticado");
-            return;
-        }
-
-        const userSectorsApply = Array.from({ length: 4 }).map((_, index) => ({
-            sectorId: values[`sector${index}`],
-            optionOrder: index,
-        }));
-
-        const updateData = {
-            userId: data.user.id,
-            eventId: values.eventId,
-            userEventSectors: userSectorsApply,
-        };
-
-        try {
-            const result = await updateOrCreateUserEventApply(
-                staffApply?.id,
-                updateData,
-            );
-            console.log("Sucesso:", result);
-        } catch (error) {
-            console.error("Falha:", error);
-        }
-    };
+    const noEventsMessage = useMemo(
+        () => (
+            <h2 className="p-4 text-center text-muted-foreground">
+                Ainda não há eventos disponíveis para candidatura. Por favor,
+                volte mais tarde.
+            </h2>
+        ),
+        [],
+    );
 
     return (
         <div className="p-4">
@@ -109,42 +56,57 @@ const StaffApply = () => {
                     className="space-y-4"
                 >
                     {eventList.length !== 0 ? (
-                        <EventFieldSelect
-                            form={form}
-                            eventList={eventList}
-                            applyList={staffApplyList}
-                            selectedEvent={selectedEvent}
-                            setSelectedEvent={setSelectedEvent}
-                            setSectorList={setSectorList}
-                        />
+                        <>
+                            <EventFieldSelect
+                                form={form}
+                                eventList={eventList}
+                                applyList={staffApplyList}
+                                selectedEvent={selectedEvent}
+                                setState={setState}
+                            />
+                            {shouldShowSectors && (
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle>Setores</CardTitle>
+                                    </CardHeader>
+                                    <CardContent className="space-y-4">
+                                        {sectorList &&
+                                            sectorLabels.map((label, index) => (
+                                                <SectorFieldSelect
+                                                    key={sectorList[index].id}
+                                                    form={form}
+                                                    sectorList={sectorList}
+                                                    fieldIndex={index}
+                                                    sectorLabel={label}
+                                                    selectedSectors={
+                                                        selectedSectors
+                                                    }
+                                                    setState={setState}
+                                                />
+                                            ))}
+                                    </CardContent>
+                                </Card>
+                            )}
+
+                            <ApplyStatus
+                                lastUpdate={staffApply?.updatedAt}
+                                className="mt-4"
+                            />
+
+                            <div className="flex justify-end">
+                                <Button
+                                    type="submit"
+                                    disabled={!selectedEvent || isLoading}
+                                >
+                                    {isLoading
+                                        ? "Enviando..."
+                                        : "Enviar Candidatura"}
+                                </Button>
+                            </div>
+                        </>
                     ) : (
-                        <h2>
-                            Ainda não tem nenhum evento para se candidatar...
-                            Volte mais tarde.
-                        </h2>
+                        noEventsMessage
                     )}
-                    {sectorList && (
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Setores</CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                {sectorLabels.map((label, index) => (
-                                    <SectorFieldSelect
-                                        key={sectorList[index].id}
-                                        form={form}
-                                        sectorList={sectorList}
-                                        apply={staffApply}
-                                        fieldIndex={index}
-                                        sectorLabel={label}
-                                        selectedSectors={selectedSectors}
-                                        setSelectedSectors={setSelectedSectors}
-                                    />
-                                ))}
-                            </CardContent>
-                        </Card>
-                    )}
-                    <Button type="submit">Enviar</Button>
                 </form>
             </Form>
         </div>

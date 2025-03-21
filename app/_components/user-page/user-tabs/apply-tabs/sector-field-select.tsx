@@ -1,7 +1,7 @@
 import { Sector } from "@prisma/client";
-import { Path, UseFormReturn } from "react-hook-form";
+import { Path, PathValue, UseFormReturn } from "react-hook-form";
 import { TypeOf, z, ZodTypeAny } from "zod";
-import { SelectedSectors, UserStaffApply } from "./types";
+import { SelectedSectors, StaffApplySetState } from "./types";
 import { useIsMobile } from "@/app/_hooks/useMobile";
 import {
     FormControl,
@@ -13,25 +13,24 @@ import {
 import FormTooltip from "@/app/_components/form-fields/form-tooltip";
 import { Selector } from "@/app/_components/ui/location-selector/selector";
 import { useSelection } from "@/app/_hooks/useSelection";
+import { useEffect } from "react";
 
 interface SectorFieldSelectProps<T extends ZodTypeAny> {
     form: UseFormReturn<z.infer<T>>;
     sectorList: Sector[];
-    apply: UserStaffApply | null;
     fieldIndex: number;
     sectorLabel: string;
     selectedSectors?: SelectedSectors;
-    setSelectedSectors: (sectors: SelectedSectors) => void;
+    setState: StaffApplySetState;
 }
 
 const SectorFieldSelect = <T extends ZodTypeAny>({
     form,
     sectorList,
-    apply,
     fieldIndex,
     sectorLabel,
     selectedSectors,
-    setSelectedSectors,
+    setState,
 }: SectorFieldSelectProps<T>) => {
     const isMobile = useIsMobile();
 
@@ -40,36 +39,44 @@ const SectorFieldSelect = <T extends ZodTypeAny>({
         index: number,
         sector: Sector,
     ) => {
-        if (index < 0 || index > 3) {
-            throw new Error("Index must be between 0 and 3");
-        }
-
         const newSelectedSectors = { ...selectedSectors };
         const key = index as keyof SelectedSectors;
         newSelectedSectors[key] = sector;
         return newSelectedSectors;
     };
+
     const { isOpen, setIsOpen, selectedValue, handleSelect } = useSelection({
         form,
         fieldName: `sector${fieldIndex}`,
         onSelect: (value) => {
             const sector = sectorList.find((sector) => sector.id === value);
             if (sector && selectedSectors) {
-                const newSelectedSectors = helperSetSelectedSectors(
-                    selectedSectors,
-                    fieldIndex,
-                    sector,
-                );
-                setSelectedSectors(newSelectedSectors);
+                setState((prev) => ({
+                    ...prev,
+                    selectedSectors: helperSetSelectedSectors(
+                        selectedSectors,
+                        fieldIndex,
+                        sector,
+                    ),
+                }));
             }
         },
     });
 
     const selectedSectorId =
-        apply &&
-        apply.userEventSectors.find(
-            (sector) => sector.optionOrder === fieldIndex,
-        )?.sectorId;
+        selectedSectors?.[fieldIndex as keyof SelectedSectors]?.id;
+
+    useEffect(
+        () =>
+            form.setValue(
+                `sector${fieldIndex}` as Path<TypeOf<T>>,
+                (selectedSectorId ?? "") as PathValue<
+                    TypeOf<T>,
+                    Path<TypeOf<T>>
+                >,
+            ),
+        [fieldIndex, form, selectedSectorId],
+    );
 
     const buttonLabel = sectorList?.find(
         (sector) => sector.id === selectedSectorId,
