@@ -10,16 +10,18 @@ import { redirect } from "next/navigation";
 
 interface UserPageProps {
     params: Promise<{ id: string }>;
-    searchParams: { [key: string]: string | string[] | undefined };
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 const UserPage = async ({ params, searchParams }: UserPageProps) => {
     try {
         const { id } = await params;
+        const resolvedSearchParams = await searchParams;
+
         const user = await getUser(id);
 
         const validTabs = ["profile", "apply", "notes"];
-        const tabParam = searchParams.tab;
+        const tabParam = resolvedSearchParams.tab;
         const initialTab =
             typeof tabParam === "string" && validTabs.includes(tabParam)
                 ? tabParam
