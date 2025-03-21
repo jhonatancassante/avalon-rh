@@ -8,6 +8,8 @@ interface SelectorProps<T> {
     isDesktop: boolean;
     buttonLabel: string;
     items: T[];
+    badgeList?: string[];
+    badgeLabel?: string;
     selectedValue: string;
     onSelect: (value: string) => void;
     placeholder: string;
@@ -22,6 +24,8 @@ export const Selector = <T,>({
     isDesktop,
     buttonLabel,
     items,
+    badgeList,
+    badgeLabel,
     selectedValue,
     onSelect,
     placeholder,
@@ -47,6 +51,8 @@ export const Selector = <T,>({
             <Content className="p-0">
                 <SelectorList
                     items={items}
+                    badgeList={badgeList}
+                    badgeLabel={badgeLabel}
                     selectedValue={selectedValue}
                     onSelect={onSelect}
                     placeholder={placeholder}
