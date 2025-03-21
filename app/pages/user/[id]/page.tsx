@@ -10,12 +10,20 @@ import { redirect } from "next/navigation";
 
 interface UserPageProps {
     params: Promise<{ id: string }>;
+    searchParams: { [key: string]: string | string[] | undefined };
 }
 
-const UserPage = async ({ params }: UserPageProps) => {
+const UserPage = async ({ params, searchParams }: UserPageProps) => {
     try {
         const { id } = await params;
         const user = await getUser(id);
+
+        const validTabs = ["profile", "apply", "notes"];
+        const tabParam = searchParams.tab;
+        const initialTab =
+            typeof tabParam === "string" && validTabs.includes(tabParam)
+                ? tabParam
+                : "profile";
 
         if (!user) {
             throw new Error("User not found!");
@@ -30,7 +38,7 @@ const UserPage = async ({ params }: UserPageProps) => {
                     <Separator className="w-[90%]" />
                 </div>
                 <CardContent className="flex w-full flex-col items-center p-0 py-6 lg:px-6">
-                    <UserTabs userFields={userFields} />
+                    <UserTabs userFields={userFields} initialTab={initialTab} />
                 </CardContent>
             </PageLayout>
         );

@@ -1,3 +1,5 @@
+"use client";
+
 import {
     Tabs,
     TabsContent,
@@ -12,14 +14,36 @@ import {
 } from "@/app/_components/ui/card";
 import UserFields from "../user-fields";
 import ApplyTabs from "./apply-tabs/apply-tabs";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface UserTabsProps {
     userFields: { label: string; value: string | string[] }[];
+    initialTab?: string;
 }
 
-const UserTabs = ({ userFields }: UserTabsProps) => {
+const UserTabs = ({ userFields, initialTab }: UserTabsProps) => {
+    const router = useRouter();
+    const [currentTab, setCurrentTab] = useState(initialTab ?? "profile");
+
+    useEffect(() => {
+        if (initialTab && initialTab !== currentTab) {
+            setCurrentTab(initialTab);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [initialTab]);
+
+    const handleTabChange = (value: string) => {
+        setCurrentTab(value);
+        router.replace(`?tab=${value}`, { scroll: false });
+    };
+
     return (
-        <Tabs defaultValue="profile" className="sm:w-[100%] sm:p-0 lg:w-[80%]">
+        <Tabs
+            value={currentTab}
+            onValueChange={handleTabChange}
+            className="sm:w-[100%] sm:p-0 lg:w-[80%]"
+        >
             <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="profile">Perfil</TabsTrigger>
                 <TabsTrigger value="apply">Candidatar-se</TabsTrigger>
