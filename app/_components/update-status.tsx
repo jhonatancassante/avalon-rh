@@ -2,12 +2,12 @@ import { cn } from "@/app/_lib/utils";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
-type ApplyStatusProps = {
+type UpdateStatusProps = {
     lastUpdate?: Date;
     className?: string;
 };
 
-export const ApplyStatus = ({ lastUpdate, className }: ApplyStatusProps) => {
+export const UpdateStatus = ({ lastUpdate, className }: UpdateStatusProps) => {
     if (!lastUpdate) return null;
 
     return (

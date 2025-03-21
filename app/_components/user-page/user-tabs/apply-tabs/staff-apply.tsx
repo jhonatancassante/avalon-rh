@@ -14,12 +14,12 @@ import {
 import { Button } from "@/app/_components/ui/button";
 import { useSession } from "next-auth/react";
 import { useStaffApply } from "@/app/_hooks/useStaffApply";
-import { ApplyStatus } from "./apply-status";
+import { UpdateStatus } from "../../../update-status";
 
 const sectorLabels = ["Primeira", "Segunda", "Terceira", "Quarta"];
 
 interface StaffApplyProps {
-    eventId?: string; // Adiciona o eventId
+    eventId?: string;
 }
 
 const StaffApply = ({ eventId }: StaffApplyProps) => {
@@ -92,7 +92,7 @@ const StaffApply = ({ eventId }: StaffApplyProps) => {
                                 </Card>
                             )}
 
-                            <ApplyStatus
+                            <UpdateStatus
                                 lastUpdate={staffApply?.updatedAt}
                                 className="mt-4"
                             />
