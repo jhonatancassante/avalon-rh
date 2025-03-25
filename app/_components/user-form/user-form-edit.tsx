@@ -23,7 +23,7 @@ import { PATHS } from "@/app/_constants/paths";
 import { userFormSchema } from "@/app/_schemas/formSchema";
 import { EDITUSERFIELDS } from "@/app/_constants/editUserFields";
 import dateToIso from "@/app/_utils/dateToIso";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { createFormStorage } from "@/app/_utils/formStorage";
 import { STORAGE_KEYS } from "@/app/_constants/localStorageKeys";
 
@@ -37,6 +37,11 @@ const UserEditForm = ({ user }: UserEditFormProps) => {
     const { photoData, handleFileUpload } = useFileUpload();
     const { setIsLoading } = useLoading();
     const isActiveSaveButton = photoData !== null || user.isComplete;
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     const formStorage = createFormStorage<typeof userFormSchema>(
         STORAGE_KEYS.USER_FORM(user.id),
@@ -44,7 +49,7 @@ const UserEditForm = ({ user }: UserEditFormProps) => {
 
     const form = useUserForm({
         user,
-        defaultValues: formStorage.load() || undefined,
+        defaultValues: isMounted ? formStorage.load() || undefined : undefined,
     });
 
     useEffect(() => {

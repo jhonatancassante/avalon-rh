@@ -32,6 +32,11 @@ const EventFormEdit = ({ event }: EventFormEditProps) => {
         EventSectorComplete[]
     >([]);
     const [isReady, setIsReady] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     const fetchLastSectorsConfig = useCallback(async () => {
         try {
@@ -56,7 +61,7 @@ const EventFormEdit = ({ event }: EventFormEditProps) => {
 
     const form = useEventForm({
         event,
-        defaultValues: formStorage.load() || undefined,
+        defaultValues: isMounted ? formStorage.load() || undefined : undefined,
     });
 
     useEffect(() => {
