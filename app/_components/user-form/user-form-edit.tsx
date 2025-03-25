@@ -23,6 +23,9 @@ import { PATHS } from "@/app/_constants/paths";
 import { userFormSchema } from "@/app/_schemas/formSchema";
 import { EDITUSERFIELDS } from "@/app/_constants/editUserFields";
 import dateToIso from "@/app/_utils/dateToIso";
+import { useEffect } from "react";
+import { createFormStorage } from "@/app/_utils/formStorage";
+import { STORAGE_KEYS } from "@/app/_constants/localStorageKeys";
 
 interface UserEditFormProps {
     user: UserComplete;
@@ -33,8 +36,24 @@ const UserEditForm = ({ user }: UserEditFormProps) => {
     const router = useRouter();
     const { photoData, handleFileUpload } = useFileUpload();
     const { setIsLoading } = useLoading();
-    const form = useUserForm({ user });
     const isActiveSaveButton = photoData !== null || user.isComplete;
+
+    const formStorage = createFormStorage<typeof userFormSchema>(
+        STORAGE_KEYS.USER_FORM(user.id),
+    );
+
+    const form = useUserForm({
+        user,
+        defaultValues: formStorage.load() || undefined,
+    });
+
+    useEffect(() => {
+        const subscription = form.watch((value) => {
+            formStorage.save(value as z.infer<typeof userFormSchema>);
+        });
+        return () => subscription.unsubscribe();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [form.watch]);
 
     const onSubmit = async (values: z.infer<typeof userFormSchema>) => {
         setIsLoading(true);
@@ -67,6 +86,7 @@ const UserEditForm = ({ user }: UserEditFormProps) => {
                 description: "Usuário atualizado com sucesso!",
             });
 
+            formStorage.clear();
             router.push(`${PATHS.USER}/${user.id}`);
         } catch (error) {
             console.error("Erro ao atualizar usuário:", error);
@@ -82,6 +102,7 @@ const UserEditForm = ({ user }: UserEditFormProps) => {
         try {
             setIsLoading(true);
             if (!user.isComplete) return await signOut();
+            formStorage.clear();
             router.push(`${PATHS.USER}/${user.id}`);
         } catch (error) {
             console.error(error);
