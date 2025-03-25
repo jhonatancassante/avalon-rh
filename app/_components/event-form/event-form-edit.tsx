@@ -68,7 +68,7 @@ const EventFormEdit = ({ event }: EventFormEditProps) => {
     }, [form.watch]);
 
     useEffect(() => {
-        if (isReady) {
+        if (isReady && !formStorage.load()) {
             const defaultEventSectors = event?.eventSectors ?? lastSectorsList;
             form.reset({
                 ...form.getValues(),
@@ -77,6 +77,7 @@ const EventFormEdit = ({ event }: EventFormEditProps) => {
                 ),
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isReady, lastSectorsList, form, event]);
 
     const onSubmit = async (values: z.infer<typeof eventFormSchema>) => {
