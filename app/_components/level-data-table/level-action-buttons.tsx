@@ -63,7 +63,7 @@ export const DataTableLevelActionButtons = <TData,>({
                 />
                 <ActionButton
                     icon={<Plus />}
-                    tooltipText="Criar Novo Setor"
+                    tooltipText="Criar Novo Nível"
                     onClick={() => setFormDialog(true)}
                 />
                 <ActionButton
@@ -73,7 +73,7 @@ export const DataTableLevelActionButtons = <TData,>({
                 />
             </TooltipProvider>
             <DeleteDialog
-                itemType="setor"
+                itemType="nível"
                 isOpen={deleteDialogOpen}
                 setIsOpen={setDeleteDialogOpen}
                 onDelete={handleDelete}

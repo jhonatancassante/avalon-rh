@@ -4,7 +4,7 @@ import { useLevels } from "@/app/_contexts/LevelContext";
 import { DataTable } from "../data-table/data-table";
 import { columnsNames, levelColumns } from "./level-columns";
 import { DataTableLevelActionButtons } from "./level-action-buttons";
-import LevelDialogForm from "./level-dialog-from";
+import LevelDialogForm from "./level-dialog-form";
 
 const LevelDataTable = () => {
     const {

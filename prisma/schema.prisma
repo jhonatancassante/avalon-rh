@@ -166,6 +166,8 @@ model Level {
   id         String  @id @default(auto()) @map("_id") @db.ObjectId
   name       String  @unique
   isLcaApply Boolean @default(false)
+  points     Int     @default(0)
+  pointsLca  Int     @default(0)
 
   positions Position[]
 

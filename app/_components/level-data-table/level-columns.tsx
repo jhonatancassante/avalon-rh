@@ -62,6 +62,26 @@ export const levelColumns: ColumnDef<Level>[] = [
         ),
     },
     {
+        id: "points",
+        accessorKey: "points",
+        header: ({ column }) => (
+            <DataTableColumnHeader column={column} title="Pontos" />
+        ),
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("points")}</div>
+        ),
+    },
+    {
+        id: "pointsLca",
+        accessorKey: "pointsLca",
+        header: ({ column }) => (
+            <DataTableColumnHeader column={column} title="Pontos ACL" />
+        ),
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("pointsLca")}</div>
+        ),
+    },
+    {
         id: "actions",
         cell: ({ row }) => {
             const level = row.original;

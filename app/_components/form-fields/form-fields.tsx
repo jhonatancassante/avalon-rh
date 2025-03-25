@@ -48,7 +48,8 @@ export const FormFields = <T extends ZodTypeAny>({
                                 >,
                             ) => {
                                 if (formField.type === "number") {
-                                    return field.value !== undefined
+                                    return field.value !== undefined &&
+                                        field.value !== ""
                                         ? Number(field.value)
                                         : "";
                                 } else if (typeof field.value === "boolean") {
@@ -76,6 +77,20 @@ export const FormFields = <T extends ZodTypeAny>({
                                             {...field}
                                             disabled={formField.disabled}
                                             value={getFieldValue(field)}
+                                            onChange={(e) => {
+                                                if (
+                                                    formField.type === "number"
+                                                ) {
+                                                    field.onChange(
+                                                        e.target
+                                                            .valueAsNumber || 0,
+                                                    );
+                                                } else {
+                                                    field.onChange(
+                                                        e.target.value,
+                                                    );
+                                                }
+                                            }}
                                         />
                                     </FormControl>
                                     <FormMessage />

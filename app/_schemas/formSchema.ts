@@ -139,6 +139,14 @@ export const levelFormSchema = z.object({
         .min(5, "Nome muito curto! Mínimo 5 caracteres!")
         .max(100, "Nome muito longo! Máximo 100 caracteres."),
     isLcaApply: z.boolean(),
+    points: z
+        .number()
+        .min(0, "O valor mínimo é 0!")
+        .max(300, "O valor máximo é 300!"),
+    pointsLca: z
+        .number()
+        .min(0, "O valor mínimo é 0!")
+        .max(50, "O valor máximo é 50!"),
 });
 
 export const userEventApplyFormSchema = z

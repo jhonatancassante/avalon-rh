@@ -16,6 +16,8 @@ export const useLevelForm = ({ level }: UseLevelFormProps) => {
         defaultValues: {
             name: level?.name ?? "",
             isLcaApply: level?.isLcaApply ?? false,
+            points: level?.points ?? 0,
+            pointsLca: level?.pointsLca ?? 0,
         },
     });
 
@@ -24,6 +26,8 @@ export const useLevelForm = ({ level }: UseLevelFormProps) => {
             form.reset({
                 name: level.name,
                 isLcaApply: level.isLcaApply,
+                points: level.points,
+                pointsLca: level.pointsLca,
             });
         } else {
             form.reset();
