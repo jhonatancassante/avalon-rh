@@ -69,7 +69,7 @@ const LevelRowActions = ({ level }: LevelRowActionsProps) => {
                 </Button>
             </div>
             <DeleteDialog
-                itemType="setor"
+                itemType="nível"
                 isOpen={deleteDialogOpen}
                 setIsOpen={setDeleteDialogOpen}
                 onDelete={handleDelete}
